@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
           wedding_id: weddingId,
           stripe_event_id: event.id,
           event_type: event.type,
-          payload: event.data.object as Record<string, unknown>,
+          payload: event.data.object as unknown as Record<string, unknown>,
         });
       }
       break;
