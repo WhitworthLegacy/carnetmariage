@@ -8,9 +8,7 @@ export default function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
@@ -30,9 +28,7 @@ export default function ContactPage() {
           <h1 className="font-serif text-4xl sm:text-5xl text-ink tracking-tight">
             Une question ? Écris-nous.
           </h1>
-          <p className="mt-4 text-muted text-lg">
-            Nous répondons sous 24h.
-          </p>
+          <p className="mt-4 text-muted text-lg">Nous répondons sous 24h.</p>
         </div>
 
         {sent ? (
@@ -40,9 +36,7 @@ export default function ContactPage() {
             <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6">
               <CheckCircle className="w-8 h-8 text-green-500" />
             </div>
-            <h2 className="font-serif text-2xl text-ink mb-2">
-              Message envoyé
-            </h2>
+            <h2 className="font-serif text-2xl text-ink mb-2">Message envoyé</h2>
             <p className="text-muted text-sm">
               Merci pour ton message. Nous te répondrons très vite.
             </p>
@@ -51,10 +45,7 @@ export default function ContactPage() {
           <div className="bg-white rounded-2xl shadow-soft border border-brand-border p-6 sm:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-ink mb-1.5"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-ink mb-1.5">
                   Prénom
                 </label>
                 <input
@@ -69,10 +60,7 @@ export default function ContactPage() {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-ink mb-1.5"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-ink mb-1.5">
                   Adresse email
                 </label>
                 <input
@@ -87,10 +75,7 @@ export default function ContactPage() {
                 />
               </div>
               <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-ink mb-1.5"
-                >
+                <label htmlFor="message" className="block text-sm font-medium text-ink mb-1.5">
                   Ton message
                 </label>
                 <textarea
@@ -107,10 +92,7 @@ export default function ContactPage() {
               <button
                 type="submit"
                 disabled={
-                  loading ||
-                  !form.name.trim() ||
-                  !form.email.trim() ||
-                  !form.message.trim()
+                  loading || !form.name.trim() || !form.email.trim() || !form.message.trim()
                 }
                 className="w-full py-3 rounded-xl bg-pink-dark text-white font-medium text-sm hover:bg-pink-main transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
               >

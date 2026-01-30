@@ -4,10 +4,17 @@ import { makeError } from "@carnetmariage/core";
 
 export async function requireAuth() {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error || !user) {
-    return { user: null, supabase, error: jsonError(makeError("UNAUTHORIZED", "Non authentifié"), 401) };
+    return {
+      user: null,
+      supabase,
+      error: jsonError(makeError("UNAUTHORIZED", "Non authentifié"), 401),
+    };
   }
 
   // Get active wedding
@@ -24,10 +31,17 @@ export async function requireAuth() {
 
 export async function requireAdmin() {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error || !user) {
-    return { user: null, supabase, error: jsonError(makeError("UNAUTHORIZED", "Non authentifié"), 401) };
+    return {
+      user: null,
+      supabase,
+      error: jsonError(makeError("UNAUTHORIZED", "Non authentifié"), 401),
+    };
   }
 
   const { data: profile } = await supabase

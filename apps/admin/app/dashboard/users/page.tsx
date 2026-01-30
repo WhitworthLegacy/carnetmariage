@@ -62,9 +62,7 @@ export default function UsersPage() {
     if (!search.trim()) return users;
     const q = search.toLowerCase();
     return users.filter(
-      (u) =>
-        u.email.toLowerCase().includes(q) ||
-        u.fullName?.toLowerCase().includes(q)
+      (u) => u.email.toLowerCase().includes(q) || u.fullName?.toLowerCase().includes(q)
     );
   }, [users, search]);
 
@@ -89,17 +87,14 @@ export default function UsersPage() {
       <div>
         <h1 className="text-2xl font-bold text-ink">Utilisateurs</h1>
         <p className="mt-1 text-sm text-muted">
-          {users.length} utilisateur{users.length !== 1 ? "s" : ""}{" "}
-          enregistre{users.length !== 1 ? "s" : ""}
+          {users.length} utilisateur{users.length !== 1 ? "s" : ""} enregistre
+          {users.length !== 1 ? "s" : ""}
         </p>
       </div>
 
       {/* Search */}
       <div className="relative max-w-md">
-        <Search
-          size={18}
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-light"
-        />
+        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-light" />
         <input
           type="text"
           value={search}
@@ -137,20 +132,14 @@ export default function UsersPage() {
           <tbody className="divide-y divide-brand-border">
             {filteredUsers.length === 0 ? (
               <tr>
-                <td
-                  colSpan={6}
-                  className="px-6 py-12 text-center text-sm text-muted"
-                >
+                <td colSpan={6} className="px-6 py-12 text-center text-sm text-muted">
                   Aucun utilisateur trouve
                 </td>
               </tr>
             ) : (
               filteredUsers.map((user) => (
                 <>
-                  <tr
-                    key={user.id}
-                    className="transition-colors hover:bg-gray-50"
-                  >
+                  <tr key={user.id} className="transition-colors hover:bg-gray-50">
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-ink">
                       {user.email}
                     </td>
@@ -168,11 +157,7 @@ export default function UsersPage() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <button
-                        onClick={() =>
-                          setExpandedId(
-                            expandedId === user.id ? null : user.id
-                          )
-                        }
+                        onClick={() => setExpandedId(expandedId === user.id ? null : user.id)}
                         className="flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-purple-main transition-colors hover:bg-purple-light"
                       >
                         Detail
@@ -186,23 +171,14 @@ export default function UsersPage() {
                   </tr>
                   {expandedId === user.id && (
                     <tr key={`${user.id}-detail`}>
-                      <td
-                        colSpan={6}
-                        className="bg-gray-50 px-6 py-4"
-                      >
+                      <td colSpan={6} className="bg-gray-50 px-6 py-4">
                         <div className="grid grid-cols-3 gap-4 text-sm">
                           <div>
-                            <p className="font-medium text-muted">
-                              ID Utilisateur
-                            </p>
-                            <p className="mt-1 font-mono text-xs text-ink">
-                              {user.id}
-                            </p>
+                            <p className="font-medium text-muted">ID Utilisateur</p>
+                            <p className="mt-1 font-mono text-xs text-ink">{user.id}</p>
                           </div>
                           <div>
-                            <p className="font-medium text-muted">
-                              Email
-                            </p>
+                            <p className="font-medium text-muted">Email</p>
                             <p className="mt-1 text-ink">{user.email}</p>
                           </div>
                           <div>

@@ -1,31 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  Plus,
-  Pencil,
-  Trash2,
-  Search,
-  Users,
-  UserCheck,
-  Clock,
-  UserX,
-} from "lucide-react";
-import {
-  Button,
-  Card,
-  Modal,
-  Input,
-  Select,
-  Badge,
-  useToast,
-} from "@carnetmariage/ui";
-import {
-  GUEST_STATUSES,
-  GUEST_GROUPS,
-  type Guest,
-  type GuestStatus,
-} from "@carnetmariage/core";
+import { Plus, Pencil, Trash2, Search, Users, UserCheck, Clock, UserX } from "lucide-react";
+import { Button, Card, Modal, Input, Select, Badge, useToast } from "@carnetmariage/ui";
+import { GUEST_STATUSES, GUEST_GROUPS, type Guest, type GuestStatus } from "@carnetmariage/core";
 
 const statusOptions = Object.entries(GUEST_STATUSES).map(([value, label]) => ({
   value,
@@ -34,16 +12,14 @@ const statusOptions = Object.entries(GUEST_STATUSES).map(([value, label]) => ({
 
 const groupOptions = GUEST_GROUPS.map((g) => ({ value: g, label: g }));
 
-const statusBadgeVariant: Record<
-  string,
-  "default" | "success" | "danger" | "warning" | "purple"
-> = {
-  pending: "default",
-  confirmed: "success",
-  declined: "danger",
-  relaunch: "warning",
-  maybe: "purple",
-};
+const statusBadgeVariant: Record<string, "default" | "success" | "danger" | "warning" | "purple"> =
+  {
+    pending: "default",
+    confirmed: "success",
+    declined: "danger",
+    relaunch: "warning",
+    maybe: "purple",
+  };
 
 const emptyForm = {
   name: "",
@@ -77,7 +53,7 @@ export default function InvitesPage() {
       const json = await res.json();
       if (json.ok) setGuests(json.data);
     } catch {
-      toast("Erreur lors du chargement des invites", "error");
+      toast("Erreur lors du chargement des invités", "error");
     } finally {
       setLoading(false);
     }
@@ -101,8 +77,7 @@ export default function InvitesPage() {
   const filteredGuests = useMemo(() => {
     return guests.filter((g) => {
       const matchesSearch =
-        !searchQuery ||
-        g.name.toLowerCase().includes(searchQuery.toLowerCase());
+        !searchQuery || g.name.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = !filterStatus || g.status === filterStatus;
       return matchesSearch && matchesStatus;
     });
@@ -164,13 +139,11 @@ export default function InvitesPage() {
       }
 
       if (editingId) {
-        setGuests((prev) =>
-          prev.map((g) => (g.id === editingId ? json.data : g))
-        );
-        toast("Invite mis a jour");
+        setGuests((prev) => prev.map((g) => (g.id === editingId ? json.data : g)));
+        toast("Invité mis à jour");
       } else {
         setGuests((prev) => [...prev, json.data]);
-        toast("Invite ajoute");
+        toast("Invité ajouté");
       }
       setModalOpen(false);
     } catch {
@@ -186,7 +159,7 @@ export default function InvitesPage() {
       const json = await res.json();
       if (json.ok) {
         setGuests((prev) => prev.filter((g) => g.id !== id));
-        toast("Invite supprime");
+        toast("Invité supprimé");
       } else {
         toast(json.error?.message || "Erreur", "error");
       }
@@ -204,9 +177,7 @@ export default function InvitesPage() {
       });
       const json = await res.json();
       if (json.ok) {
-        setGuests((prev) =>
-          prev.map((g) => (g.id === id ? json.data : g))
-        );
+        setGuests((prev) => prev.map((g) => (g.id === id ? json.data : g)));
       } else {
         toast(json.error?.message || "Erreur", "error");
       }
@@ -227,12 +198,10 @@ export default function InvitesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl sm:text-3xl text-ink">
-          Liste d&apos;invites
-        </h1>
+        <h1 className="font-serif text-2xl sm:text-3xl text-ink">Liste d&apos;invités</h1>
         <Button onClick={openAddModal}>
           <Plus className="w-4 h-4 mr-2" />
-          Ajouter un invite
+          Ajouter un invité
         </Button>
       </div>
 
@@ -240,27 +209,19 @@ export default function InvitesPage() {
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-card border border-brand-border/50">
           <Users className="w-4 h-4 text-purple-main" />
-          <span className="text-sm font-medium text-ink">
-            {stats.total} invites
-          </span>
+          <span className="text-sm font-medium text-ink">{stats.total} invités</span>
         </div>
         <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-card border border-brand-border/50">
           <UserCheck className="w-4 h-4 text-emerald-500" />
-          <span className="text-sm font-medium text-ink">
-            {stats.confirmed} confirmes
-          </span>
+          <span className="text-sm font-medium text-ink">{stats.confirmed} confirmés</span>
         </div>
         <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-card border border-brand-border/50">
           <Clock className="w-4 h-4 text-amber-500" />
-          <span className="text-sm font-medium text-ink">
-            {stats.pending} en attente
-          </span>
+          <span className="text-sm font-medium text-ink">{stats.pending} en attente</span>
         </div>
         <div className="flex items-center gap-2 bg-white rounded-xl px-4 py-2.5 shadow-card border border-brand-border/50">
           <UserX className="w-4 h-4 text-red-500" />
-          <span className="text-sm font-medium text-ink">
-            {stats.declined} refuses
-          </span>
+          <span className="text-sm font-medium text-ink">{stats.declined} refusés</span>
         </div>
       </div>
 
@@ -270,7 +231,7 @@ export default function InvitesPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
           <input
             type="text"
-            placeholder="Rechercher un invite..."
+            placeholder="Rechercher un invité..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-brand-border text-sm bg-white text-ink placeholder:text-muted-light focus:outline-none focus:ring-2 focus:ring-pink-main/30 focus:border-pink-main transition-colors"
@@ -290,27 +251,13 @@ export default function InvitesPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-brand-border">
-                <th className="text-left font-medium text-muted px-4 py-3">
-                  Nom
-                </th>
-                <th className="text-left font-medium text-muted px-4 py-3">
-                  Adultes
-                </th>
-                <th className="text-left font-medium text-muted px-4 py-3">
-                  Enfants
-                </th>
-                <th className="text-left font-medium text-muted px-4 py-3">
-                  Statut
-                </th>
-                <th className="text-left font-medium text-muted px-4 py-3">
-                  Groupe
-                </th>
-                <th className="text-left font-medium text-muted px-4 py-3">
-                  Notes
-                </th>
-                <th className="text-right font-medium text-muted px-4 py-3">
-                  Actions
-                </th>
+                <th className="text-left font-medium text-muted px-4 py-3">Nom</th>
+                <th className="text-left font-medium text-muted px-4 py-3">Adultes</th>
+                <th className="text-left font-medium text-muted px-4 py-3">Enfants</th>
+                <th className="text-left font-medium text-muted px-4 py-3">Statut</th>
+                <th className="text-left font-medium text-muted px-4 py-3">Groupe</th>
+                <th className="text-left font-medium text-muted px-4 py-3">Notes</th>
+                <th className="text-right font-medium text-muted px-4 py-3">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -318,8 +265,8 @@ export default function InvitesPage() {
                 <tr>
                   <td colSpan={7} className="text-center text-muted py-12">
                     {guests.length === 0
-                      ? "Aucun invite pour le moment."
-                      : "Aucun resultat pour cette recherche."}
+                      ? "Aucun invité pour le moment."
+                      : "Aucun résultat pour cette recherche."}
                   </td>
                 </tr>
               )}
@@ -331,9 +278,7 @@ export default function InvitesPage() {
                   <td className="px-4 py-3">
                     <div>
                       <p className="font-medium text-ink">{guest.name}</p>
-                      {guest.email && (
-                        <p className="text-xs text-muted">{guest.email}</p>
-                      )}
+                      {guest.email && <p className="text-xs text-muted">{guest.email}</p>}
                     </div>
                   </td>
                   <td className="px-4 py-3 text-ink">{guest.adults}</td>
@@ -342,10 +287,7 @@ export default function InvitesPage() {
                     <select
                       value={guest.status}
                       onChange={(e) =>
-                        handleInlineStatusChange(
-                          guest.id,
-                          e.target.value as GuestStatus
-                        )
+                        handleInlineStatusChange(guest.id, e.target.value as GuestStatus)
                       }
                       className="text-xs rounded-lg border border-brand-border px-2 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-pink-main/30"
                     >
@@ -393,7 +335,7 @@ export default function InvitesPage() {
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={editingId ? "Modifier l'invite" : "Nouvel invite"}
+        title={editingId ? "Modifier l'invité" : "Nouvel invité"}
         size="lg"
       >
         <form onSubmit={handleSave} className="space-y-4">
@@ -413,7 +355,7 @@ export default function InvitesPage() {
               placeholder="marie@exemple.fr"
             />
             <Input
-              label="Telephone"
+              label="Téléphone"
               type="tel"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -441,29 +383,21 @@ export default function InvitesPage() {
               label="Statut"
               options={statusOptions}
               value={form.status}
-              onChange={(e) =>
-                setForm({ ...form, status: e.target.value as GuestStatus })
-              }
+              onChange={(e) => setForm({ ...form, status: e.target.value as GuestStatus })}
             />
             <Select
               label="Groupe"
               options={[{ value: "", label: "Aucun" }, ...groupOptions]}
               value={form.group_name}
-              onChange={(e) =>
-                setForm({ ...form, group_name: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, group_name: e.target.value })}
             />
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-ink">
-              Restrictions alimentaires
-            </label>
+            <label className="text-sm font-medium text-ink">Restrictions alimentaires</label>
             <textarea
               value={form.dietary_notes}
-              onChange={(e) =>
-                setForm({ ...form, dietary_notes: e.target.value })
-              }
-              placeholder="Allergies, regime vegetarien..."
+              onChange={(e) => setForm({ ...form, dietary_notes: e.target.value })}
+              placeholder="Allergies, régime végétarien..."
               rows={2}
               className="w-full px-4 py-2.5 rounded-xl border border-brand-border text-sm transition-colors bg-white text-ink placeholder:text-muted-light focus:outline-none focus:ring-2 focus:ring-pink-main/30 focus:border-pink-main resize-none"
             />
@@ -473,17 +407,13 @@ export default function InvitesPage() {
             <textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              placeholder="Notes supplementaires..."
+              placeholder="Notes supplémentaires..."
               rows={2}
               className="w-full px-4 py-2.5 rounded-xl border border-brand-border text-sm transition-colors bg-white text-ink placeholder:text-muted-light focus:outline-none focus:ring-2 focus:ring-pink-main/30 focus:border-pink-main resize-none"
             />
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setModalOpen(false)}
-            >
+            <Button type="button" variant="ghost" onClick={() => setModalOpen(false)}>
               Annuler
             </Button>
             <Button type="submit" loading={saving}>

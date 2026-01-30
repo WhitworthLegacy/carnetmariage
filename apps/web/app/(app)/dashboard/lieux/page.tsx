@@ -1,31 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import {
-  Plus,
-  Pencil,
-  Trash2,
-  MapPin,
-  Users,
-  Euro,
-  Calendar,
-  User,
-  Mail,
-} from "lucide-react";
-import {
-  Button,
-  Card,
-  Modal,
-  Input,
-  Select,
-  Badge,
-  useToast,
-} from "@carnetmariage/ui";
-import {
-  VENUE_STATUSES,
-  type Venue,
-  type VenueStatus,
-} from "@carnetmariage/core";
+import { Plus, Pencil, Trash2, MapPin, Users, Euro, Calendar, User, Mail } from "lucide-react";
+import { Button, Card, Modal, Input, Select, Badge, useToast } from "@carnetmariage/ui";
+import { VENUE_STATUSES, type Venue, type VenueStatus } from "@carnetmariage/core";
 import { formatPrice, prettyDate } from "@/lib/utils";
 
 const statusOptions = Object.entries(VENUE_STATUSES).map(([value, label]) => ({
@@ -133,9 +111,7 @@ export default function LieuxPage() {
       }
 
       if (editingId) {
-        setVenues((prev) =>
-          prev.map((v) => (v.id === editingId ? json.data : v))
-        );
+        setVenues((prev) => prev.map((v) => (v.id === editingId ? json.data : v)));
         toast("Lieu mis a jour");
       } else {
         setVenues((prev) => [...prev, json.data]);
@@ -189,9 +165,7 @@ export default function LieuxPage() {
           <div className="text-center py-12">
             <MapPin className="w-10 h-10 text-muted mx-auto mb-3" />
             <p className="text-muted">Aucun lieu pour le moment.</p>
-            <p className="text-sm text-muted-light mt-1">
-              Ajoute ton premier lieu pour commencer.
-            </p>
+            <p className="text-sm text-muted-light mt-1">Ajoute ton premier lieu pour commencer.</p>
           </div>
         </Card>
       ) : (
@@ -201,9 +175,7 @@ export default function LieuxPage() {
               {/* Card body */}
               <div className="p-5 flex-1">
                 <div className="flex items-start justify-between gap-3 mb-3">
-                  <h3 className="font-semibold text-ink text-base">
-                    {venue.name}
-                  </h3>
+                  <h3 className="font-semibold text-ink text-base">{venue.name}</h3>
                   <Badge variant={statusBadgeVariant[venue.status]}>
                     {VENUE_STATUSES[venue.status as VenueStatus]}
                   </Badge>
@@ -318,27 +290,21 @@ export default function LieuxPage() {
               label="Statut"
               options={statusOptions}
               value={form.status}
-              onChange={(e) =>
-                setForm({ ...form, status: e.target.value as VenueStatus })
-              }
+              onChange={(e) => setForm({ ...form, status: e.target.value as VenueStatus })}
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <Input
               label="Nom du contact"
               value={form.contact_name}
-              onChange={(e) =>
-                setForm({ ...form, contact_name: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, contact_name: e.target.value })}
               placeholder="Nom du responsable"
             />
             <Input
               label="Email du contact"
               type="email"
               value={form.contact_email}
-              onChange={(e) =>
-                setForm({ ...form, contact_email: e.target.value })
-              }
+              onChange={(e) => setForm({ ...form, contact_email: e.target.value })}
               placeholder="contact@lieu.fr"
             />
           </div>
@@ -359,11 +325,7 @@ export default function LieuxPage() {
             />
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setModalOpen(false)}
-            >
+            <Button type="button" variant="ghost" onClick={() => setModalOpen(false)}>
               Annuler
             </Button>
             <Button type="submit" loading={saving}>

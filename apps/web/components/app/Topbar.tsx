@@ -18,7 +18,6 @@ interface TopbarProps {
   user: User;
 }
 
-
 export function Topbar({ wedding, user }: TopbarProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -53,7 +52,6 @@ export function Topbar({ wedding, user }: TopbarProps) {
               <Heart size={14} className="text-white fill-white" />
             </div>
           </div>
-
         </div>
 
         {/* Right: countdown + avatar + logout */}
@@ -66,10 +64,7 @@ export function Topbar({ wedding, user }: TopbarProps) {
           )}
 
           <div className="hidden sm:flex items-center gap-2">
-            <Avatar
-              name={user.user_metadata?.full_name || user.email || ""}
-              size="sm"
-            />
+            <Avatar name={user.user_metadata?.full_name || user.email || ""} size="sm" />
             <span className="text-sm font-medium text-ink max-w-[120px] truncate">
               {user.user_metadata?.full_name || user.email?.split("@")[0]}
             </span>

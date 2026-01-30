@@ -30,9 +30,7 @@ export function Tabs({ tabs, defaultTab, onTabChange, children }: TabsProps) {
             key={tab.id}
             onClick={() => handleChange(tab.id)}
             className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-              active === tab.id
-                ? "bg-white text-ink shadow-sm"
-                : "text-muted hover:text-ink"
+              active === tab.id ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
             }`}
           >
             {tab.label}

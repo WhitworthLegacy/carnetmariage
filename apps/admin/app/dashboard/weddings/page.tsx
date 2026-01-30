@@ -90,8 +90,8 @@ export default function WeddingsPage() {
       <div>
         <h1 className="text-2xl font-bold text-ink">Mariages</h1>
         <p className="mt-1 text-sm text-muted">
-          {weddings.length} mariage{weddings.length !== 1 ? "s" : ""}{" "}
-          enregistre{weddings.length !== 1 ? "s" : ""}
+          {weddings.length} mariage{weddings.length !== 1 ? "s" : ""} enregistre
+          {weddings.length !== 1 ? "s" : ""}
         </p>
       </div>
 
@@ -141,19 +141,13 @@ export default function WeddingsPage() {
           <tbody className="divide-y divide-brand-border">
             {filtered.length === 0 ? (
               <tr>
-                <td
-                  colSpan={6}
-                  className="px-6 py-12 text-center text-sm text-muted"
-                >
+                <td colSpan={6} className="px-6 py-12 text-center text-sm text-muted">
                   Aucun mariage trouve
                 </td>
               </tr>
             ) : (
               filtered.map((wedding) => (
-                <tr
-                  key={wedding.id}
-                  className="transition-colors hover:bg-gray-50"
-                >
+                <tr key={wedding.id} className="transition-colors hover:bg-gray-50">
                   <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-ink">
                     {coupleName(wedding)}
                   </td>

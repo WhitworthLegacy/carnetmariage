@@ -41,12 +41,10 @@ function DefaultFallback({ requiredPlan }: { requiredPlan: string }) {
           <div className="w-16 h-16 rounded-full bg-purple-light flex items-center justify-center mx-auto mb-5">
             <Lock className="w-7 h-7 text-purple-dark" />
           </div>
-          <h3 className="font-serif text-xl text-ink mb-2">
-            Fonctionnalite {planLabel}
-          </h3>
+          <h3 className="font-serif text-xl text-ink mb-2">Fonctionnalite {planLabel}</h3>
           <p className="text-muted text-sm mb-6 leading-relaxed">
-            Passe a {planLabel} pour debloquer cette fonctionnalite et profiter
-            de toutes les options avancees.
+            Passe a {planLabel} pour debloquer cette fonctionnalite et profiter de toutes les
+            options avancees.
           </p>
           <Link href="/dashboard/parametres">
             <Button variant="primary" size="md">
@@ -60,23 +58,14 @@ function DefaultFallback({ requiredPlan }: { requiredPlan: string }) {
   );
 }
 
-export function PremiumGate({
-  children,
-  requiredPlan = "premium",
-  fallback,
-}: PremiumGateProps) {
+export function PremiumGate({ children, requiredPlan = "premium", fallback }: PremiumGateProps) {
   const { isPremium, isUltimate } = useWedding();
 
-  const hasAccess =
-    requiredPlan === "premium" ? isPremium : isUltimate;
+  const hasAccess = requiredPlan === "premium" ? isPremium : isUltimate;
 
   if (hasAccess) {
     return <>{children}</>;
   }
 
-  return (
-    <>
-      {fallback ?? <DefaultFallback requiredPlan={requiredPlan} />}
-    </>
-  );
+  return <>{fallback ?? <DefaultFallback requiredPlan={requiredPlan} />}</>;
 }

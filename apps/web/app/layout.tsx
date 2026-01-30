@@ -24,7 +24,13 @@ export const metadata: Metadata = {
   },
   description:
     "Le carnet de mariage digital pour organiser ton mariage sans stress. Budget, invités, prestataires, planning — tout au même endroit.",
-  keywords: ["mariage", "organisation mariage", "planning mariage", "budget mariage", "liste invités"],
+  keywords: [
+    "mariage",
+    "organisation mariage",
+    "planning mariage",
+    "budget mariage",
+    "liste invités",
+  ],
   metadataBase: new URL("https://carnetmariage.com"),
   openGraph: {
     type: "website",

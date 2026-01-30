@@ -2,13 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  Users,
-  Heart,
-  BarChart3,
-  Settings,
-} from "lucide-react";
+import { LayoutDashboard, Users, Heart, BarChart3, Settings } from "lucide-react";
 
 const navItems = [
   {
@@ -74,10 +68,7 @@ export default function Sidebar() {
                   : "text-muted hover:bg-gray-50 hover:text-ink"
               }`}
             >
-              <Icon
-                size={20}
-                className={active ? "text-purple-main" : "text-muted-light"}
-              />
+              <Icon size={20} className={active ? "text-purple-main" : "text-muted-light"} />
               {item.label}
             </Link>
           );

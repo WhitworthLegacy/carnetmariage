@@ -18,11 +18,10 @@ export default function LoginPage() {
 
     try {
       const supabase = createBrowserClient();
-      const { data, error: authError } =
-        await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
       if (authError) {
         throw new Error(authError.message);
@@ -35,9 +34,7 @@ export default function LoginPage() {
         router.push("/dashboard");
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Une erreur est survenue"
-      );
+      setError(err instanceof Error ? err.message : "Une erreur est survenue");
     } finally {
       setLoading(false);
     }
@@ -56,10 +53,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label
-                htmlFor="email"
-                className="mb-1.5 block text-sm font-medium text-ink"
-              >
+              <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink">
                 Email
               </label>
               <input
@@ -74,10 +68,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="mb-1.5 block text-sm font-medium text-ink"
-              >
+              <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-ink">
                 Mot de passe
               </label>
               <input
@@ -92,9 +83,7 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
-                {error}
-              </div>
+              <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
             )}
 
             <button

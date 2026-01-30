@@ -15,38 +15,32 @@ const features = [
   {
     icon: CheckSquare,
     title: "Planning intelligent",
-    description:
-      "Checklist personnalisée avec les étapes clés de l'organisation.",
+    description: "Checklist personnalisée avec les étapes clés de l'organisation.",
   },
   {
     icon: PiggyBank,
     title: "Budget maîtrisé",
-    description:
-      "Suis tes dépenses, compare estimé vs payé, reste sereine.",
+    description: "Suis tes dépenses, compare estimé vs payé, reste sereine.",
   },
   {
     icon: Users,
     title: "Liste d'invités",
-    description:
-      "Gère les RSVP, les régimes, les tables — tout est centralisé.",
+    description: "Gère les RSVP, les régimes, les tables — tout est centralisé.",
   },
   {
     icon: Star,
     title: "Prestataires",
-    description:
-      "Compare, note et suis l'avancement avec chaque prestataire.",
+    description: "Compare, note et suis l'avancement avec chaque prestataire.",
   },
   {
     icon: MapPin,
     title: "Lieux",
-    description:
-      "Organise tes visites, compare les options, fais ton choix.",
+    description: "Organise tes visites, compare les options, fais ton choix.",
   },
   {
     icon: Heart,
     title: "Fait pour les couples",
-    description:
-      "Partagez votre carnet et organisez à deux, en temps réel.",
+    description: "Partagez votre carnet et organisez à deux, en temps réel.",
   },
 ];
 
@@ -94,12 +88,7 @@ const pricingPlans = [
     price: "0",
     period: "",
     description: "Pour découvrir et commencer à s'organiser.",
-    features: [
-      "Checklist de base",
-      "Budget simplifié",
-      "Jusqu'à 50 invités",
-      "1 utilisateur",
-    ],
+    features: ["Checklist de base", "Budget simplifié", "Jusqu'à 50 invités", "1 utilisateur"],
     cta: "Commencer gratuitement",
     href: "/inscription",
     highlighted: false,
@@ -155,23 +144,19 @@ const faqs = [
   },
   {
     question: "Mon partenaire peut-il accéder au carnet ?",
-    answer:
-      "Avec le plan Premium, tu peux inviter ton/ta partenaire pour organiser ensemble.",
+    answer: "Avec le plan Premium, tu peux inviter ton/ta partenaire pour organiser ensemble.",
   },
   {
     question: "Mes données sont-elles sécurisées ?",
-    answer:
-      "Absolument. Tes données sont chiffrées et hébergées en Europe (RGPD).",
+    answer: "Absolument. Tes données sont chiffrées et hébergées en Europe (RGPD).",
   },
   {
     question: "Puis-je annuler à tout moment ?",
-    answer:
-      "Oui, sans engagement. Tu gardes l'accès jusqu'à la fin de ta période payée.",
+    answer: "Oui, sans engagement. Tu gardes l'accès jusqu'à la fin de ta période payée.",
   },
   {
     question: "Que se passe-t-il après le mariage ?",
-    answer:
-      "Tu gardes l'accès à ton carnet comme souvenir. Les données ne sont jamais supprimées.",
+    answer: "Tu gardes l'accès à ton carnet comme souvenir. Les données ne sont jamais supprimées.",
   },
 ];
 
@@ -193,8 +178,8 @@ export default function LandingPage() {
               Organise ton mariage en toute sérénité
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-muted leading-relaxed max-w-2xl mx-auto">
-              Tu veux profiter des préparatifs... sans tout porter dans ta
-              tête ? Ton carnet digital t'accompagne étape par étape.
+              Tu veux profiter des préparatifs... sans tout porter dans ta tête ? Ton carnet digital
+              t'accompagne étape par étape.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
@@ -248,12 +233,8 @@ export default function LandingPage() {
                 <div className="w-11 h-11 rounded-xl bg-pink-light flex items-center justify-center mb-5">
                   <feature.icon className="w-5 h-5 text-pink-dark" />
                 </div>
-                <h3 className="font-serif text-lg text-ink mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  {feature.description}
-                </p>
+                <h3 className="font-serif text-lg text-ink mb-2">{feature.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -329,9 +310,7 @@ export default function LandingPage() {
               >
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 rounded-full bg-pink-light flex items-center justify-center">
-                    <span className="text-xs font-semibold text-pink-dark">
-                      {t.initials}
-                    </span>
+                    <span className="text-xs font-semibold text-pink-dark">{t.initials}</span>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-ink">{t.name}</p>
@@ -377,12 +356,8 @@ export default function LandingPage() {
                 )}
                 <h3 className="font-serif text-xl text-ink">{plan.name}</h3>
                 <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-semibold text-ink">
-                    {plan.price}€
-                  </span>
-                  {plan.period && (
-                    <span className="text-sm text-muted">{plan.period}</span>
-                  )}
+                  <span className="text-4xl font-semibold text-ink">{plan.price}€</span>
+                  {plan.period && <span className="text-sm text-muted">{plan.period}</span>}
                 </div>
                 <p className="mt-2 text-sm text-muted">{plan.description}</p>
                 <ul className="mt-6 space-y-3">
@@ -427,15 +402,11 @@ export default function LandingPage() {
                 className="group bg-white rounded-2xl border border-brand-border shadow-soft"
               >
                 <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none text-left">
-                  <span className="text-sm font-medium text-ink">
-                    {faq.question}
-                  </span>
+                  <span className="text-sm font-medium text-ink">{faq.question}</span>
                   <ChevronDown className="w-4 h-4 text-muted flex-shrink-0 transition-transform group-open:rotate-180" />
                 </summary>
                 <div className="px-6 pb-5 -mt-1">
-                  <p className="text-sm text-muted leading-relaxed">
-                    {faq.answer}
-                  </p>
+                  <p className="text-sm text-muted leading-relaxed">{faq.answer}</p>
                 </div>
               </details>
             ))}
@@ -457,8 +428,7 @@ export default function LandingPage() {
               Ton mariage mérite d'être organisé en douceur
             </h2>
             <p className="mt-4 text-muted text-lg max-w-md mx-auto">
-              Rejoins des centaines de couples qui préparent leur mariage
-              sereinement.
+              Rejoins des centaines de couples qui préparent leur mariage sereinement.
             </p>
             <div className="mt-10">
               <Link

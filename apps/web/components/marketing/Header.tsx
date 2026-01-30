@@ -39,10 +39,7 @@ export default function Header() {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-4">
-            <Link
-              href="/connexion"
-              className="text-sm text-muted hover:text-ink transition-colors"
-            >
+            <Link href="/connexion" className="text-sm text-muted hover:text-ink transition-colors">
               Se connecter
             </Link>
             <Link
@@ -59,11 +56,7 @@ export default function Header() {
             className="md:hidden p-2 text-muted hover:text-ink transition-colors"
             aria-label={mobileOpen ? "Fermer le menu" : "Ouvrir le menu"}
           >
-            {mobileOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>

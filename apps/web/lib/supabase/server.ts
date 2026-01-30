@@ -32,7 +32,9 @@ export async function createServiceClient() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       cookies: {
-        getAll() { return []; },
+        getAll() {
+          return [];
+        },
         setAll() {},
       },
     }

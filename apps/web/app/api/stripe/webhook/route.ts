@@ -30,10 +30,13 @@ export async function POST(request: NextRequest) {
 
       if (weddingId) {
         // One-time payment: upgrade to premium
-        await supabase.from("weddings").update({
-          plan: "premium",
-          stripe_customer_id: session.customer as string,
-        }).eq("id", weddingId);
+        await supabase
+          .from("weddings")
+          .update({
+            plan: "premium",
+            stripe_customer_id: session.customer as string,
+          })
+          .eq("id", weddingId);
 
         // Log the event
         await supabase.from("subscription_events").insert({
@@ -51,7 +54,9 @@ export async function POST(request: NextRequest) {
       const customerId = charge.customer as string;
       if (customerId) {
         // Downgrade on refund
-        await supabase.from("weddings").update({ plan: "free" })
+        await supabase
+          .from("weddings")
+          .update({ plan: "free" })
           .eq("stripe_customer_id", customerId);
       }
       break;

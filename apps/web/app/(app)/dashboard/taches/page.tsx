@@ -1,26 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import {
-  Plus,
-  X,
-  Calendar,
-  ListTodo,
-  Columns3,
-  Pencil,
-  Trash2,
-  AlertTriangle,
-} from "lucide-react";
-import {
-  Button,
-  Card,
-  Modal,
-  Input,
-  Select,
-  Badge,
-  Tabs,
-  useToast,
-} from "@carnetmariage/ui";
+import { Plus, X, Calendar, ListTodo, Columns3, Pencil, Trash2, AlertTriangle } from "lucide-react";
+import { Button, Card, Modal, Input, Select, Badge, Tabs, useToast } from "@carnetmariage/ui";
 import {
   TASK_STATUSES,
   TASK_CATEGORIES,
@@ -67,7 +49,7 @@ export default function TachesPage() {
       const json = await res.json();
       if (json.ok) setTasks(json.data);
     } catch {
-      toast("Erreur lors du chargement des taches", "error");
+      toast("Erreur lors du chargement des tâches", "error");
     } finally {
       setLoading(false);
     }
@@ -126,10 +108,10 @@ export default function TachesPage() {
 
       if (editingId) {
         setTasks((prev) => prev.map((t) => (t.id === editingId ? json.data : t)));
-        toast("Tache mise a jour");
+        toast("Tâche mise à jour");
       } else {
         setTasks((prev) => [...prev, json.data]);
-        toast("Tache ajoutee");
+        toast("Tâche ajoutée");
       }
 
       setModalOpen(false);
@@ -146,7 +128,7 @@ export default function TachesPage() {
       const json = await res.json();
       if (json.ok) {
         setTasks((prev) => prev.filter((t) => t.id !== id));
-        toast("Tache supprimee");
+        toast("Tâche supprimée");
       } else {
         toast(json.error?.message || "Erreur", "error");
       }
@@ -171,10 +153,10 @@ export default function TachesPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl sm:text-3xl text-ink">Taches</h1>
+        <h1 className="font-serif text-2xl sm:text-3xl text-ink">Tâches</h1>
         <Button onClick={openAddModal}>
           <Plus className="w-4 h-4 mr-2" />
-          Ajouter une tache
+          Ajouter une tâche
         </Button>
       </div>
 
@@ -183,9 +165,9 @@ export default function TachesPage() {
         <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
           <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
           <p className="text-sm text-amber-800">
-            {tasks.length}/{taskLimit} taches utilisees.{" "}
+            {tasks.length}/{taskLimit} tâches utilisées.{" "}
             <a href="/dashboard/parametres" className="font-semibold underline">
-              Passe a Premium
+              Passe à Premium
             </a>{" "}
             pour en ajouter plus.
           </p>
@@ -209,14 +191,9 @@ export default function TachesPage() {
             /* Kanban View */
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {(Object.keys(TASK_STATUSES) as TaskStatus[]).map((statusKey) => (
-                <div
-                  key={statusKey}
-                  className="bg-ivory rounded-2xl p-4 min-h-[300px]"
-                >
+                <div key={statusKey} className="bg-ivory rounded-2xl p-4 min-h-[300px]">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-ink text-sm">
-                      {TASK_STATUSES[statusKey]}
-                    </h3>
+                    <h3 className="font-semibold text-ink text-sm">{TASK_STATUSES[statusKey]}</h3>
                     <Badge variant={statusBadgeVariant[statusKey]}>
                       {groupedTasks[statusKey]?.length ?? 0}
                     </Badge>
@@ -229,13 +206,8 @@ export default function TachesPage() {
                         className="group cursor-pointer hover:shadow-soft transition-shadow"
                       >
                         <div className="flex items-start justify-between gap-2">
-                          <div
-                            className="flex-1 min-w-0"
-                            onClick={() => openEditModal(task)}
-                          >
-                            <p className="text-sm font-medium text-ink truncate">
-                              {task.title}
-                            </p>
+                          <div className="flex-1 min-w-0" onClick={() => openEditModal(task)}>
+                            <p className="text-sm font-medium text-ink truncate">{task.title}</p>
                             <div className="flex items-center gap-2 mt-2 flex-wrap">
                               <Badge variant="purple" className="text-[10px]">
                                 {task.category}
@@ -261,9 +233,7 @@ export default function TachesPage() {
                       </Card>
                     ))}
                     {(groupedTasks[statusKey] ?? []).length === 0 && (
-                      <p className="text-xs text-muted text-center py-8">
-                        Aucune tache
-                      </p>
+                      <p className="text-xs text-muted text-center py-8">Aucune tâche</p>
                     )}
                   </div>
                 </div>
@@ -276,31 +246,18 @@ export default function TachesPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-brand-border">
-                      <th className="text-left font-medium text-muted px-4 py-3">
-                        Titre
-                      </th>
-                      <th className="text-left font-medium text-muted px-4 py-3">
-                        Categorie
-                      </th>
-                      <th className="text-left font-medium text-muted px-4 py-3">
-                        Statut
-                      </th>
-                      <th className="text-left font-medium text-muted px-4 py-3">
-                        Echeance
-                      </th>
-                      <th className="text-right font-medium text-muted px-4 py-3">
-                        Actions
-                      </th>
+                      <th className="text-left font-medium text-muted px-4 py-3">Titre</th>
+                      <th className="text-left font-medium text-muted px-4 py-3">Catégorie</th>
+                      <th className="text-left font-medium text-muted px-4 py-3">Statut</th>
+                      <th className="text-left font-medium text-muted px-4 py-3">Échéance</th>
+                      <th className="text-right font-medium text-muted px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {tasks.length === 0 && (
                       <tr>
-                        <td
-                          colSpan={5}
-                          className="text-center text-muted py-12"
-                        >
-                          Aucune tache pour le moment.
+                        <td colSpan={5} className="text-center text-muted py-12">
+                          Aucune tâche pour le moment.
                         </td>
                       </tr>
                     )}
@@ -309,9 +266,7 @@ export default function TachesPage() {
                         key={task.id}
                         className="border-b border-brand-border/50 hover:bg-ivory/50 transition-colors"
                       >
-                        <td className="px-4 py-3 font-medium text-ink">
-                          {task.title}
-                        </td>
+                        <td className="px-4 py-3 font-medium text-ink">{task.title}</td>
                         <td className="px-4 py-3">
                           <Badge variant="purple">{task.category}</Badge>
                         </td>
@@ -353,7 +308,7 @@ export default function TachesPage() {
       <Modal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title={editingId ? "Modifier la tache" : "Nouvelle tache"}
+        title={editingId ? "Modifier la tâche" : "Nouvelle tâche"}
       >
         <form onSubmit={handleSave} className="space-y-4">
           <Input
@@ -365,7 +320,7 @@ export default function TachesPage() {
           />
           <div className="grid grid-cols-2 gap-4">
             <Select
-              label="Categorie"
+              label="Catégorie"
               options={categoryOptions}
               value={form.category}
               onChange={(e) => setForm({ ...form, category: e.target.value })}
@@ -374,13 +329,11 @@ export default function TachesPage() {
               label="Statut"
               options={statusOptions}
               value={form.status}
-              onChange={(e) =>
-                setForm({ ...form, status: e.target.value as TaskStatus })
-              }
+              onChange={(e) => setForm({ ...form, status: e.target.value as TaskStatus })}
             />
           </div>
           <Input
-            label="Echeance"
+            label="Échéance"
             type="date"
             value={form.due_date}
             onChange={(e) => setForm({ ...form, due_date: e.target.value })}
@@ -390,17 +343,13 @@ export default function TachesPage() {
             <textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              placeholder="Notes supplementaires..."
+              placeholder="Notes supplémentaires..."
               rows={3}
               className="w-full px-4 py-2.5 rounded-xl border border-brand-border text-sm transition-colors bg-white text-ink placeholder:text-muted-light focus:outline-none focus:ring-2 focus:ring-pink-main/30 focus:border-pink-main resize-none"
             />
           </div>
           <div className="flex items-center justify-end gap-3 pt-2">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setModalOpen(false)}
-            >
+            <Button type="button" variant="ghost" onClick={() => setModalOpen(false)}>
               Annuler
             </Button>
             <Button type="submit" loading={saving}>

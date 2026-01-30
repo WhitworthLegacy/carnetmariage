@@ -23,10 +23,19 @@ export async function POST(request: NextRequest) {
   if (auth.error) return auth.error;
 
   const { allowed, current, limit } = await checkPlanLimit(
-    auth.supabase, auth.wedding!.id, auth.wedding!.plan, "guests"
+    auth.supabase,
+    auth.wedding!.id,
+    auth.wedding!.plan,
+    "guests"
   );
   if (!allowed) {
-    return jsonError(makeError("PLAN_LIMIT_REACHED", `Limite atteinte : ${current}/${limit} invités. Passe à Premium pour en ajouter plus.`), 403);
+    return jsonError(
+      makeError(
+        "PLAN_LIMIT_REACHED",
+        `Limite atteinte : ${current}/${limit} invités. Passe à Premium pour en ajouter plus.`
+      ),
+      403
+    );
   }
 
   const body = await request.json();

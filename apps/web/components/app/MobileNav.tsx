@@ -33,14 +33,14 @@ interface NavItem {
 
 const allNav: NavItem[] = [
   { label: "Tableau de bord", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Taches", href: "/dashboard/taches", icon: CheckSquare },
+  { label: "Tâches", href: "/dashboard/taches", icon: CheckSquare },
   { label: "Budget", href: "/dashboard/budget", icon: Wallet },
   { label: "Prestataires", href: "/dashboard/prestataires", icon: Star },
   { label: "Lieux", href: "/dashboard/lieux", icon: MapPin },
-  { label: "Invites", href: "/dashboard/invites", icon: Users },
+  { label: "Invités", href: "/dashboard/invites", icon: Users },
   { label: "Timeline", href: "/dashboard/timeline", icon: Calendar, premiumOnly: true },
   { label: "Plan de table", href: "/dashboard/tables", icon: Grid3X3, premiumOnly: true },
-  { label: "Parametres", href: "/dashboard/parametres", icon: Settings },
+  { label: "Paramètres", href: "/dashboard/parametres", icon: Settings },
 ];
 
 export function MobileNav({ open, onClose }: MobileNavProps) {
@@ -92,9 +92,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
             <div className="w-9 h-9 rounded-full bg-pink-main flex items-center justify-center">
               <Heart size={18} className="text-white fill-white" />
             </div>
-            <span className="font-serif text-lg font-bold text-ink">
-              CarnetMariage
-            </span>
+            <span className="font-serif text-lg font-bold text-ink">CarnetMariage</span>
           </div>
           <button
             onClick={onClose}

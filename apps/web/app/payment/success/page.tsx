@@ -13,7 +13,9 @@ export default function PaymentSuccessPage() {
   useEffect(() => {
     async function verifySession() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) {
         // No session — try to recover from stored credentials
@@ -23,11 +25,7 @@ export default function PaymentSuccessPage() {
       }
 
       // Verify wedding exists
-      const { data: wedding } = await supabase
-        .from("weddings")
-        .select("id")
-        .limit(1)
-        .single();
+      const { data: wedding } = await supabase.from("weddings").select("id").limit(1).single();
 
       if (wedding) {
         setStatus("success");
@@ -60,12 +58,8 @@ export default function PaymentSuccessPage() {
         {status === "loading" && (
           <>
             <Loader2 size={48} className="text-pink-main animate-spin mx-auto" />
-            <h2 className="font-serif text-2xl font-bold text-ink">
-              Validation du paiement...
-            </h2>
-            <p className="text-muted text-sm">
-              Un instant, on prépare votre Carnet Complet.
-            </p>
+            <h2 className="font-serif text-2xl font-bold text-ink">Validation du paiement...</h2>
+            <p className="text-muted text-sm">Un instant, on prépare votre Carnet Complet.</p>
           </>
         )}
 
@@ -74,9 +68,7 @@ export default function PaymentSuccessPage() {
             <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 flex items-center justify-center">
               <CheckCircle size={32} className="text-emerald-600" />
             </div>
-            <h2 className="font-serif text-2xl font-bold text-ink">
-              Paiement confirmé !
-            </h2>
+            <h2 className="font-serif text-2xl font-bold text-ink">Paiement confirmé !</h2>
             <p className="text-muted text-sm">
               Votre Carnet Complet est prêt. Redirection vers votre dashboard...
             </p>
@@ -88,12 +80,8 @@ export default function PaymentSuccessPage() {
             <div className="w-16 h-16 mx-auto rounded-full bg-amber-100 flex items-center justify-center">
               <CheckCircle size={32} className="text-amber-600" />
             </div>
-            <h2 className="font-serif text-2xl font-bold text-ink">
-              Paiement reçu
-            </h2>
-            <p className="text-muted text-sm">
-              Redirection en cours...
-            </p>
+            <h2 className="font-serif text-2xl font-bold text-ink">Paiement reçu</h2>
+            <p className="text-muted text-sm">Redirection en cours...</p>
           </>
         )}
       </Card>

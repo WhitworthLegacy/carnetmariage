@@ -39,17 +39,13 @@ export default function Footer() {
                 Carnet<span className="text-pink-dark">Mariage</span>
               </span>
             </Link>
-            <p className="text-sm text-muted leading-relaxed">
-              Organise ton mariage en douceur.
-            </p>
+            <p className="text-sm text-muted leading-relaxed">Organise ton mariage en douceur.</p>
           </div>
 
           {/* Link columns */}
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h3 className="text-sm font-semibold text-ink mb-4">
-                {section.title}
-              </h3>
+              <h3 className="text-sm font-semibold text-ink mb-4">{section.title}</h3>
               <ul className="space-y-3">
                 {section.links.map((link) => (
                   <li key={link.label}>

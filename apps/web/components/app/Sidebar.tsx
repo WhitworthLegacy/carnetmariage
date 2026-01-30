@@ -26,11 +26,11 @@ interface NavItem {
 
 const mainNav: NavItem[] = [
   { label: "Tableau de bord", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Taches", href: "/dashboard/taches", icon: CheckSquare },
+  { label: "Tâches", href: "/dashboard/taches", icon: CheckSquare },
   { label: "Budget", href: "/dashboard/budget", icon: Wallet },
   { label: "Prestataires", href: "/dashboard/prestataires", icon: Star },
   { label: "Lieux", href: "/dashboard/lieux", icon: MapPin },
-  { label: "Invites", href: "/dashboard/invites", icon: Users },
+  { label: "Invités", href: "/dashboard/invites", icon: Users },
 ];
 
 const premiumNav: NavItem[] = [
@@ -39,10 +39,18 @@ const premiumNav: NavItem[] = [
 ];
 
 const bottomNav: NavItem[] = [
-  { label: "Parametres", href: "/dashboard/parametres", icon: Settings },
+  { label: "Paramètres", href: "/dashboard/parametres", icon: Settings },
 ];
 
-function NavLink({ item, isActive, isPremium }: { item: NavItem; isActive: boolean; isPremium: boolean }) {
+function NavLink({
+  item,
+  isActive,
+  isPremium,
+}: {
+  item: NavItem;
+  isActive: boolean;
+  isPremium: boolean;
+}) {
   const Icon = item.icon;
   const locked = item.premiumOnly && !isPremium;
 
@@ -50,9 +58,7 @@ function NavLink({ item, isActive, isPremium }: { item: NavItem; isActive: boole
     <Link
       href={locked ? "/dashboard/parametres?upgrade=true" : item.href}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-        isActive
-          ? "bg-pink-light text-pink-dark"
-          : "text-muted hover:text-ink hover:bg-ivory"
+        isActive ? "bg-pink-light text-pink-dark" : "text-muted hover:text-ink hover:bg-ivory"
       }`}
     >
       <Icon size={20} />
@@ -83,9 +89,7 @@ export function Sidebar() {
           <div className="w-9 h-9 rounded-full bg-pink-main flex items-center justify-center">
             <Heart size={18} className="text-white fill-white" />
           </div>
-          <span className="font-serif text-lg font-bold text-ink">
-            CarnetMariage
-          </span>
+          <span className="font-serif text-lg font-bold text-ink">CarnetMariage</span>
         </Link>
       </div>
 
@@ -128,11 +132,9 @@ export function Sidebar() {
       {/* Footer hint */}
       {!isPremium && (
         <div className="p-4 m-3 mb-4 bg-purple-light/50 rounded-xl">
-          <p className="text-xs text-purple-dark font-medium mb-1">
-            Passe en Premium
-          </p>
+          <p className="text-xs text-purple-dark font-medium mb-1">Passe en Premium</p>
           <p className="text-xs text-muted leading-relaxed">
-            Debloque le plan de table, la timeline et plus encore.
+            Débloque le plan de table, la timeline et plus encore.
           </p>
           <Link
             href="/dashboard/parametres?upgrade=true"

@@ -23,18 +23,22 @@ export function Card({ children, className = "", padding = "md" }: CardProps) {
   );
 }
 
-export function CardHeader({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`flex items-center justify-between mb-4 ${className}`}>
-      {children}
-    </div>
-  );
+export function CardHeader({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <div className={`flex items-center justify-between mb-4 ${className}`}>{children}</div>;
 }
 
-export function CardTitle({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <h3 className={`text-lg font-semibold text-ink ${className}`}>
-      {children}
-    </h3>
-  );
+export function CardTitle({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <h3 className={`text-lg font-semibold text-ink ${className}`}>{children}</h3>;
 }

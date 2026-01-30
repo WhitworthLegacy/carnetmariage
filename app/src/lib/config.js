@@ -1,18 +1,62 @@
 export const APP_CONFIG = {
-    text: {
-      heroTitle: "Espace Mariage",
-      daysLeft: "Jours restants",
-      progression: "Progression globale"
+  text: {
+    heroTitle: "Espace Mariage",
+    daysLeft: "Jours restants",
+    progression: "Progression globale",
+  },
+  statuses: {
+    tasks: { todo: "À faire", doing: "En cours", done: "Terminé" },
+    budget: { planned: "Prévu", booked: "Réservé", paid: "Payé" },
+    vendors: {
+      contact: "À contacter",
+      quote: "Devis reçu",
+      meeting: "RDV Pris",
+      negotiating: "En négo",
+      booked: "Signé",
+      paid: "Soldé",
+      refused: "Refusé",
     },
-    statuses: {
-      tasks: { todo: "À faire", doing: "En cours", done: "Terminé" },
-      budget: { planned: "Prévu", booked: "Réservé", paid: "Payé" },
-      vendors: { contact: "À contacter", quote: "Devis reçu", meeting: "RDV Pris", negotiating: "En négo", booked: "Signé", paid: "Soldé", refused: "Refusé" },
-      venues: { visit: "À visiter", option: "Acompte déposée", booked: "Réservé" },
-      guests: { pending: "En attente", confirmed: "Confirmé", declined: "Refusé", relaunch: "À relancer", maybe: "Peut-être" }
+    venues: { visit: "À visiter", option: "Acompte déposée", booked: "Réservé" },
+    guests: {
+      pending: "En attente",
+      confirmed: "Confirmé",
+      declined: "Refusé",
+      relaunch: "À relancer",
+      maybe: "Peut-être",
     },
-    categories: {
-      tasks: ["Général", "Traiteur", "Lieu", "Tenues", "Papeterie", "Décoration", "Invités", "Ambiance", "Administration", "Alliances", "Beauté", "Cérémonie", "Fleurs", "Lune de Miel", "Musique", "Photo/Vidéo", "Transport"],
-      vendors: ["DJ", "Photographe", "Vidéaste", "Traiteur", "Fleuriste", "Maquillage", "Coiffure", "Officiant", "Musique", "Photo/Vidéo", "Transport"]
-    }
-  };
+  },
+  categories: {
+    tasks: [
+      "Général",
+      "Traiteur",
+      "Lieu",
+      "Tenues",
+      "Papeterie",
+      "Décoration",
+      "Invités",
+      "Ambiance",
+      "Administration",
+      "Alliances",
+      "Beauté",
+      "Cérémonie",
+      "Fleurs",
+      "Lune de Miel",
+      "Musique",
+      "Photo/Vidéo",
+      "Transport",
+    ],
+    vendors: [
+      "DJ",
+      "Photographe",
+      "Vidéaste",
+      "Traiteur",
+      "Fleuriste",
+      "Maquillage",
+      "Coiffure",
+      "Officiant",
+      "Musique",
+      "Photo/Vidéo",
+      "Transport",
+    ],
+  },
+};

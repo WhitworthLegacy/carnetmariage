@@ -15,9 +15,27 @@ export const PLANS = {
 
 export const PLAN_LIMITS = {
   free: { tasks: 30, budget_lines: 15, vendors: 10, guests: 50, venues: 3 },
-  premium: { tasks: Infinity, budget_lines: Infinity, vendors: Infinity, guests: Infinity, venues: Infinity },
-  ultimate: { tasks: Infinity, budget_lines: Infinity, vendors: Infinity, guests: Infinity, venues: Infinity },
-  lifetime: { tasks: Infinity, budget_lines: Infinity, vendors: Infinity, guests: Infinity, venues: Infinity },
+  premium: {
+    tasks: Infinity,
+    budget_lines: Infinity,
+    vendors: Infinity,
+    guests: Infinity,
+    venues: Infinity,
+  },
+  ultimate: {
+    tasks: Infinity,
+    budget_lines: Infinity,
+    vendors: Infinity,
+    guests: Infinity,
+    venues: Infinity,
+  },
+  lifetime: {
+    tasks: Infinity,
+    budget_lines: Infinity,
+    vendors: Infinity,
+    guests: Infinity,
+    venues: Infinity,
+  },
 } as const;
 
 export type UserRole = keyof typeof USER_ROLES;

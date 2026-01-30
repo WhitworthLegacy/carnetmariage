@@ -21,6 +21,6 @@ export async function GET() {
     total_weddings: weddings.count || 0,
     premium_count: premiumWeddings.count || 0,
     ultimate_count: ultimateWeddings.count || 0,
-    mrr: ((premiumWeddings.count || 0) * 9.99) + ((ultimateWeddings.count || 0) * 19.99),
+    mrr: (premiumWeddings.count || 0) * 9.99 + (ultimateWeddings.count || 0) * 19.99,
   });
 }

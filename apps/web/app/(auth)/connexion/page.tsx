@@ -60,10 +60,7 @@ export default function ConnexionPage() {
       {/* Email + Password Form */}
       <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-ink mb-1.5"
-          >
+          <label htmlFor="email" className="block text-sm font-medium text-ink mb-1.5">
             Adresse email
           </label>
           <input
@@ -77,10 +74,7 @@ export default function ConnexionPage() {
           />
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-ink mb-1.5"
-          >
+          <label htmlFor="password" className="block text-sm font-medium text-ink mb-1.5">
             Mot de passe
           </label>
           <input
@@ -98,19 +92,13 @@ export default function ConnexionPage() {
           disabled={loading || !email.trim() || !password}
           className="w-full py-3 rounded-xl bg-pink-dark text-white font-medium text-sm hover:bg-pink-main transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
         >
-          {loading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <LogIn className="w-4 h-4" />
-          )}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
           Se connecter
         </button>
       </form>
 
       {/* Error */}
-      {error && (
-        <p className="mt-4 text-sm text-red-600 text-center">{error}</p>
-      )}
+      {error && <p className="mt-4 text-sm text-red-600 text-center">{error}</p>}
 
       {/* Link to signup */}
       <p className="mt-8 text-center text-sm text-muted">

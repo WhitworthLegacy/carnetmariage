@@ -1,15 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardHeader, CardTitle, Badge } from "@carnetmariage/ui";
-import {
-  CheckSquare,
-  Wallet,
-  Users,
-  Star,
-  Heart,
-  CalendarClock,
-  Activity,
-} from "lucide-react";
+import { CheckSquare, Wallet, Users, Star, Heart, CalendarClock, Activity } from "lucide-react";
 import { daysLeft, prettyDate, formatPrice, progressPercent } from "@/lib/utils";
 import { ProgressRing } from "@/components/app/ProgressRing";
 
@@ -27,9 +19,11 @@ interface StatCardProps {
 
 function StatCard({ icon, label, value, subtitle, color }: StatCardProps) {
   return (
-    <Card>
+    <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
       <div className="flex items-start gap-4">
-        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
+        <div
+          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color} transition-transform duration-300 group-hover:scale-110`}
+        >
           {icon}
         </div>
         <div className="min-w-0">
@@ -61,33 +55,20 @@ export default async function DashboardPage() {
   if (!wedding) redirect("/onboarding");
 
   // Fetch all stats in parallel
-  const [tasksRes, budgetRes, guestsRes, vendorsRes, upcomingTasksRes] =
-    await Promise.all([
-      supabase
-        .from("tasks")
-        .select("id, status")
-        .eq("wedding_id", wedding.id),
-      supabase
-        .from("budget_lines")
-        .select("id, amount, paid")
-        .eq("wedding_id", wedding.id),
-      supabase
-        .from("guests")
-        .select("id, rsvp_status")
-        .eq("wedding_id", wedding.id),
-      supabase
-        .from("vendors")
-        .select("id, status")
-        .eq("wedding_id", wedding.id),
-      supabase
-        .from("tasks")
-        .select("id, title, due_date, status")
-        .eq("wedding_id", wedding.id)
-        .neq("status", "done")
-        .not("due_date", "is", null)
-        .order("due_date", { ascending: true })
-        .limit(5),
-    ]);
+  const [tasksRes, budgetRes, guestsRes, vendorsRes, upcomingTasksRes] = await Promise.all([
+    supabase.from("tasks").select("id, status").eq("wedding_id", wedding.id),
+    supabase.from("budget_lines").select("id, estimated, paid").eq("wedding_id", wedding.id),
+    supabase.from("guests").select("id, status").eq("wedding_id", wedding.id),
+    supabase.from("vendors").select("id, status").eq("wedding_id", wedding.id),
+    supabase
+      .from("tasks")
+      .select("id, title, due_date, status")
+      .eq("wedding_id", wedding.id)
+      .neq("status", "done")
+      .not("due_date", "is", null)
+      .order("due_date", { ascending: true })
+      .limit(5),
+  ]);
 
   const tasks = tasksRes.data || [];
   const tasksDone = tasks.filter((t) => t.status === "done").length;
@@ -95,14 +76,11 @@ export default async function DashboardPage() {
   const taskPercent = progressPercent(tasksDone, tasksTotal);
 
   const budgetLines = budgetRes.data || [];
-  const budgetSpent = budgetLines.reduce(
-    (sum, b) => sum + (b.paid ? Number(b.amount) : 0),
-    0
-  );
+  const budgetSpent = budgetLines.reduce((sum, b) => sum + Number(b.paid || 0), 0);
   const budgetTotal = wedding.total_budget || 0;
 
   const guests = guestsRes.data || [];
-  const guestsConfirmed = guests.filter((g) => g.rsvp_status === "confirmed").length;
+  const guestsConfirmed = guests.filter((g) => g.status === "confirmed").length;
   const guestsTotal = guests.length;
 
   const vendors = vendorsRes.data || [];
@@ -158,7 +136,7 @@ export default async function DashboardPage() {
 
             {!wedding.wedding_date && (
               <p className="mt-3 text-sm text-muted-light italic">
-                Ajoute ta date de mariage dans les parametres pour voir le decompte.
+                Ajoute ta date de mariage dans les paramètres pour voir le décompte.
               </p>
             )}
           </div>
@@ -166,9 +144,7 @@ export default async function DashboardPage() {
           {/* Right: progress ring */}
           <div className="shrink-0 text-center">
             <ProgressRing percent={taskPercent} size={110} strokeWidth={8} />
-            <p className="text-xs text-muted mt-2 font-medium">
-              Avancement global
-            </p>
+            <p className="text-xs text-muted mt-2 font-medium">Avancement global</p>
           </div>
         </div>
       </section>
@@ -177,9 +153,9 @@ export default async function DashboardPage() {
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           icon={<CheckSquare size={20} className="text-emerald-600" />}
-          label="Taches"
+          label="Tâches"
           value={`${tasksDone}/${tasksTotal}`}
-          subtitle="terminees"
+          subtitle="terminées"
           color="bg-emerald-50"
         />
         <StatCard
@@ -191,16 +167,16 @@ export default async function DashboardPage() {
         />
         <StatCard
           icon={<Users size={20} className="text-blue-600" />}
-          label="Invites"
+          label="Invités"
           value={`${guestsConfirmed}/${guestsTotal}`}
-          subtitle="confirmes"
+          subtitle="confirmés"
           color="bg-blue-50"
         />
         <StatCard
           icon={<Star size={20} className="text-pink-dark" />}
           label="Prestataires"
           value={`${vendorsBooked}/${vendorsTotal}`}
-          subtitle="reserves"
+          subtitle="réservés"
           color="bg-pink-light"
         />
       </section>
@@ -213,27 +189,22 @@ export default async function DashboardPage() {
             <CardTitle>
               <span className="flex items-center gap-2">
                 <CalendarClock size={18} className="text-pink-main" />
-                Prochaines echeances
+                Prochaines échéances
               </span>
             </CardTitle>
           </CardHeader>
 
           {upcomingTasks.length === 0 ? (
             <div className="text-center py-8">
-              <CalendarClock
-                size={32}
-                className="text-brand-border mx-auto mb-3"
-              />
-              <p className="text-sm text-muted">
-                Aucune echeance a venir pour le moment.
-              </p>
+              <CalendarClock size={32} className="text-brand-border mx-auto mb-3" />
+              <p className="text-sm text-muted">Aucune échéance à venir pour le moment.</p>
               <p className="text-xs text-muted-light mt-1">
-                Ajoute des taches avec des dates limites pour les voir ici.
+                Ajoute des tâches avec des dates limites pour les voir ici.
               </p>
             </div>
           ) : (
             <ul className="space-y-3">
-              {upcomingTasks.map((task) => {
+              {upcomingTasks.map((task, index) => {
                 const taskDays = daysLeft(task.due_date);
                 const isUrgent = taskDays !== null && taskDays <= 7;
                 const isOverdue = taskDays !== null && taskDays < 0;
@@ -241,34 +212,27 @@ export default async function DashboardPage() {
                 return (
                   <li
                     key={task.id}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-ivory/50 hover:bg-ivory transition-colors"
+                    className="flex items-center gap-3 p-3 rounded-xl bg-ivory/50 hover:bg-ivory hover:shadow-sm transition-all duration-200 cursor-pointer group"
+                    style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <div
                       className={`w-2 h-2 rounded-full shrink-0 ${
                         isOverdue
-                          ? "bg-red-400"
+                          ? "bg-red-400 animate-pulse"
                           : isUrgent
                             ? "bg-amber-400"
                             : "bg-emerald-400"
                       }`}
                     />
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-ink truncate">
+                      <p className="text-sm font-medium text-ink truncate group-hover:text-pink-dark transition-colors">
                         {task.title}
                       </p>
-                      <p className="text-xs text-muted">
-                        {prettyDate(task.due_date)}
-                      </p>
+                      <p className="text-xs text-muted">{prettyDate(task.due_date)}</p>
                     </div>
                     {taskDays !== null && (
-                      <Badge
-                        variant={isOverdue ? "danger" : isUrgent ? "warning" : "default"}
-                      >
-                        {isOverdue
-                          ? `En retard`
-                          : taskDays === 0
-                            ? "Aujourd'hui"
-                            : `J-${taskDays}`}
+                      <Badge variant={isOverdue ? "danger" : isUrgent ? "warning" : "default"}>
+                        {isOverdue ? `En retard` : taskDays === 0 ? "Aujourd'hui" : `J-${taskDays}`}
                       </Badge>
                     )}
                   </li>
@@ -284,7 +248,7 @@ export default async function DashboardPage() {
             <CardTitle>
               <span className="flex items-center gap-2">
                 <Activity size={18} className="text-purple-main" />
-                Activite recente
+                Activité récente
               </span>
             </CardTitle>
           </CardHeader>
@@ -300,33 +264,32 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
   const supabase = await createClient();
 
   // Fetch recent items from different tables
-  const [recentTasks, recentGuests, recentVendors, recentBudget] =
-    await Promise.all([
-      supabase
-        .from("tasks")
-        .select("id, title, created_at")
-        .eq("wedding_id", weddingId)
-        .order("created_at", { ascending: false })
-        .limit(3),
-      supabase
-        .from("guests")
-        .select("id, first_name, last_name, created_at")
-        .eq("wedding_id", weddingId)
-        .order("created_at", { ascending: false })
-        .limit(3),
-      supabase
-        .from("vendors")
-        .select("id, name, created_at")
-        .eq("wedding_id", weddingId)
-        .order("created_at", { ascending: false })
-        .limit(3),
-      supabase
-        .from("budget_lines")
-        .select("id, label, created_at")
-        .eq("wedding_id", weddingId)
-        .order("created_at", { ascending: false })
-        .limit(3),
-    ]);
+  const [recentTasks, recentGuests, recentVendors, recentBudget] = await Promise.all([
+    supabase
+      .from("tasks")
+      .select("id, title, created_at")
+      .eq("wedding_id", weddingId)
+      .order("created_at", { ascending: false })
+      .limit(3),
+    supabase
+      .from("guests")
+      .select("id, name, created_at")
+      .eq("wedding_id", weddingId)
+      .order("created_at", { ascending: false })
+      .limit(3),
+    supabase
+      .from("vendors")
+      .select("id, name, created_at")
+      .eq("wedding_id", weddingId)
+      .order("created_at", { ascending: false })
+      .limit(3),
+    supabase
+      .from("budget_lines")
+      .select("id, label, created_at")
+      .eq("wedding_id", weddingId)
+      .order("created_at", { ascending: false })
+      .limit(3),
+  ]);
 
   type ActivityItem = {
     id: string;
@@ -342,7 +305,7 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
     items.push({
       id: `task-${t.id}`,
       label: t.title,
-      type: "Tache",
+      type: "Tâche",
       icon: <CheckSquare size={14} className="text-emerald-500" />,
       date: t.created_at,
     })
@@ -351,8 +314,8 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
   (recentGuests.data || []).forEach((g) =>
     items.push({
       id: `guest-${g.id}`,
-      label: `${g.first_name} ${g.last_name}`,
-      type: "Invite",
+      label: g.name,
+      type: "Invité",
       icon: <Users size={14} className="text-blue-500" />,
       date: g.created_at,
     })
@@ -372,25 +335,23 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
     items.push({
       id: `budget-${b.id}`,
       label: b.label,
-      type: "Depense",
+      type: "Dépense",
       icon: <Wallet size={14} className="text-purple-dark" />,
       date: b.created_at,
     })
   );
 
   // Sort by date descending and take 5
-  items.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const recent = items.slice(0, 5);
 
   if (recent.length === 0) {
     return (
       <div className="text-center py-8">
         <Activity size={32} className="text-brand-border mx-auto mb-3" />
-        <p className="text-sm text-muted">Aucune activite pour le moment.</p>
+        <p className="text-sm text-muted">Aucune activité pour le moment.</p>
         <p className="text-xs text-muted-light mt-1">
-          Commence par ajouter des taches ou des invites.
+          Commence par ajouter des tâches ou des invités.
         </p>
       </div>
     );
@@ -407,14 +368,10 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
             {item.icon}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-ink truncate">
-              {item.label}
-            </p>
+            <p className="text-sm font-medium text-ink truncate">{item.label}</p>
             <p className="text-xs text-muted">{item.type}</p>
           </div>
-          <time className="text-xs text-muted-light shrink-0">
-            {formatRelativeDate(item.date)}
-          </time>
+          <time className="text-xs text-muted-light shrink-0">{formatRelativeDate(item.date)}</time>
         </li>
       ))}
     </ul>
@@ -429,7 +386,7 @@ function formatRelativeDate(dateString: string): string {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return "A l'instant";
+  if (diffMins < 1) return "À l'instant";
   if (diffMins < 60) return `Il y a ${diffMins} min`;
   if (diffHours < 24) return `Il y a ${diffHours}h`;
   if (diffDays < 7) return `Il y a ${diffDays}j`;

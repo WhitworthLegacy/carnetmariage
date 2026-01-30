@@ -127,9 +127,7 @@ export default function TarifsPage() {
               <button
                 onClick={() => setAnnual(false)}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-                  !annual
-                    ? "bg-pink-dark text-white"
-                    : "text-muted hover:text-ink"
+                  !annual ? "bg-pink-dark text-white" : "text-muted hover:text-ink"
                 }`}
               >
                 Mensuel
@@ -137,9 +135,7 @@ export default function TarifsPage() {
               <button
                 onClick={() => setAnnual(true)}
                 className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-                  annual
-                    ? "bg-pink-dark text-white"
-                    : "text-muted hover:text-ink"
+                  annual ? "bg-pink-dark text-white" : "text-muted hover:text-ink"
                 }`}
               >
                 Annuel
@@ -175,14 +171,10 @@ export default function TarifsPage() {
                   <span className="text-4xl font-semibold text-ink">
                     {annual ? plan.annualPrice : plan.monthlyPrice}€
                   </span>
-                  {plan.period && (
-                    <span className="text-sm text-muted">{plan.period}</span>
-                  )}
+                  {plan.period && <span className="text-sm text-muted">{plan.period}</span>}
                 </div>
                 {annual && plan.monthlyPrice !== "0" && (
-                  <p className="mt-1 text-xs text-pink-dark font-medium">
-                    Économise 20% par an
-                  </p>
+                  <p className="mt-1 text-xs text-pink-dark font-medium">Économise 20% par an</p>
                 )}
                 <p className="mt-2 text-sm text-muted">{plan.description}</p>
 
@@ -205,11 +197,7 @@ export default function TarifsPage() {
                       ) : (
                         <X className="w-4 h-4 text-muted-light mt-0.5 flex-shrink-0" />
                       )}
-                      <span
-                        className={`text-sm ${
-                          f.included ? "text-ink" : "text-muted-light"
-                        }`}
-                      >
+                      <span className={`text-sm ${f.included ? "text-ink" : "text-muted-light"}`}>
                         {f.name}
                       </span>
                     </li>
@@ -239,15 +227,11 @@ export default function TarifsPage() {
                 className="group bg-ivory rounded-2xl border border-brand-border"
               >
                 <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none text-left">
-                  <span className="text-sm font-medium text-ink">
-                    {faq.question}
-                  </span>
+                  <span className="text-sm font-medium text-ink">{faq.question}</span>
                   <ChevronDown className="w-4 h-4 text-muted flex-shrink-0 transition-transform group-open:rotate-180" />
                 </summary>
                 <div className="px-6 pb-5 -mt-1">
-                  <p className="text-sm text-muted leading-relaxed">
-                    {faq.answer}
-                  </p>
+                  <p className="text-sm text-muted leading-relaxed">{faq.answer}</p>
                 </div>
               </details>
             ))}
@@ -262,8 +246,8 @@ export default function TarifsPage() {
             Prête à commencer ?
           </h2>
           <p className="mt-4 text-muted text-lg">
-            Crée ton carnet gratuitement et découvre comment CarnetMariage peut
-            simplifier tes préparatifs.
+            Crée ton carnet gratuitement et découvre comment CarnetMariage peut simplifier tes
+            préparatifs.
           </p>
           <div className="mt-8">
             <Link

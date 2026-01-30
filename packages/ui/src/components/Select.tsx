@@ -7,7 +7,15 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   placeholder?: string;
 }
 
-export function Select({ label, error, options, placeholder, className = "", id, ...props }: SelectProps) {
+export function Select({
+  label,
+  error,
+  options,
+  placeholder,
+  className = "",
+  id,
+  ...props
+}: SelectProps) {
   const selectId = id || label?.toLowerCase().replace(/\s+/g, "-");
 
   return (

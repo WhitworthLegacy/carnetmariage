@@ -7,3 +7,10 @@ export { Badge } from "./components/Badge";
 export { ToastProvider, useToast } from "./components/Toast";
 export { Tabs } from "./components/Tabs";
 export { Avatar } from "./components/Avatar";
+export {
+  Skeleton,
+  SkeletonText,
+  SkeletonCard,
+  SkeletonTable,
+  SkeletonDonut,
+} from "./components/Skeleton";

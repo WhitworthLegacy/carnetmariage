@@ -3,14 +3,7 @@
 import { useEffect, useState } from "react";
 import { Users, Heart, Crown, Euro } from "lucide-react";
 import { apiFetch } from "@/lib/apiClient";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-  Legend,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
 interface AdminStats {
   totalUsers: number;
@@ -132,9 +125,7 @@ export default function DashboardOverview() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Plan Distribution */}
         <div className="rounded-2xl border border-brand-border bg-white p-6 shadow-card">
-          <h3 className="mb-4 text-lg font-semibold text-ink">
-            Repartition des plans
-          </h3>
+          <h3 className="mb-4 text-lg font-semibold text-ink">Repartition des plans</h3>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -148,10 +139,7 @@ export default function DashboardOverview() {
                   dataKey="value"
                 >
                   {pieData.map((_, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={PLAN_COLORS[index]}
-                    />
+                    <Cell key={`cell-${index}`} fill={PLAN_COLORS[index]} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -163,9 +151,7 @@ export default function DashboardOverview() {
 
         {/* Growth Placeholder */}
         <div className="rounded-2xl border border-brand-border bg-white p-6 shadow-card">
-          <h3 className="mb-4 text-lg font-semibold text-ink">
-            Croissance mensuelle
-          </h3>
+          <h3 className="mb-4 text-lg font-semibold text-ink">Croissance mensuelle</h3>
           <div className="flex h-72 items-center justify-center">
             <div className="text-center">
               <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-purple-light">
@@ -181,12 +167,8 @@ export default function DashboardOverview() {
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
               </div>
-              <p className="text-sm font-medium text-muted">
-                Graphique de croissance
-              </p>
-              <p className="mt-1 text-xs text-muted-light">
-                Bientot disponible
-              </p>
+              <p className="text-sm font-medium text-muted">Graphique de croissance</p>
+              <p className="mt-1 text-xs text-muted-light">Bientot disponible</p>
             </div>
           </div>
         </div>

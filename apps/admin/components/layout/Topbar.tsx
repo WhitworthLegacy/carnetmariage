@@ -7,18 +7,14 @@ export default function Topbar() {
   const router = useRouter();
 
   function handleLogout() {
-    document.cookie =
-      "sb-access-token=; path=/; max-age=0; SameSite=Lax";
-    document.cookie =
-      "sb-refresh-token=; path=/; max-age=0; SameSite=Lax";
+    document.cookie = "sb-access-token=; path=/; max-age=0; SameSite=Lax";
+    document.cookie = "sb-refresh-token=; path=/; max-age=0; SameSite=Lax";
     router.push("/login");
   }
 
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-brand-border bg-white px-8">
-      <h2 className="text-lg font-semibold text-ink">
-        CarnetMariage Admin
-      </h2>
+      <h2 className="text-lg font-semibold text-ink">CarnetMariage Admin</h2>
 
       <button
         onClick={handleLogout}

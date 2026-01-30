@@ -3,11 +3,33 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Heart, ArrowLeft, ArrowRight, Sparkles, Loader2,
-  Clock, AlertTriangle, CheckCircle, Users, Euro,
-  Calendar, Camera, Music, Utensils, MapPin,
-  Shield, Crown, Zap, Star, Gift, PartyPopper,
-  X, Lock, Mail, Eye, EyeOff, UserPlus,
+  Heart,
+  ArrowLeft,
+  ArrowRight,
+  Sparkles,
+  Loader2,
+  Clock,
+  AlertTriangle,
+  CheckCircle,
+  Users,
+  Euro,
+  Calendar,
+  Camera,
+  Music,
+  Utensils,
+  MapPin,
+  Shield,
+  Crown,
+  Zap,
+  Star,
+  Gift,
+  PartyPopper,
+  X,
+  Lock,
+  Mail,
+  Eye,
+  EyeOff,
+  UserPlus,
 } from "lucide-react";
 import { Button, Card } from "@carnetmariage/ui";
 import { createClient } from "@/lib/supabase/client";
@@ -17,10 +39,30 @@ const TOTAL_STEPS = 14;
 
 /* ────── Options ────── */
 const PLANNING_STATUS = [
-  { label: "On vient de se fiancer !", emoji: "💍", value: "just_engaged", pain: "Félicitations ! L'aventure commence — et la liste de choses à organiser aussi..." },
-  { label: "On a commencé à chercher", emoji: "🔍", value: "started", pain: "Tu as déjà vu le nombre de prestataires à contacter ? Sans organisation, c'est le stress garanti." },
-  { label: "On est en pleine organisation", emoji: "📋", value: "organizing", pain: "En pleine organisation et déjà le sentiment d'oublier quelque chose ? C'est normal — on va t'aider." },
-  { label: "On est proche du jour J !", emoji: "🎉", value: "close", pain: "Le jour J approche ! Il est encore temps de tout structurer pour en profiter sans stress." },
+  {
+    label: "On vient de se fiancer !",
+    emoji: "💍",
+    value: "just_engaged",
+    pain: "Félicitations ! L'aventure commence — et la liste de choses à organiser aussi...",
+  },
+  {
+    label: "On a commencé à chercher",
+    emoji: "🔍",
+    value: "started",
+    pain: "Tu as déjà vu le nombre de prestataires à contacter ? Sans organisation, c'est le stress garanti.",
+  },
+  {
+    label: "On est en pleine organisation",
+    emoji: "📋",
+    value: "organizing",
+    pain: "En pleine organisation et déjà le sentiment d'oublier quelque chose ? C'est normal — on va t'aider.",
+  },
+  {
+    label: "On est proche du jour J !",
+    emoji: "🎉",
+    value: "close",
+    pain: "Le jour J approche ! Il est encore temps de tout structurer pour en profiter sans stress.",
+  },
 ];
 
 const GUEST_RANGES = [
@@ -96,7 +138,8 @@ const CART_ITEMS: CartItem[] = [
     price: 7,
     icon: Euro,
     triggers: { type: "fear", value: "budget" },
-    nudge: "Tu avais dit que dépasser le budget te stressait — les alertes automatiques te protègent exactement contre ça.",
+    nudge:
+      "Tu avais dit que dépasser le budget te stressait — les alertes automatiques te protègent exactement contre ça.",
   },
   {
     id: "full_checklist",
@@ -105,7 +148,8 @@ const CART_ITEMS: CartItem[] = [
     price: 9,
     icon: CheckCircle,
     triggers: { type: "fear", value: "forget" },
-    nudge: "Tu avais peur d'oublier quelque chose d'important — cette checklist couvre absolument tout, même ce à quoi tu n'aurais pas pensé.",
+    nudge:
+      "Tu avais peur d'oublier quelque chose d'important — cette checklist couvre absolument tout, même ce à quoi tu n'aurais pas pensé.",
   },
   {
     id: "vendor_pipeline",
@@ -114,7 +158,8 @@ const CART_ITEMS: CartItem[] = [
     price: 7,
     icon: Users,
     triggers: { type: "fear", value: "vendors" },
-    nudge: "Tu avais mentionné la difficulté de trouver les bons prestataires — le pipeline te permet de tout comparer au même endroit.",
+    nudge:
+      "Tu avais mentionné la difficulté de trouver les bons prestataires — le pipeline te permet de tout comparer au même endroit.",
   },
   {
     id: "table_plan",
@@ -123,7 +168,8 @@ const CART_ITEMS: CartItem[] = [
     price: 9,
     icon: MapPin,
     triggers: { type: "fear", value: "guests" },
-    nudge: "La gestion des invités et du plan de table faisait partie de tes inquiétudes — cet outil te simplifie tout.",
+    nudge:
+      "La gestion des invités et du plan de table faisait partie de tes inquiétudes — cet outil te simplifie tout.",
   },
   {
     id: "unlimited_guests",
@@ -132,7 +178,8 @@ const CART_ITEMS: CartItem[] = [
     price: 6,
     icon: Users,
     triggers: { type: "guests", value: "80" },
-    nudge: "Avec plus de 80 invités, gérer les réponses sans outil dédié, c'est un cauchemar logistique. Tu es sûr(e) ?",
+    nudge:
+      "Avec plus de 80 invités, gérer les réponses sans outil dédié, c'est un cauchemar logistique. Tu es sûr(e) ?",
   },
   {
     id: "day_timeline",
@@ -141,7 +188,8 @@ const CART_ITEMS: CartItem[] = [
     price: 7,
     icon: Clock,
     triggers: { type: "fear", value: "day" },
-    nudge: "Tu voulais que le jour J soit parfait — cette timeline minute par minute te garantit que tout se passe comme prévu.",
+    nudge:
+      "Tu voulais que le jour J soit parfait — cette timeline minute par minute te garantit que tout se passe comme prévu.",
   },
   {
     id: "partner_access",
@@ -150,7 +198,8 @@ const CART_ITEMS: CartItem[] = [
     price: 6,
     icon: Heart,
     triggers: { type: "fear", value: "stress" },
-    nudge: "Tu avais peur du stress et des disputes de couple — planifier à deux réduit la charge mentale de moitié.",
+    nudge:
+      "Tu avais peur du stress et des disputes de couple — planifier à deux réduit la charge mentale de moitié.",
   },
   {
     id: "venue_comparator",
@@ -159,7 +208,8 @@ const CART_ITEMS: CartItem[] = [
     price: 6,
     icon: MapPin,
     triggers: { type: "venue" },
-    nudge: "Tu n'as pas encore de lieu — le comparateur te fait gagner des heures de recherche et t'aide à ne pas laisser passer la perle rare.",
+    nudge:
+      "Tu n'as pas encore de lieu — le comparateur te fait gagner des heures de recherche et t'aide à ne pas laisser passer la perle rare.",
   },
   {
     id: "gantt_timeline",
@@ -168,7 +218,8 @@ const CART_ITEMS: CartItem[] = [
     price: 5,
     icon: Calendar,
     triggers: { type: "always" },
-    nudge: "La timeline te permet de garder une vision d'ensemble sur toute l'organisation — tu es sûr(e) de vouloir t'en passer ?",
+    nudge:
+      "La timeline te permet de garder une vision d'ensemble sur toute l'organisation — tu es sûr(e) de vouloir t'en passer ?",
   },
   {
     id: "pdf_export",
@@ -177,7 +228,8 @@ const CART_ITEMS: CartItem[] = [
     price: 5,
     icon: Gift,
     triggers: { type: "always" },
-    nudge: "Les exports PDF sont ultra pratiques pour communiquer avec tes prestataires. Tu préfères leur envoyer des screenshots ?",
+    nudge:
+      "Les exports PDF sont ultra pratiques pour communiquer avec tes prestataires. Tu préfères leur envoyer des screenshots ?",
   },
 ];
 
@@ -306,7 +358,10 @@ export default function OnboardingPage() {
   }
 
   function getCartTotal(): number {
-    return CART_ITEMS.filter((item) => cartItems.has(item.id)).reduce((sum, item) => sum + item.price, 0);
+    return CART_ITEMS.filter((item) => cartItems.has(item.id)).reduce(
+      (sum, item) => sum + item.price,
+      0
+    );
   }
 
   function getRelevantCartItems(): CartItem[] {
@@ -323,21 +378,36 @@ export default function OnboardingPage() {
 
   function canProceed(): boolean {
     switch (step) {
-      case 1: return data.partner1_name.trim().length > 0 && data.partner2_name.trim().length > 0;
-      case 2: return data.planning_status.length > 0;
-      case 3: return true; // date optional
-      case 4: return data.estimated_guests > 0;
-      case 5: return data.total_budget > 0;
-      case 6: return data.biggest_fears.length > 0;
-      case 7: return data.style.length > 0;
-      case 8: return data.priorities.length > 0;
-      case 9: return data.has_venue !== null;
-      case 10: return true; // pain point reveal
-      case 11: return true; // plan summary
-      case 12: return true; // cart upsell
-      case 13: return true; // free vs premium choice summary
-      case 14: return data.email.trim().length > 0 && data.password.length >= 6;
-      default: return false;
+      case 1:
+        return data.partner1_name.trim().length > 0 && data.partner2_name.trim().length > 0;
+      case 2:
+        return data.planning_status.length > 0;
+      case 3:
+        return true; // date optional
+      case 4:
+        return data.estimated_guests > 0;
+      case 5:
+        return data.total_budget > 0;
+      case 6:
+        return data.biggest_fears.length > 0;
+      case 7:
+        return data.style.length > 0;
+      case 8:
+        return data.priorities.length > 0;
+      case 9:
+        return data.has_venue !== null;
+      case 10:
+        return true; // pain point reveal
+      case 11:
+        return true; // plan summary
+      case 12:
+        return true; // cart upsell
+      case 13:
+        return true; // free vs premium choice summary
+      case 14:
+        return data.email.trim().length > 0 && data.password.length >= 6;
+      default:
+        return false;
     }
   }
 
@@ -374,7 +444,9 @@ export default function OnboardingPage() {
 
     try {
       // 1. Create account + wedding via server API (bypasses RLS)
-      const selectedItems = CART_ITEMS.filter((item) => cartItems.has(item.id)).map((item) => item.id);
+      const selectedItems = CART_ITEMS.filter((item) => cartItems.has(item.id)).map(
+        (item) => item.id
+      );
       const settings = {
         style: data.style,
         priorities: data.priorities,
@@ -495,7 +567,8 @@ export default function OnboardingPage() {
                 Félicitations pour votre mariage !
               </h2>
               <p className="text-muted text-sm leading-relaxed">
-                On va créer votre espace de planification personnalisé.<br />
+                On va créer votre espace de planification personnalisé.
+                <br />
                 Commençons par le plus important : <strong>vos prénoms</strong>.
               </p>
             </div>
@@ -541,9 +614,7 @@ export default function OnboardingPage() {
               <h2 className="font-serif text-2xl font-bold text-ink">
                 Où en êtes-vous dans l'organisation ?
               </h2>
-              <p className="text-muted text-sm">
-                Ça nous aide à personnaliser votre checklist.
-              </p>
+              <p className="text-muted text-sm">Ça nous aide à personnaliser votre checklist.</p>
             </div>
             <div className="space-y-3">
               {PLANNING_STATUS.map((status) => (
@@ -579,9 +650,7 @@ export default function OnboardingPage() {
               <div className="w-16 h-16 mx-auto rounded-full bg-pink-light flex items-center justify-center">
                 <Calendar size={28} className="text-pink-dark" />
               </div>
-              <h2 className="font-serif text-2xl font-bold text-ink">
-                Quand est le grand jour ?
-              </h2>
+              <h2 className="font-serif text-2xl font-bold text-ink">Quand est le grand jour ?</h2>
               <p className="text-muted text-sm">
                 Si tu ne sais pas encore, tu pourras l'ajouter plus tard.
               </p>
@@ -623,7 +692,8 @@ export default function OnboardingPage() {
                 Combien d'invités prévoyez-vous ?
               </h2>
               <p className="text-muted text-sm">
-                Le nombre d'invités impacte directement votre budget, le choix du lieu et du traiteur.
+                Le nombre d'invités impacte directement votre budget, le choix du lieu et du
+                traiteur.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -647,7 +717,9 @@ export default function OnboardingPage() {
             {data.estimated_guests > 80 && (
               <div className="bg-red-50 border border-red-200 rounded-xl p-4">
                 <p className="text-red-800 text-sm">
-                  <strong>⚠️ Plus de {data.estimated_guests > 150 ? "150" : "80"} invités ?</strong> Gérer les réponses, les régimes alimentaires, le plan de table... sans outil, c'est un cauchemar logistique.
+                  <strong>⚠️ Plus de {data.estimated_guests > 150 ? "150" : "80"} invités ?</strong>{" "}
+                  Gérer les réponses, les régimes alimentaires, le plan de table... sans outil,
+                  c'est un cauchemar logistique.
                 </p>
               </div>
             )}
@@ -667,7 +739,8 @@ export default function OnboardingPage() {
                 Quel est votre budget estimé ?
               </h2>
               <p className="text-muted text-sm">
-                En France & Belgique, le budget moyen est de <strong>15 000 à 30 000 €</strong>. Sans suivi, 73% des couples le dépassent.
+                En France & Belgique, le budget moyen est de <strong>15 000 à 30 000 €</strong>.
+                Sans suivi, 73% des couples le dépassent.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -688,7 +761,9 @@ export default function OnboardingPage() {
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
               <p className="text-amber-800 text-sm">
-                💡 <strong>Le savais-tu ?</strong> Les couples qui suivent leur budget avec un outil dédié économisent en moyenne <strong>2 300 €</strong> par rapport à ceux qui utilisent un simple tableur.
+                💡 <strong>Le savais-tu ?</strong> Les couples qui suivent leur budget avec un outil
+                dédié économisent en moyenne <strong>2 300 €</strong> par rapport à ceux qui
+                utilisent un simple tableur.
               </p>
             </div>
           </div>
@@ -725,13 +800,17 @@ export default function OnboardingPage() {
                         : "border-brand-border hover:border-pink-main/40 bg-white"
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      selected ? "bg-pink-main" : "bg-gray-100"
-                    }`}>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        selected ? "bg-pink-main" : "bg-gray-100"
+                      }`}
+                    >
                       <Icon size={16} className={selected ? "text-white" : "text-muted"} />
                     </div>
                     <span className="text-sm font-medium text-ink">{fear.label}</span>
-                    {selected && <CheckCircle size={18} className="text-pink-main ml-auto flex-shrink-0" />}
+                    {selected && (
+                      <CheckCircle size={18} className="text-pink-main ml-auto flex-shrink-0" />
+                    )}
                   </button>
                 );
               })}
@@ -811,13 +890,17 @@ export default function OnboardingPage() {
                           : "border-brand-border hover:border-purple-main/40 bg-white"
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      selected ? "bg-purple-main" : "bg-gray-100"
-                    }`}>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        selected ? "bg-purple-main" : "bg-gray-100"
+                      }`}
+                    >
                       <Icon size={16} className={selected ? "text-white" : "text-muted"} />
                     </div>
                     <span className="text-sm font-medium text-ink">{p.label}</span>
-                    {selected && <CheckCircle size={18} className="text-purple-main ml-auto flex-shrink-0" />}
+                    {selected && (
+                      <CheckCircle size={18} className="text-purple-main ml-auto flex-shrink-0" />
+                    )}
                   </button>
                 );
               })}
@@ -873,7 +956,9 @@ export default function OnboardingPage() {
             {data.has_venue === false && (
               <div className="bg-red-50 border border-red-200 rounded-xl p-4">
                 <p className="text-red-800 text-sm">
-                  <strong>⚠️ Les meilleurs lieux se réservent 12 à 18 mois à l'avance.</strong> On va vous aider à comparer et suivre vos visites pour ne pas laisser passer la perle rare.
+                  <strong>⚠️ Les meilleurs lieux se réservent 12 à 18 mois à l'avance.</strong> On
+                  va vous aider à comparer et suivre vos visites pour ne pas laisser passer la perle
+                  rare.
                 </p>
               </div>
             )}
@@ -904,11 +989,15 @@ export default function OnboardingPage() {
                 <p className="text-xs text-amber-700 mt-1">prestataires à gérer</p>
               </div>
               <div className="bg-purple-light rounded-xl p-4 text-center">
-                <p className="text-2xl font-bold text-purple-dark">{data.estimated_guests || "~50"}</p>
+                <p className="text-2xl font-bold text-purple-dark">
+                  {data.estimated_guests || "~50"}
+                </p>
                 <p className="text-xs text-purple-700 mt-1">invités à suivre</p>
               </div>
               <div className="bg-pink-light rounded-xl p-4 text-center">
-                <p className="text-2xl font-bold text-pink-dark">{data.total_budget ? `${(data.total_budget / 1000).toFixed(0)}k €` : "15k €"}</p>
+                <p className="text-2xl font-bold text-pink-dark">
+                  {data.total_budget ? `${(data.total_budget / 1000).toFixed(0)}k €` : "15k €"}
+                </p>
                 <p className="text-xs text-pink-700 mt-1">de budget à contrôler</p>
               </div>
             </div>
@@ -919,7 +1008,9 @@ export default function OnboardingPage() {
               </p>
               {PAIN_STATS.map((p, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <span className="text-red-500 font-bold text-sm flex-shrink-0 w-16 text-right">{p.stat}</span>
+                  <span className="text-red-500 font-bold text-sm flex-shrink-0 w-16 text-right">
+                    {p.stat}
+                  </span>
                   <span className="text-sm text-muted">{p.text}</span>
                 </div>
               ))}
@@ -927,7 +1018,8 @@ export default function OnboardingPage() {
 
             <div className="bg-gradient-to-r from-pink-light/50 to-purple-light/50 rounded-xl p-5 text-center">
               <p className="text-ink font-semibold text-sm">
-                CarnetMariage centralise tout en un seul endroit pour que vous profitiez de chaque moment au lieu de stresser.
+                CarnetMariage centralise tout en un seul endroit pour que vous profitiez de chaque
+                moment au lieu de stresser.
               </p>
             </div>
           </div>
@@ -946,18 +1038,47 @@ export default function OnboardingPage() {
                 Votre plan de mariage est prêt !
               </h2>
               <p className="text-muted text-sm">
-                Voici ce que CarnetMariage va créer pour {data.partner1_name} & {data.partner2_name} :
+                Voici ce que CarnetMariage va créer pour {data.partner1_name} & {data.partner2_name}{" "}
+                :
               </p>
             </div>
 
             <div className="space-y-3">
               {[
-                { icon: CheckCircle, text: `${getTaskCount()} tâches organisées par étapes et par date`, color: "text-emerald-600" },
-                { icon: Euro, text: `Suivi budgétaire avec ${data.total_budget ? (data.total_budget / 1000).toFixed(0) + "k €" : "votre budget"} pré-configuré`, color: "text-pink-dark" },
-                { icon: Users, text: `Gestion de ${data.estimated_guests || "vos"} invités avec suivi RSVP`, color: "text-purple-dark" },
-                { icon: MapPin, text: data.has_venue ? "Suivi du lieu réservé + prestataires" : "Comparateur de lieux avec 20+ salles déjà référencées", color: "text-blue-600" },
-                { icon: Calendar, text: data.months_left ? `Timeline personnalisée sur ${data.months_left} mois` : "Timeline adaptée à votre planning", color: "text-amber-600" },
-                { icon: Sparkles, text: `Ambiance ${data.style || "personnalisée"} : suggestions de déco et prestataires adaptés`, color: "text-purple-dark" },
+                {
+                  icon: CheckCircle,
+                  text: `${getTaskCount()} tâches organisées par étapes et par date`,
+                  color: "text-emerald-600",
+                },
+                {
+                  icon: Euro,
+                  text: `Suivi budgétaire avec ${data.total_budget ? (data.total_budget / 1000).toFixed(0) + "k €" : "votre budget"} pré-configuré`,
+                  color: "text-pink-dark",
+                },
+                {
+                  icon: Users,
+                  text: `Gestion de ${data.estimated_guests || "vos"} invités avec suivi RSVP`,
+                  color: "text-purple-dark",
+                },
+                {
+                  icon: MapPin,
+                  text: data.has_venue
+                    ? "Suivi du lieu réservé + prestataires"
+                    : "Comparateur de lieux avec 20+ salles déjà référencées",
+                  color: "text-blue-600",
+                },
+                {
+                  icon: Calendar,
+                  text: data.months_left
+                    ? `Timeline personnalisée sur ${data.months_left} mois`
+                    : "Timeline adaptée à votre planning",
+                  color: "text-amber-600",
+                },
+                {
+                  icon: Sparkles,
+                  text: `Ambiance ${data.style || "personnalisée"} : suggestions de déco et prestataires adaptés`,
+                  color: "text-purple-dark",
+                },
               ].map((item, i) => {
                 const Icon = item.icon;
                 return (
@@ -975,12 +1096,36 @@ export default function OnboardingPage() {
                   ✅ On s'occupe de vos inquiétudes :
                 </p>
                 <ul className="space-y-1">
-                  {data.biggest_fears.includes("budget") && <li className="text-emerald-700 text-xs">→ Alertes automatiques si vous approchez la limite budget</li>}
-                  {data.biggest_fears.includes("forget") && <li className="text-emerald-700 text-xs">→ Checklist exhaustive pour ne rien oublier</li>}
-                  {data.biggest_fears.includes("vendors") && <li className="text-emerald-700 text-xs">→ Pipeline prestataires : comparez, négociez, réservez</li>}
-                  {data.biggest_fears.includes("guests") && <li className="text-emerald-700 text-xs">→ Gestion invités + plan de table drag & drop</li>}
-                  {data.biggest_fears.includes("day") && <li className="text-emerald-700 text-xs">→ Timeline jour J minute par minute</li>}
-                  {data.biggest_fears.includes("stress") && <li className="text-emerald-700 text-xs">→ Tout centralisé = moins de mental charge = plus de complicité</li>}
+                  {data.biggest_fears.includes("budget") && (
+                    <li className="text-emerald-700 text-xs">
+                      → Alertes automatiques si vous approchez la limite budget
+                    </li>
+                  )}
+                  {data.biggest_fears.includes("forget") && (
+                    <li className="text-emerald-700 text-xs">
+                      → Checklist exhaustive pour ne rien oublier
+                    </li>
+                  )}
+                  {data.biggest_fears.includes("vendors") && (
+                    <li className="text-emerald-700 text-xs">
+                      → Pipeline prestataires : comparez, négociez, réservez
+                    </li>
+                  )}
+                  {data.biggest_fears.includes("guests") && (
+                    <li className="text-emerald-700 text-xs">
+                      → Gestion invités + plan de table drag & drop
+                    </li>
+                  )}
+                  {data.biggest_fears.includes("day") && (
+                    <li className="text-emerald-700 text-xs">
+                      → Timeline jour J minute par minute
+                    </li>
+                  )}
+                  {data.biggest_fears.includes("stress") && (
+                    <li className="text-emerald-700 text-xs">
+                      → Tout centralisé = moins de mental charge = plus de complicité
+                    </li>
+                  )}
                 </ul>
               </div>
             )}
@@ -1001,9 +1146,12 @@ export default function OnboardingPage() {
                   Votre panier personnalisé
                 </h2>
                 <p className="text-muted text-sm leading-relaxed">
-                  Sur base de vos réponses, voici les fonctionnalités qui vont vous simplifier la vie.
+                  Sur base de vos réponses, voici les fonctionnalités qui vont vous simplifier la
+                  vie.
                   <br />
-                  <span className="text-pink-dark font-medium">Vous pouvez les décocher si vous le souhaitez.</span>
+                  <span className="text-pink-dark font-medium">
+                    Vous pouvez les décocher si vous le souhaitez.
+                  </span>
                 </p>
               </div>
 
@@ -1022,9 +1170,11 @@ export default function OnboardingPage() {
                           : "border-brand-border bg-gray-50 opacity-70"
                       }`}
                     >
-                      <div className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors ${
-                        isChecked ? "bg-pink-dark border-pink-dark" : "border-gray-300 bg-white"
-                      }`}>
+                      <div
+                        className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-colors ${
+                          isChecked ? "bg-pink-dark border-pink-dark" : "border-gray-300 bg-white"
+                        }`}
+                      >
                         {isChecked && <CheckCircle size={12} className="text-white" />}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -1033,7 +1183,9 @@ export default function OnboardingPage() {
                             <Icon size={14} className="text-pink-dark flex-shrink-0" />
                             {item.label}
                           </span>
-                          <span className={`text-sm font-bold flex-shrink-0 ${isChecked ? "text-pink-dark" : "text-muted line-through"}`}>
+                          <span
+                            className={`text-sm font-bold flex-shrink-0 ${isChecked ? "text-pink-dark" : "text-muted line-through"}`}
+                          >
                             {item.price} €
                           </span>
                         </div>
@@ -1076,7 +1228,8 @@ export default function OnboardingPage() {
                         <span className="text-xl font-bold text-pink-dark">{BUNDLE_PRICE} €</span>
                       </div>
                       <p className="text-xs text-center text-pink-dark font-medium">
-                        🔥 Économisez {cartTotal - BUNDLE_PRICE} € avec le pack — paiement unique, accès à vie
+                        🔥 Économisez {cartTotal - BUNDLE_PRICE} € avec le pack — paiement unique,
+                        accès à vie
                       </p>
                     </>
                   ) : (
@@ -1102,7 +1255,8 @@ export default function OnboardingPage() {
           {/* Reassurance */}
           <div className="bg-emerald-50/60 rounded-xl p-4 text-center">
             <p className="text-sm text-emerald-800">
-              💚 <strong>Rassurez-vous :</strong> vous pouvez commencer gratuitement et débloquer ces fonctionnalités quand vous le souhaitez.
+              💚 <strong>Rassurez-vous :</strong> vous pouvez commencer gratuitement et débloquer
+              ces fonctionnalités quand vous le souhaitez.
             </p>
           </div>
         </div>
@@ -1150,8 +1304,8 @@ export default function OnboardingPage() {
                     </li>
                   ))}
                   <li className="flex items-center gap-2 text-sm text-ink font-medium">
-                    <Gift size={14} className="text-pink-dark flex-shrink-0" />
-                    + Tout illimité (tâches, budget, invités, prestataires, lieux)
+                    <Gift size={14} className="text-pink-dark flex-shrink-0" />+ Tout illimité
+                    (tâches, budget, invités, prestataires, lieux)
                   </li>
                 </ul>
 
@@ -1168,8 +1322,12 @@ export default function OnboardingPage() {
                 </Button>
 
                 <div className="flex items-center justify-center gap-4 text-xs text-muted">
-                  <span className="flex items-center gap-1"><Shield size={12} /> Paiement sécurisé</span>
-                  <span className="flex items-center gap-1"><Heart size={12} /> Satisfait ou remboursé 14j</span>
+                  <span className="flex items-center gap-1">
+                    <Shield size={12} /> Paiement sécurisé
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Heart size={12} /> Satisfait ou remboursé 14j
+                  </span>
                 </div>
               </div>
             </Card>
@@ -1228,7 +1386,10 @@ export default function OnboardingPage() {
                   Adresse email
                 </label>
                 <div className="relative">
-                  <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
+                  <Mail
+                    size={16}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
+                  />
                   <input
                     id="email"
                     type="email"
@@ -1246,7 +1407,10 @@ export default function OnboardingPage() {
                   Mot de passe
                 </label>
                 <div className="relative">
-                  <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
+                  <Lock
+                    size={16}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
+                  />
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -1281,7 +1445,9 @@ export default function OnboardingPage() {
                 ) : (
                   <UserPlus size={16} className="mr-2" />
                 )}
-                {hasPremiumItems ? `Créer mon compte & débloquer le Carnet Complet — ${finalPrice} €` : "Créer mon carnet gratuit"}
+                {hasPremiumItems
+                  ? `Créer mon compte & débloquer le Carnet Complet — ${finalPrice} €`
+                  : "Créer mon carnet gratuit"}
               </Button>
             </form>
 
@@ -1294,13 +1460,17 @@ export default function OnboardingPage() {
               et notre{" "}
               <Link href="/mentions-legales" className="underline hover:text-muted">
                 politique de confidentialité
-              </Link>.
+              </Link>
+              .
             </p>
 
             {/* Link to login */}
             <p className="text-center text-sm text-muted">
               Déjà un carnet ?{" "}
-              <Link href="/connexion" className="text-pink-dark hover:text-pink-main font-medium transition-colors">
+              <Link
+                href="/connexion"
+                className="text-pink-dark hover:text-pink-main font-medium transition-colors"
+              >
                 Connecte-toi
               </Link>
             </p>
@@ -1316,24 +1486,19 @@ export default function OnboardingPage() {
               <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
                 <AlertTriangle size={20} className="text-amber-600" />
               </div>
-              <button onClick={cancelRemoveFromCart} className="text-muted hover:text-ink transition-colors">
+              <button
+                onClick={cancelRemoveFromCart}
+                className="text-muted hover:text-ink transition-colors"
+              >
                 <X size={20} />
               </button>
             </div>
             <div>
-              <h3 className="font-serif text-lg font-bold text-ink mb-2">
-                Tu es sûr(e) ?
-              </h3>
-              <p className="text-sm text-muted leading-relaxed">
-                {nudgeItem.nudge}
-              </p>
+              <h3 className="font-serif text-lg font-bold text-ink mb-2">Tu es sûr(e) ?</h3>
+              <p className="text-sm text-muted leading-relaxed">{nudgeItem.nudge}</p>
             </div>
             <div className="flex gap-3">
-              <Button
-                variant="outline"
-                className="flex-1 text-sm"
-                onClick={confirmRemoveFromCart}
-              >
+              <Button variant="outline" className="flex-1 text-sm" onClick={confirmRemoveFromCart}>
                 Retirer quand même
               </Button>
               <Button
@@ -1349,9 +1514,7 @@ export default function OnboardingPage() {
       )}
 
       {/* Error */}
-      {error && (
-        <p className="text-sm text-red-500 text-center">{error}</p>
-      )}
+      {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
       {/* Navigation buttons */}
       {step <= 11 && (

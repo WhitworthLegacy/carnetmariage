@@ -5,15 +5,12 @@ import { PremiumGate } from "@/components/app/PremiumGate";
 export default function TablesPage() {
   return (
     <div className="space-y-6">
-      <h1 className="font-serif text-2xl sm:text-3xl text-ink">
-        Plan de table
-      </h1>
+      <h1 className="font-serif text-2xl sm:text-3xl text-ink">Plan de table</h1>
 
       <PremiumGate requiredPlan="ultimate">
         <div className="space-y-6">
           <p className="text-muted">
-            Organisez vos invites sur un plan de table interactif en
-            glisser-deposer.
+            Organisez vos invites sur un plan de table interactif en glisser-deposer.
           </p>
 
           {/* Placeholder table planner */}
@@ -25,9 +22,7 @@ export default function TablesPage() {
                   {/* Round table */}
                   <div className="relative w-28 h-28">
                     <div className="absolute inset-3 rounded-full bg-white shadow-card border border-brand-border/50 flex items-center justify-center">
-                      <span className="text-sm font-semibold text-ink">
-                        Table {tableNum}
-                      </span>
+                      <span className="text-sm font-semibold text-ink">Table {tableNum}</span>
                     </div>
                     {/* Seats around the table */}
                     {[0, 60, 120, 180, 240, 300].map((deg) => (
@@ -42,9 +37,7 @@ export default function TablesPage() {
                       />
                     ))}
                   </div>
-                  <span className="text-xs text-muted mt-2">
-                    6 places
-                  </span>
+                  <span className="text-xs text-muted mt-2">6 places</span>
                 </div>
               ))}
             </div>
@@ -52,9 +45,7 @@ export default function TablesPage() {
             {/* Head table */}
             <div className="mt-10 flex flex-col items-center">
               <div className="w-64 h-16 rounded-2xl bg-white shadow-card border border-brand-border/50 flex items-center justify-center">
-                <span className="text-sm font-semibold text-ink">
-                  Table d&apos;honneur
-                </span>
+                <span className="text-sm font-semibold text-ink">Table d&apos;honneur</span>
               </div>
               <div className="flex gap-2 mt-2">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (

@@ -1,14 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Save,
-  LogOut,
-  Crown,
-  Sparkles,
-  Check,
-  ExternalLink,
-} from "lucide-react";
+import { Save, LogOut, Crown, Sparkles, Check, ExternalLink } from "lucide-react";
 import {
   Button,
   Card,
@@ -25,26 +18,20 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 const PLAN_FEATURES: Record<string, string[]> = {
-  free: [
-    "30 taches",
-    "15 lignes de budget",
-    "10 prestataires",
-    "50 invites",
-    "3 lieux",
-  ],
+  free: ["30 tâches", "15 lignes de budget", "10 prestataires", "50 invités", "3 lieux"],
   premium: [
-    "Taches illimitees",
-    "Budget illimite",
-    "Prestataires illimites",
-    "Invites illimites",
-    "Lieux illimites",
+    "Tâches illimitées",
+    "Budget illimité",
+    "Prestataires illimités",
+    "Invités illimités",
+    "Lieux illimités",
     "Timeline du mariage",
     "Export PDF",
   ],
   ultimate: [
     "Tout Premium",
     "Plan de table interactif",
-    "Site web personnalise",
+    "Site web personnalisé",
     "Partage collaboratif",
     "Support prioritaire",
   ],
@@ -87,7 +74,7 @@ export default function ParametresPage() {
       const json = await res.json();
 
       if (json.ok) {
-        toast("Parametres enregistres");
+        toast("Paramètres enregistrés");
       } else {
         toast(json.error?.message || "Erreur", "error");
       }
@@ -110,7 +97,7 @@ export default function ParametresPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <h1 className="font-serif text-2xl sm:text-3xl text-ink">Parametres</h1>
+      <h1 className="font-serif text-2xl sm:text-3xl text-ink">Paramètres</h1>
 
       <Tabs
         tabs={[
@@ -130,7 +117,7 @@ export default function ParametresPage() {
                 <form onSubmit={handleSaveWedding} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Input
-                      label="Prenom partenaire 1"
+                      label="Prénom partenaire 1"
                       value={weddingForm.partner1_name}
                       onChange={(e) =>
                         setWeddingForm({
@@ -141,7 +128,7 @@ export default function ParametresPage() {
                       placeholder="Marie"
                     />
                     <Input
-                      label="Prenom partenaire 2"
+                      label="Prénom partenaire 2"
                       value={weddingForm.partner2_name}
                       onChange={(e) =>
                         setWeddingForm({
@@ -195,15 +182,13 @@ export default function ParametresPage() {
                 </CardHeader>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-ink">
-                      Email
-                    </label>
+                    <label className="text-sm font-medium text-ink">Email</label>
                     <p className="text-sm text-muted mt-1">{user.email}</p>
                   </div>
                   <div className="pt-2">
                     <Button variant="danger" onClick={handleLogout}>
                       <LogOut className="w-4 h-4 mr-2" />
-                      Se deconnecter
+                      Se déconnecter
                     </Button>
                   </div>
                 </div>
@@ -223,19 +208,15 @@ export default function ParametresPage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-lg font-semibold text-ink">
-                        {planLabel}
-                      </span>
-                      <Badge
-                        variant={isPremium ? "success" : "default"}
-                      >
+                      <span className="text-lg font-semibold text-ink">{planLabel}</span>
+                      <Badge variant={isPremium ? "success" : "default"}>
                         {isPremium ? "Actif" : "Gratuit"}
                       </Badge>
                     </div>
                     <p className="text-sm text-muted">
                       {isPremium
-                        ? "Vous profitez de toutes les fonctionnalites."
-                        : "Passez a Premium pour debloquer plus de fonctionnalites."}
+                        ? "Vous profitez de toutes les fonctionnalités."
+                        : "Passez à Premium pour débloquer plus de fonctionnalités."}
                     </p>
                   </div>
                 </div>
@@ -243,7 +224,7 @@ export default function ParametresPage() {
                   <div className="mt-4 pt-4 border-t border-brand-border/50">
                     <Button variant="outline">
                       <ExternalLink className="w-4 h-4 mr-2" />
-                      Gerer mon abonnement
+                      Gérer mon abonnement
                     </Button>
                   </div>
                 )}
@@ -260,18 +241,13 @@ export default function ParametresPage() {
                     <div className="mb-4">
                       <h3 className="font-serif text-xl text-ink">Premium</h3>
                       <div className="flex items-baseline gap-1 mt-2">
-                        <span className="text-3xl font-bold text-ink">
-                          {PLAN_PRICES.premium}
-                        </span>
+                        <span className="text-3xl font-bold text-ink">{PLAN_PRICES.premium}</span>
                         <span className="text-muted text-sm">/mois</span>
                       </div>
                     </div>
                     <ul className="space-y-2.5 mb-6">
                       {PLAN_FEATURES.premium.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-center gap-2 text-sm text-ink"
-                        >
+                        <li key={feature} className="flex items-center gap-2 text-sm text-ink">
                           <Check className="w-4 h-4 text-pink-main flex-shrink-0" />
                           {feature}
                         </li>
@@ -279,7 +255,7 @@ export default function ParametresPage() {
                     </ul>
                     <Button className="w-full">
                       <Sparkles className="w-4 h-4 mr-2" />
-                      Passer a Premium
+                      Passer à Premium
                     </Button>
                   </Card>
 
@@ -288,18 +264,13 @@ export default function ParametresPage() {
                     <div className="mb-4">
                       <h3 className="font-serif text-xl text-ink">Ultimate</h3>
                       <div className="flex items-baseline gap-1 mt-2">
-                        <span className="text-3xl font-bold text-ink">
-                          {PLAN_PRICES.ultimate}
-                        </span>
+                        <span className="text-3xl font-bold text-ink">{PLAN_PRICES.ultimate}</span>
                         <span className="text-muted text-sm">/mois</span>
                       </div>
                     </div>
                     <ul className="space-y-2.5 mb-6">
                       {PLAN_FEATURES.ultimate.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex items-center gap-2 text-sm text-ink"
-                        >
+                        <li key={feature} className="flex items-center gap-2 text-sm text-ink">
                           <Check className="w-4 h-4 text-purple-main flex-shrink-0" />
                           {feature}
                         </li>
@@ -307,7 +278,7 @@ export default function ParametresPage() {
                     </ul>
                     <Button variant="secondary" className="w-full">
                       <Crown className="w-4 h-4 mr-2" />
-                      Passer a Ultimate
+                      Passer à Ultimate
                     </Button>
                   </Card>
                 </div>
@@ -323,40 +294,29 @@ export default function ParametresPage() {
                     <thead>
                       <tr className="border-b border-brand-border">
                         <th className="text-left font-medium text-muted px-3 py-2">
-                          Fonctionnalite
+                          Fonctionnalité
                         </th>
-                        <th className="text-center font-medium text-muted px-3 py-2">
-                          Gratuit
-                        </th>
-                        <th className="text-center font-medium text-muted px-3 py-2">
-                          Premium
-                        </th>
-                        <th className="text-center font-medium text-muted px-3 py-2">
-                          Ultimate
-                        </th>
+                        <th className="text-center font-medium text-muted px-3 py-2">Gratuit</th>
+                        <th className="text-center font-medium text-muted px-3 py-2">Premium</th>
+                        <th className="text-center font-medium text-muted px-3 py-2">Ultimate</th>
                       </tr>
                     </thead>
                     <tbody>
                       {[
-                        ["Taches", "30", "Illimite", "Illimite"],
-                        ["Lignes budget", "15", "Illimite", "Illimite"],
-                        ["Prestataires", "10", "Illimite", "Illimite"],
-                        ["Invites", "50", "Illimite", "Illimite"],
-                        ["Lieux", "3", "Illimite", "Illimite"],
+                        ["Tâches", "30", "Illimité", "Illimité"],
+                        ["Lignes budget", "15", "Illimité", "Illimité"],
+                        ["Prestataires", "10", "Illimité", "Illimité"],
+                        ["Invités", "50", "Illimité", "Illimité"],
+                        ["Lieux", "3", "Illimité", "Illimité"],
                         ["Timeline", "—", "Oui", "Oui"],
                         ["Export PDF", "—", "Oui", "Oui"],
                         ["Plan de table", "—", "—", "Oui"],
                         ["Site web", "—", "—", "Oui"],
                         ["Partage collaboratif", "—", "—", "Oui"],
                       ].map(([feature, free, premium, ultimate]) => (
-                        <tr
-                          key={feature}
-                          className="border-b border-brand-border/50"
-                        >
+                        <tr key={feature} className="border-b border-brand-border/50">
                           <td className="px-3 py-2.5 text-ink">{feature}</td>
-                          <td className="px-3 py-2.5 text-center text-muted">
-                            {free}
-                          </td>
+                          <td className="px-3 py-2.5 text-center text-muted">{free}</td>
                           <td className="px-3 py-2.5 text-center text-pink-dark font-medium">
                             {premium}
                           </td>

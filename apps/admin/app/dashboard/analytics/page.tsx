@@ -30,9 +30,7 @@ export default function AnalyticsPage() {
     <div className="animate-fade-in space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-ink">Analytics</h1>
-        <p className="mt-1 text-sm text-muted">
-          Analyses avancees et metriques detaillees
-        </p>
+        <p className="mt-1 text-sm text-muted">Analyses avancees et metriques detaillees</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

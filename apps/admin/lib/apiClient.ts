@@ -1,7 +1,4 @@
-export async function apiFetch<T>(
-  path: string,
-  options?: RequestInit
-): Promise<T> {
+export async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const token = document.cookie
     .split("; ")
     .find((row) => row.startsWith("sb-access-token="))
@@ -17,12 +14,8 @@ export async function apiFetch<T>(
   });
 
   if (!res.ok) {
-    const error = await res
-      .json()
-      .catch(() => ({ message: "Erreur reseau" }));
-    throw new Error(
-      error.error?.message || error.message || "Erreur inconnue"
-    );
+    const error = await res.json().catch(() => ({ message: "Erreur reseau" }));
+    throw new Error(error.error?.message || error.message || "Erreur inconnue");
   }
 
   return res.json();

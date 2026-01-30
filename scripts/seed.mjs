@@ -1,10 +1,25 @@
-import { createClient } from '/Users/macbook/Dev/clients/carnetmariage/apps/web/node_modules/@supabase/supabase-js/dist/index.mjs';
+import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+// Get current directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // ─── Supabase client ────────────────────────────────────────────────
-const SUPABASE_URL = 'https://egtcoeimjhpsbawtpdzd.supabase.co';
-const SUPABASE_SERVICE_ROLE_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVndGNvZWltamhwc2Jhd3RwZHpkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzY5MzY1MywiZXhwIjoyMDgzMjY5NjUzfQ.no_z4sTtJBMwWVh6QV4yWrflQEWkfgonqjG1471qLtU';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  console.error('ERROR: Missing required environment variables');
+  console.error('Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in your .env file');
+  process.exit(1);
+}
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   auth: { autoRefreshToken: false, persistSession: false },
@@ -127,7 +142,7 @@ async function main() {
 
   // ── Step 4: Import venues from CSV ────────────────────────────────
   log(4, 'Reading CSV...');
-  const csvPath = '/Users/macbook/Dev/clients/carnetmariage/files/csv/Lieux_Salles.csv';
+  const csvPath = join(__dirname, '../files/csv/Lieux_Salles.csv');
   const csvText = readFileSync(csvPath, 'utf-8');
   const rows = parseCSV(csvText);
   log(4, `Parsed ${rows.length} rows from CSV.`);

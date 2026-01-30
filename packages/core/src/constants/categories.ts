@@ -32,13 +32,7 @@ export const VENDOR_CATEGORIES = [
   "Transport",
 ] as const;
 
-export const GUEST_GROUPS = [
-  "Famille",
-  "Amis",
-  "Collègues",
-  "Voisins",
-  "Autre",
-] as const;
+export const GUEST_GROUPS = ["Famille", "Amis", "Collègues", "Voisins", "Autre"] as const;
 
 export const WEDDING_STYLES = [
   "Champêtre",

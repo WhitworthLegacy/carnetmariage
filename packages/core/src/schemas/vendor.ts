@@ -7,7 +7,9 @@ export const VendorSchema = z.object({
   updated_at: z.string(),
   name: z.string().min(1),
   category: z.string(),
-  status: z.enum(["contact", "quote", "meeting", "negotiating", "booked", "paid", "refused"]).default("contact"),
+  status: z
+    .enum(["contact", "quote", "meeting", "negotiating", "booked", "paid", "refused"])
+    .default("contact"),
   price: z.number().default(0),
   email: z.string().nullable(),
   phone: z.string().nullable(),
@@ -20,7 +22,9 @@ export const VendorSchema = z.object({
 export const CreateVendorSchema = z.object({
   name: z.string().min(1),
   category: z.string(),
-  status: z.enum(["contact", "quote", "meeting", "negotiating", "booked", "paid", "refused"]).optional(),
+  status: z
+    .enum(["contact", "quote", "meeting", "negotiating", "booked", "paid", "refused"])
+    .optional(),
   price: z.number().min(0).optional(),
   email: z.string().email().nullable().optional(),
   phone: z.string().nullable().optional(),
