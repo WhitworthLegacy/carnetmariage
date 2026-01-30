@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { useState } from "react";
 import { Save, LogOut, Crown, Sparkles, Check, ExternalLink } from "lucide-react";
 import {
