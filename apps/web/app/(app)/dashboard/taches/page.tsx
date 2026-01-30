@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, X, Calendar, ListTodo, Columns3, Pencil, Trash2, AlertTriangle } from "lucide-react";
+import { Plus, X, Calendar, ListTodo as _ListTodo, Columns3 as _Columns3, Pencil, Trash2, AlertTriangle } from "lucide-react";
 import { Button, Card, Modal, Input, Select, Badge, Tabs, useToast } from "@carnetmariage/ui";
 import {
   TASK_STATUSES,

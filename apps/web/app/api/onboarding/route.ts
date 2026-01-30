@@ -11,7 +11,7 @@ import {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, fullName, wedding, plan } = body;
+    const { email, password, fullName, wedding, plan: _plan } = body;
 
     if (!email || !password || !fullName) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });

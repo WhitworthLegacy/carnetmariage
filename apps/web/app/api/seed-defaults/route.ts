@@ -12,7 +12,7 @@ import {
  * Seeds default tasks and budget lines for the current user's wedding
  * Only seeds if the wedding has no tasks or budget lines
  */
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const supabase = await createClient();
     const {

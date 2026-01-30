@@ -1,6 +1,6 @@
 import { requireAdmin } from "@/lib/auth";
-import { jsonOk, jsonError } from "@/lib/apiResponse";
-import { makeError } from "@carnetmariage/core";
+import { jsonOk, jsonError as _jsonError } from "@/lib/apiResponse";
+import { makeError as _makeError } from "@carnetmariage/core";
 import { createServiceClient } from "@/lib/supabase/server";
 
 export async function GET() {

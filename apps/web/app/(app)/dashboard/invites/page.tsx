@@ -12,7 +12,7 @@ const statusOptions = Object.entries(GUEST_STATUSES).map(([value, label]) => ({
 
 const groupOptions = GUEST_GROUPS.map((g) => ({ value: g, label: g }));
 
-const statusBadgeVariant: Record<string, "default" | "success" | "danger" | "warning" | "purple"> =
+const _statusBadgeVariant: Record<string, "default" | "success" | "danger" | "warning" | "purple"> =
   {
     pending: "default",
     confirmed: "success",

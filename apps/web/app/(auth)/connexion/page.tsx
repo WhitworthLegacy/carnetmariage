@@ -7,7 +7,7 @@ import Link from "next/link";
 import { LogIn, Loader2 } from "lucide-react";
 
 export default function ConnexionPage() {
-  const router = useRouter();
+  const _router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

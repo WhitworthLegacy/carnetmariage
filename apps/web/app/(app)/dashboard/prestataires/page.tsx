@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Plus, Pencil, Trash2, Mail, Phone, Euro, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Mail, Phone as _Phone, Euro, X } from "lucide-react";
 import { Button, Card, Modal, Input, Select, Badge, Tabs, useToast } from "@carnetmariage/ui";
 import {
   VENDOR_STATUSES,

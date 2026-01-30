@@ -20,7 +20,7 @@ interface TopbarProps {
 
 export function Topbar({ wedding, user }: TopbarProps) {
   const router = useRouter();
-  const pathname = usePathname();
+  const _pathname = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const days = daysLeft(wedding.wedding_date);

@@ -44,7 +44,7 @@ const PLAN_PRICES: Record<string, string> = {
 };
 
 export default function ParametresPage() {
-  const { wedding, user, isPremium, isUltimate } = useWedding();
+  const { wedding, user, isPremium, isUltimate: _isUltimate } = useWedding();
   const { toast } = useToast();
   const router = useRouter();
 
