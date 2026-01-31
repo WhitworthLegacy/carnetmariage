@@ -51,12 +51,15 @@ export async function POST(_request: NextRequest) {
         .eq("wedding_id", wedding.id);
 
       if (venueCount === 0) {
-        // Seed venues
+        // Seed venues with website and type columns
         const venuesToInsert = DEFAULT_VENUES.map((venue) => ({
           wedding_id: wedding.id,
           name: venue.name,
           location: venue.location,
-          notes: `Type: ${venue.type}${venue.website ? ` | Site: ${venue.website}` : ""}${venue.contact_phone ? ` | Tél: ${venue.contact_phone}` : ""}`,
+          type: venue.type,
+          website: venue.website || null,
+          contact_phone: venue.contact_phone || null,
+          notes: null,
           status: "visit" as const,
           price: 0,
           capacity: 0,

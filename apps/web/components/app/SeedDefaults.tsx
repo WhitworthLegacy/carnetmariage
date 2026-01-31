@@ -14,7 +14,7 @@ export function SeedDefaults() {
     hasRun.current = true;
 
     // Check version - bump this when adding new seed categories
-    const SEED_VERSION = "2"; // v2 = added venues + vendors
+    const SEED_VERSION = "3"; // v3 = venues with website/type columns
     const seededVersion = sessionStorage.getItem("carnet_seeded_version");
 
     // Skip if already seeded with current version
