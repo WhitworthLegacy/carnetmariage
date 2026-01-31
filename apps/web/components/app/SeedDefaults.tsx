@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 /**
  * Client component that seeds default data if needed
- * Only runs once per session
+ * Runs once per session, but always checks for new data types (venues, vendors)
  */
 export function SeedDefaults() {
   const hasRun = useRef(false);
@@ -13,22 +13,25 @@ export function SeedDefaults() {
     if (hasRun.current) return;
     hasRun.current = true;
 
-    // Check if we already seeded in this session
-    const seeded = sessionStorage.getItem("carnet_seeded");
-    if (seeded) return;
+    // Check version - bump this when adding new seed categories
+    const SEED_VERSION = "2"; // v2 = added venues + vendors
+    const seededVersion = sessionStorage.getItem("carnet_seeded_version");
+
+    // Skip if already seeded with current version
+    if (seededVersion === SEED_VERSION) return;
 
     // Call the seed endpoint
     fetch("/api/seed-defaults", { method: "POST" })
       .then((res) => res.json())
       .then((data) => {
-        if (data.tasksSeeded > 0 || data.budgetSeeded > 0 || data.vendorsSeeded > 0 || data.venuesSeeded > 0) {
-          // Mark as seeded
-          sessionStorage.setItem("carnet_seeded", "true");
+        const anythingSeeded = data.tasksSeeded > 0 || data.budgetSeeded > 0 || data.vendorsSeeded > 0 || data.venuesSeeded > 0;
+
+        // Mark as seeded with version
+        sessionStorage.setItem("carnet_seeded_version", SEED_VERSION);
+
+        if (anythingSeeded) {
           // Reload to show new data
           window.location.reload();
-        } else {
-          // Already had data, mark as seeded
-          sessionStorage.setItem("carnet_seeded", "true");
         }
       })
       .catch((err) => {
