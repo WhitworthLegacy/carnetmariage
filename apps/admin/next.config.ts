@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const WEB_API_URL = process.env.WEB_API_URL || "http://localhost:3002";
+const WEB_API_URL = process.env.NEXT_PUBLIC_WEB_API_URL || "http://localhost:3002";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@carnetmariage/core", "@carnetmariage/ui"],
