@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { Button } from "@carnetmariage/ui";
 import { createPortal } from "react-dom";
+import { useWedding } from "@/contexts/WeddingContext";
 
 interface TourStep {
   target: string;
@@ -113,6 +114,7 @@ export function GuidedTour({ forceStart = false }: GuidedTourProps) {
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const { hasSeenTour, markTourAsSeen } = useWedding();
 
   const step = TOUR_STEPS[currentStep];
 
@@ -134,7 +136,6 @@ export function GuidedTour({ forceStart = false }: GuidedTourProps) {
   }, []);
 
   useEffect(() => {
-    const hasSeenTour = localStorage.getItem("carnetmariage-tour-completed");
     const shouldShowTour = sessionStorage.getItem("show-guided-tour");
 
     if (forceStart || shouldShowTour === "true") {
@@ -144,12 +145,13 @@ export function GuidedTour({ forceStart = false }: GuidedTourProps) {
       }, 500);
       sessionStorage.removeItem("show-guided-tour");
     } else if (!hasSeenTour && pathname === "/dashboard") {
+      // First visit to dashboard - show tour
       setTimeout(() => {
         setIsRunning(true);
         setCurrentStep(0);
       }, 1000);
     }
-  }, [forceStart, pathname]);
+  }, [forceStart, pathname, hasSeenTour]);
 
   useEffect(() => {
     if (isRunning) {
@@ -184,7 +186,8 @@ export function GuidedTour({ forceStart = false }: GuidedTourProps) {
 
   const handleClose = () => {
     setIsRunning(false);
-    localStorage.setItem("carnetmariage-tour-completed", "true");
+    // Save to Supabase
+    markTourAsSeen();
   };
 
   const handleSkip = () => {

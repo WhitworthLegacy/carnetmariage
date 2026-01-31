@@ -15,20 +15,31 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   if (!user) redirect("/connexion");
 
-  const { data: wedding } = await supabase
-    .from("weddings")
-    .select("*")
-    .eq("owner_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+  // Fetch wedding and profile in parallel
+  const [weddingRes, profileRes] = await Promise.all([
+    supabase
+      .from("weddings")
+      .select("*")
+      .eq("owner_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single(),
+    supabase
+      .from("profiles")
+      .select("id, has_seen_tour")
+      .eq("id", user.id)
+      .single(),
+  ]);
+
+  const wedding = weddingRes.data;
+  const profile = profileRes.data;
 
   // No wedding yet -> redirect to onboarding
   if (!wedding) redirect("/onboarding");
 
   return (
     <ToastProvider>
-      <WeddingProvider wedding={wedding} user={user}>
+      <WeddingProvider wedding={wedding} user={user} profile={profile ?? undefined}>
         <SeedDefaults />
         <GuidedTourWrapper />
         <div className="flex h-screen bg-ivory">
