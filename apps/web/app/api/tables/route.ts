@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { requireAuth } from "@/lib/auth";
 import { jsonOk, jsonError, jsonCreated } from "@/lib/apiResponse";
-import { makeError, checkPlanLimit } from "@carnetmariage/core";
+import { makeError } from "@carnetmariage/core";
 
 export async function GET() {
   const auth = await requireAuth();
@@ -23,10 +23,9 @@ export async function POST(request: NextRequest) {
   if (auth.error) return auth.error;
   if (!auth.wedding) return jsonError(makeError("NO_WEDDING", "Aucun mariage trouvé"), 404);
 
-  // Check plan limit (tables are premium-only)
-  const limitCheck = checkPlanLimit(auth.wedding.plan, "tables", 0);
-  if (!limitCheck.allowed) {
-    return jsonError(makeError("PLAN_LIMIT", limitCheck.message), 403);
+  // Tables are premium-only feature
+  if (!["premium", "lifetime"].includes(auth.wedding.plan)) {
+    return jsonError(makeError("PLAN_LIMIT", "Le plan de table est réservé aux utilisateurs Premium"), 403);
   }
 
   const body = await request.json();

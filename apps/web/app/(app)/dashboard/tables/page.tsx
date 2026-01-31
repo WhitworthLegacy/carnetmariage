@@ -18,13 +18,10 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   Button,
   Card,
-  CardHeader,
-  CardTitle,
   Modal,
   Input,
   Select,
   useToast,
-  Badge,
 } from "@carnetmariage/ui";
 import { PremiumGate } from "@/components/app/PremiumGate";
 import type { Guest } from "@carnetmariage/core";
