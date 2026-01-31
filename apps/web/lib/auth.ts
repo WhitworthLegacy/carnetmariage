@@ -35,7 +35,7 @@ export async function requireAdmin() {
   const authHeader = headersList.get("authorization");
 
   let user = null;
-  let supabase = await createClient();
+  const supabase = await createClient();
 
   // Check for Bearer token (from admin app)
   if (authHeader?.startsWith("Bearer ")) {

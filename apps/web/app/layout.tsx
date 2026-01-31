@@ -32,6 +32,10 @@ export const metadata: Metadata = {
     "liste invités",
   ],
   metadataBase: new URL("https://carnetmariage.com"),
+  icons: {
+    icon: "/logo.svg",
+    apple: "/logo.svg",
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",

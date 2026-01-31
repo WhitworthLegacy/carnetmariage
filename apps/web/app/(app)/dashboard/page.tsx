@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardHeader, CardTitle, Badge } from "@carnetmariage/ui";
-import { CheckSquare, Wallet, Users, Star, Heart, CalendarClock, Activity } from "lucide-react";
+import { CheckSquare, Wallet, Users, Star, Heart, CalendarClock, Activity, ChevronRight } from "lucide-react";
 import { daysLeft, prettyDate, formatPrice, progressPercent } from "@/lib/utils";
 import { ProgressRing } from "@/components/app/ProgressRing";
 
@@ -297,6 +298,7 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
     type: string;
     icon: React.ReactNode;
     date: string;
+    href: string;
   };
 
   const items: ActivityItem[] = [];
@@ -308,6 +310,7 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
       type: "Tâche",
       icon: <CheckSquare size={14} className="text-emerald-500" />,
       date: t.created_at,
+      href: "/dashboard/taches",
     })
   );
 
@@ -318,6 +321,7 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
       type: "Invité",
       icon: <Users size={14} className="text-blue-500" />,
       date: g.created_at,
+      href: "/dashboard/invites",
     })
   );
 
@@ -328,6 +332,7 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
       type: "Prestataire",
       icon: <Star size={14} className="text-pink-dark" />,
       date: v.created_at,
+      href: "/dashboard/prestataires",
     })
   );
 
@@ -338,6 +343,7 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
       type: "Dépense",
       icon: <Wallet size={14} className="text-purple-dark" />,
       date: b.created_at,
+      href: "/dashboard/budget",
     })
   );
 
@@ -360,18 +366,21 @@ async function RecentActivity({ weddingId }: { weddingId: string }) {
   return (
     <ul className="space-y-3">
       {recent.map((item) => (
-        <li
-          key={item.id}
-          className="flex items-center gap-3 p-3 rounded-xl bg-ivory/50 hover:bg-ivory transition-colors"
-        >
-          <div className="w-8 h-8 rounded-lg bg-white border border-brand-border/50 flex items-center justify-center shrink-0">
-            {item.icon}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-ink truncate">{item.label}</p>
-            <p className="text-xs text-muted">{item.type}</p>
-          </div>
-          <time className="text-xs text-muted-light shrink-0">{formatRelativeDate(item.date)}</time>
+        <li key={item.id}>
+          <Link
+            href={item.href}
+            className="flex items-center gap-3 p-3 rounded-xl bg-ivory/50 hover:bg-ivory hover:shadow-sm transition-all group cursor-pointer"
+          >
+            <div className="w-8 h-8 rounded-lg bg-white border border-brand-border/50 flex items-center justify-center shrink-0 group-hover:border-pink-main/30 transition-colors">
+              {item.icon}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-ink truncate group-hover:text-pink-dark transition-colors">{item.label}</p>
+              <p className="text-xs text-muted">{item.type}</p>
+            </div>
+            <time className="text-xs text-muted-light shrink-0">{formatRelativeDate(item.date)}</time>
+            <ChevronRight size={14} className="text-muted-light group-hover:text-pink-main transition-colors shrink-0" />
+          </Link>
         </li>
       ))}
     </ul>

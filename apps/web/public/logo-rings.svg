@@ -1,0 +1,19 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left ring -->
+  <circle cx="18" cy="24" r="12" stroke="#b76e79" stroke-width="4" fill="none"/>
+  <circle cx="18" cy="24" r="12" stroke="url(#roseGold1)" stroke-width="4" fill="none"/>
+  <!-- Right ring -->
+  <circle cx="30" cy="24" r="12" stroke="#d4a574" stroke-width="4" fill="none"/>
+  <circle cx="30" cy="24" r="12" stroke="url(#gold1)" stroke-width="4" fill="none"/>
+  <!-- Gradients -->
+  <defs>
+    <linearGradient id="roseGold1" x1="6" y1="12" x2="30" y2="36">
+      <stop offset="0%" stop-color="#e8b4b8"/>
+      <stop offset="100%" stop-color="#b76e79"/>
+    </linearGradient>
+    <linearGradient id="gold1" x1="18" y1="12" x2="42" y2="36">
+      <stop offset="0%" stop-color="#f4d9a0"/>
+      <stop offset="100%" stop-color="#d4a574"/>
+    </linearGradient>
+  </defs>
+</svg>

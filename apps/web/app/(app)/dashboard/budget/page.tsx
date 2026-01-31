@@ -75,6 +75,7 @@ export default function BudgetPage() {
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [showLegend, setShowLegend] = useState(false);
 
   const fetchLines = useCallback(async () => {
     try {
@@ -305,8 +306,22 @@ export default function BudgetPage() {
             </div>
           )}
         </div>
+        {/* Legend toggle */}
+        <button
+          onClick={() => setShowLegend(!showLegend)}
+          onMouseEnter={() => setShowLegend(true)}
+          className="text-xs text-muted hover:text-pink-dark transition-colors flex items-center gap-1"
+        >
+          {showLegend ? "Masquer" : "Voir"} la légende
+          <span className={`transition-transform ${showLegend ? "rotate-180" : ""}`}>▼</span>
+        </button>
+
         {/* Legend */}
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+        <div
+          className={`flex flex-wrap justify-center gap-x-4 gap-y-2 transition-all duration-300 overflow-hidden ${
+            showLegend ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
           {categoryBreakdown.map((cat, i) => {
             const isSelected = selectedCategory === cat.name;
             return (
@@ -476,16 +491,46 @@ export default function BudgetPage() {
               )}
               {sortedLines.map((line) => {
                 const remaining = (line.estimated || 0) - (line.paid || 0);
+                const catIndex = categoryBreakdown.findIndex((c) => c.name === (line.category || "Autre"));
+                const catColor = CHART_COLORS[catIndex >= 0 ? catIndex % CHART_COLORS.length : 0];
+                const progressPercent = line.estimated > 0 ? Math.min(100, ((line.paid || 0) / line.estimated) * 100) : 0;
+
                 return (
                   <tr
                     key={line.id}
                     onClick={() => openEditModal(line)}
-                    className="border-b border-brand-border/50 hover:bg-ivory/50 transition-colors cursor-pointer"
+                    className="border-b border-brand-border/50 hover:bg-ivory/50 transition-colors cursor-pointer group"
                   >
-                    <td className="px-4 py-3 font-medium text-ink">{line.label}</td>
-                    <td className="px-4 py-3 text-muted">{line.category || "—"}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-1 h-8 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: catColor }}
+                        />
+                        <span className="font-medium text-ink">{line.label}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span
+                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs"
+                        style={{ backgroundColor: `${catColor}20`, color: catColor }}
+                      >
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: catColor }} />
+                        {line.category || "Autre"}
+                      </span>
+                    </td>
                     <td className="px-4 py-3 text-ink">{formatPrice(line.estimated || 0)}</td>
-                    <td className="px-4 py-3 text-ink">{formatPrice(line.paid || 0)}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-ink">{formatPrice(line.paid || 0)}</span>
+                        <div className="w-12 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all"
+                            style={{ width: `${progressPercent}%`, backgroundColor: catColor }}
+                          />
+                        </div>
+                      </div>
+                    </td>
                     <td className="px-4 py-3 text-ink font-medium">{formatPrice(remaining)}</td>
                     <td className="px-4 py-3">
                       <Badge variant={statusBadgeVariant[line.status]}>
@@ -493,7 +538,7 @@ export default function BudgetPage() {
                       </Badge>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center justify-end gap-1">
+                      <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();

@@ -10,6 +10,10 @@ const sans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "CarnetMariage Admin",
+  icons: {
+    icon: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -10,7 +10,7 @@ export default function TablesPage() {
       <PremiumGate requiredPlan="ultimate">
         <div className="space-y-6">
           <p className="text-muted">
-            Organisez vos invites sur un plan de table interactif en glisser-deposer.
+            Organisez vos invités sur un plan de table interactif en glisser-déposer.
           </p>
 
           {/* Placeholder table planner */}

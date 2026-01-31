@@ -112,10 +112,10 @@ export default function LieuxPage() {
 
       if (editingId) {
         setVenues((prev) => prev.map((v) => (v.id === editingId ? json.data : v)));
-        toast("Lieu mis a jour");
+        toast("Lieu mis à jour");
       } else {
         setVenues((prev) => [...prev, json.data]);
-        toast("Lieu ajoute");
+        toast("Lieu ajouté");
       }
       setModalOpen(false);
     } catch {
@@ -131,7 +131,7 @@ export default function LieuxPage() {
       const json = await res.json();
       if (json.ok) {
         setVenues((prev) => prev.filter((v) => v.id !== id));
-        toast("Lieu supprime");
+        toast("Lieu supprimé");
       } else {
         toast(json.error?.message || "Erreur", "error");
       }
@@ -279,7 +279,7 @@ export default function LieuxPage() {
               placeholder="0"
             />
             <Input
-              label="Capacite"
+              label="Capacité"
               type="number"
               min="0"
               value={form.capacity}
@@ -319,7 +319,7 @@ export default function LieuxPage() {
             <textarea
               value={form.notes}
               onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              placeholder="Notes supplementaires..."
+              placeholder="Notes supplémentaires..."
               rows={3}
               className="w-full px-4 py-2.5 rounded-xl border border-brand-border text-sm transition-colors bg-white text-ink placeholder:text-muted-light focus:outline-none focus:ring-2 focus:ring-pink-main/30 focus:border-pink-main resize-none"
             />
