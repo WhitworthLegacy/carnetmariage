@@ -1,4 +1,4 @@
-const WEB_API_URL = process.env.NEXT_PUBLIC_WEB_API_URL || "http://localhost:3002";
+const WEB_API_URL = process.env.WEB_API_URL || "http://localhost:3002";
 
 export async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   // Read token from cookie (set by login page)
