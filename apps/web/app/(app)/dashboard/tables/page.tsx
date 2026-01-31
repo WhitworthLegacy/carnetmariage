@@ -7,7 +7,7 @@ export default function TablesPage() {
     <div className="space-y-6">
       <h1 className="font-serif text-2xl sm:text-3xl text-ink">Plan de table</h1>
 
-      <PremiumGate requiredPlan="ultimate">
+      <PremiumGate feature="tables">
         <div className="space-y-6">
           <p className="text-muted">
             Organisez vos invités sur un plan de table interactif en glisser-déposer.

@@ -8,9 +8,9 @@ export default function TimelinePage() {
     <div className="space-y-6">
       <h1 className="font-serif text-2xl sm:text-3xl text-ink">Timeline</h1>
 
-      <PremiumGate requiredPlan="premium">
+      <PremiumGate feature="timeline">
         <div className="space-y-6">
-          <p className="text-muted">Visualisez toutes vos etapes cles mois par mois.</p>
+          <p className="text-muted">Visualisez toutes vos étapes clés mois par mois.</p>
 
           {/* Placeholder timeline content */}
           <div className="relative pl-8 space-y-8">
@@ -20,11 +20,11 @@ export default function TimelinePage() {
             {[
               {
                 month: "12 mois avant",
-                items: ["Definir le budget", "Choisir la date", "Lister les invites"],
+                items: ["Définir le budget", "Choisir la date", "Lister les invités"],
               },
               {
                 month: "9 mois avant",
-                items: ["Reserver le lieu", "Choisir le traiteur", "Booker le photographe"],
+                items: ["Réserver le lieu", "Choisir le traiteur", "Booker le photographe"],
               },
               {
                 month: "6 mois avant",

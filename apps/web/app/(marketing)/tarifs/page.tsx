@@ -1,27 +1,23 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { Check, X, ChevronDown } from "lucide-react";
+import { Check, X, ChevronDown, Sparkles, Heart } from "lucide-react";
 
 const plans = [
   {
     name: "Gratuit",
-    monthlyPrice: "0",
-    annualPrice: "0",
+    price: "0€",
     period: "",
     description: "Pour découvrir et commencer à s'organiser.",
     features: [
-      { name: "Checklist de base (20 tâches)", included: true },
-      { name: "Budget simplifié", included: true },
+      { name: "30 tâches", included: true },
+      { name: "15 postes de budget", included: true },
       { name: "Jusqu'à 50 invités", included: true },
+      { name: "10 prestataires", included: true },
+      { name: "3 lieux à comparer", included: true },
       { name: "1 utilisateur", included: true },
-      { name: "Gestion des prestataires", included: false },
-      { name: "Plan de table", included: false },
-      { name: "Tableau de bord avancé", included: false },
+      { name: "Timeline jour J", included: false },
+      { name: "Plan de table interactif", included: false },
       { name: "Export PDF", included: false },
-      { name: "Templates personnalisés", included: false },
-      { name: "Support prioritaire", included: false },
+      { name: "Invités illimités + RSVP", included: false },
     ],
     cta: "Commencer gratuitement",
     href: "/inscription",
@@ -29,127 +25,85 @@ const plans = [
   },
   {
     name: "Premium",
-    monthlyPrice: "9,99",
-    annualPrice: "7,99",
-    period: "/mois",
-    description: "Pour les couples qui veulent tout organiser sereinement.",
+    price: "27€",
+    period: "paiement unique",
+    description: "Tout débloquer, pour toujours. Pas d'abonnement.",
     features: [
-      { name: "Checklist illimitée", included: true },
-      { name: "Budget détaillé avec catégories", included: true },
-      { name: "Invités illimités", included: true },
+      { name: "Tâches illimitées", included: true },
+      { name: "Budget illimité avec catégories", included: true },
+      { name: "Invités illimités + RSVP", included: true },
+      { name: "Prestataires illimités", included: true },
+      { name: "Lieux illimités", included: true },
       { name: "2 utilisateurs (couple)", included: true },
-      { name: "Gestion des prestataires", included: true },
+      { name: "Timeline jour J", included: true },
       { name: "Plan de table interactif", included: true },
-      { name: "Tableau de bord avancé", included: false },
-      { name: "Export PDF", included: false },
-      { name: "Templates personnalisés", included: false },
+      { name: "Export PDF du carnet", included: true },
       { name: "Support prioritaire", included: true },
     ],
-    cta: "Essai gratuit 14 jours",
+    cta: "Débloquer tout pour 27€",
     href: "/inscription?plan=premium",
     highlighted: true,
-  },
-  {
-    name: "Ultimate",
-    monthlyPrice: "19,99",
-    annualPrice: "15,99",
-    period: "/mois",
-    description: "L'expérience complète avec un accompagnement personnalisé.",
-    features: [
-      { name: "Checklist illimitée", included: true },
-      { name: "Budget détaillé avec catégories", included: true },
-      { name: "Invités illimités", included: true },
-      { name: "Jusqu'à 5 utilisateurs", included: true },
-      { name: "Gestion des prestataires", included: true },
-      { name: "Plan de table interactif", included: true },
-      { name: "Tableau de bord avancé", included: true },
-      { name: "Export PDF du carnet", included: true },
-      { name: "Templates personnalisés", included: true },
-      { name: "Assistance dédiée", included: true },
-    ],
-    cta: "Essai gratuit 14 jours",
-    href: "/inscription?plan=ultimate",
-    highlighted: false,
   },
 ];
 
 const pricingFaqs = [
   {
-    question: "Puis-je changer de plan à tout moment ?",
+    question: "C'est vraiment un paiement unique ?",
     answer:
-      "Oui, tu peux passer à un plan supérieur ou inférieur quand tu veux. Le changement est effectif immédiatement et la facturation est ajustée au prorata.",
+      "Oui ! Tu paies 27€ une seule fois et tu gardes l'accès Premium à vie. Pas d'abonnement, pas de renouvellement automatique, pas de mauvaises surprises.",
   },
   {
-    question: "Comment fonctionne l'essai gratuit ?",
+    question: "Puis-je commencer gratuitement et passer Premium plus tard ?",
     answer:
-      "L'essai gratuit de 14 jours te donne accès à toutes les fonctionnalités du plan choisi. Aucune carte bancaire n'est requise. À la fin de l'essai, tu choisis de continuer ou de revenir au plan gratuit.",
+      "Absolument ! Tu peux utiliser la version gratuite aussi longtemps que tu veux. Quand tu te sens prêt(e), tu peux passer Premium en un clic depuis ton tableau de bord.",
   },
   {
     question: "Quels moyens de paiement acceptez-vous ?",
     answer:
-      "Nous acceptons les cartes Visa, Mastercard et American Express. Le paiement est sécurisé via Stripe.",
+      "Nous acceptons les cartes Visa, Mastercard et American Express. Le paiement est 100% sécurisé via Stripe.",
   },
   {
-    question: "Que se passe-t-il si j'annule mon abonnement ?",
+    question: "Et si je ne suis pas satisfait(e) ?",
     answer:
-      "Tu gardes l'accès aux fonctionnalités premium jusqu'à la fin de ta période de facturation. Ensuite, ton compte revient au plan gratuit et tu conserves toutes tes données.",
+      "On te rembourse sans question dans les 14 jours suivant ton achat. Contacte-nous simplement par email.",
   },
   {
-    question: "Y a-t-il un engagement minimum ?",
+    question: "Mes données sont-elles conservées après le mariage ?",
     answer:
-      "Non, aucun engagement. Tu es libre d'annuler quand tu veux. Les plans annuels sont facturés en une fois mais restent annulables avec remboursement au prorata.",
+      "Oui, ton carnet reste accessible indéfiniment. Tu pourras même le consulter des années après pour te remémorer les préparatifs !",
   },
   {
-    question: "Le plan annuel est-il vraiment avantageux ?",
+    question: "Pourquoi 27€ et pas un abonnement mensuel ?",
     answer:
-      "Oui, le plan annuel te fait économiser 20% par rapport au paiement mensuel. C'est idéal si tu sais que tu vas utiliser CarnetMariage pendant plusieurs mois de préparation.",
+      "On trouve que les abonnements pour un mariage, c'est un peu absurde. Tu prépares ton mariage pendant quelques mois, pas toute ta vie. Un paiement unique, c'est plus simple et plus honnête.",
   },
 ];
 
 export default function TarifsPage() {
-  const [annual, setAnnual] = useState(false);
-
   return (
     <>
       {/* Header */}
       <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-light text-pink-dark text-sm font-medium mb-6">
+              <Sparkles className="w-4 h-4" />
+              Paiement unique — Accès à vie
+            </div>
             <h1 className="font-serif text-4xl sm:text-5xl text-ink tracking-tight">
-              Un carnet adapté à chaque couple
+              Simple, transparent, sans surprise
             </h1>
             <p className="mt-4 text-lg text-muted">
-              Commence gratuitement. Passe à Premium quand tu es prête.
+              Commence gratuitement. Passe Premium quand tu veux — une seule fois, pour toujours.
             </p>
-
-            {/* Toggle */}
-            <div className="mt-10 inline-flex items-center gap-3 bg-white rounded-full p-1.5 border border-brand-border shadow-soft">
-              <button
-                onClick={() => setAnnual(false)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-                  !annual ? "bg-pink-dark text-white" : "text-muted hover:text-ink"
-                }`}
-              >
-                Mensuel
-              </button>
-              <button
-                onClick={() => setAnnual(true)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-                  annual ? "bg-pink-dark text-white" : "text-muted hover:text-ink"
-                }`}
-              >
-                Annuel
-                <span className="ml-1.5 text-xs opacity-80">-20%</span>
-              </button>
-            </div>
           </div>
         </div>
       </section>
 
       {/* Pricing Cards */}
       <section className="pb-20 sm:pb-28">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {plans.map((plan) => (
               <div
                 key={plan.name}
@@ -161,29 +115,29 @@ export default function TarifsPage() {
               >
                 {plan.highlighted && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center px-3 py-1 rounded-full bg-pink-dark text-white text-xs font-medium">
-                      Le plus populaire
+                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-pink-dark text-white text-xs font-medium">
+                      <Heart className="w-3 h-3 fill-current" />
+                      Recommandé
                     </span>
                   </div>
                 )}
                 <h3 className="font-serif text-xl text-ink">{plan.name}</h3>
-                <div className="mt-4 flex items-baseline gap-1">
-                  <span className="text-4xl font-semibold text-ink">
-                    {annual ? plan.annualPrice : plan.monthlyPrice}€
-                  </span>
-                  {plan.period && <span className="text-sm text-muted">{plan.period}</span>}
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="text-4xl font-semibold text-ink">{plan.price}</span>
+                  {plan.period && (
+                    <span className="text-sm text-muted bg-ivory px-2 py-0.5 rounded-full">
+                      {plan.period}
+                    </span>
+                  )}
                 </div>
-                {annual && plan.monthlyPrice !== "0" && (
-                  <p className="mt-1 text-xs text-pink-dark font-medium">Économise 20% par an</p>
-                )}
-                <p className="mt-2 text-sm text-muted">{plan.description}</p>
+                <p className="mt-3 text-sm text-muted">{plan.description}</p>
 
                 <Link
                   href={plan.href}
-                  className={`mt-6 block text-center py-3 rounded-xl text-sm font-medium transition-colors ${
+                  className={`mt-6 block text-center py-3.5 rounded-xl text-sm font-medium transition-all ${
                     plan.highlighted
-                      ? "bg-pink-dark text-white hover:bg-pink-main"
-                      : "bg-ivory text-ink border border-brand-border hover:bg-white"
+                      ? "bg-pink-dark text-white hover:bg-pink-main hover:shadow-lg"
+                      : "bg-ivory text-ink border border-brand-border hover:bg-white hover:border-pink-main"
                   }`}
                 >
                   {plan.cta}
@@ -206,6 +160,22 @@ export default function TarifsPage() {
               </div>
             ))}
           </div>
+
+          {/* Trust badges */}
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted">
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-500" />
+              Paiement sécurisé Stripe
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-500" />
+              Remboursement 14 jours
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-500" />
+              Pas d'abonnement caché
+            </div>
+          </div>
         </div>
       </section>
 
@@ -214,10 +184,10 @@ export default function TarifsPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
-              Questions sur les tarifs
+              Questions fréquentes
             </h2>
             <p className="mt-4 text-muted text-lg">
-              Tout ce que tu as besoin de savoir sur nos formules.
+              Tout ce que tu as besoin de savoir sur nos tarifs.
             </p>
           </div>
           <div className="space-y-4">
@@ -243,18 +213,24 @@ export default function TarifsPage() {
       <section className="py-20 sm:py-28">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-serif text-3xl sm:text-4xl text-ink tracking-tight">
-            Prête à commencer ?
+            Prêt(e) à organiser ton mariage ?
           </h2>
           <p className="mt-4 text-muted text-lg">
             Crée ton carnet gratuitement et découvre comment CarnetMariage peut simplifier tes
             préparatifs.
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/inscription"
-              className="inline-flex items-center px-10 py-4 rounded-xl bg-pink-dark text-white font-medium text-base hover:bg-pink-main transition-colors shadow-soft"
+              className="inline-flex items-center px-8 py-4 rounded-xl bg-ivory text-ink font-medium text-base border border-brand-border hover:bg-white hover:border-pink-main transition-colors"
             >
-              Créer mon carnet — Gratuit
+              Commencer gratuitement
+            </Link>
+            <Link
+              href="/inscription?plan=premium"
+              className="inline-flex items-center px-8 py-4 rounded-xl bg-pink-dark text-white font-medium text-base hover:bg-pink-main transition-colors shadow-soft"
+            >
+              Débloquer tout — 27€
             </Link>
           </div>
         </div>

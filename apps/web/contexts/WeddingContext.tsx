@@ -22,7 +22,6 @@ interface WeddingContextValue {
   wedding: WeddingData;
   user: User;
   isPremium: boolean;
-  isUltimate: boolean;
 }
 
 const WeddingContext = createContext<WeddingContextValue | null>(null);
@@ -36,11 +35,11 @@ export function WeddingProvider({
   user: User;
   children: React.ReactNode;
 }) {
-  const isPremium = ["premium", "ultimate", "lifetime"].includes(wedding.plan);
-  const isUltimate = ["ultimate", "lifetime"].includes(wedding.plan);
+  // Premium = premium or lifetime (legacy alias)
+  const isPremium = ["premium", "lifetime"].includes(wedding.plan);
 
   return (
-    <WeddingContext.Provider value={{ wedding, user, isPremium, isUltimate }}>
+    <WeddingContext.Provider value={{ wedding, user, isPremium }}>
       {children}
     </WeddingContext.Provider>
   );

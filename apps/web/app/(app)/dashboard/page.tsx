@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, Badge } from "@carnetmariage/ui";
 import { CheckSquare, Wallet, Users, Star, Heart, CalendarClock, Activity, ChevronRight } from "lucide-react";
 import { daysLeft, prettyDate, formatPrice, progressPercent } from "@/lib/utils";
 import { ProgressRing } from "@/components/app/ProgressRing";
+import { UpsellBanner } from "@/components/app/UpsellBanner";
 
 export const metadata = {
   title: "Tableau de bord",
@@ -149,6 +150,9 @@ export default async function DashboardPage() {
           </div>
         </div>
       </section>
+
+      {/* Upsell Banner for free users */}
+      <UpsellBanner plan={wedding.plan} />
 
       {/* Quick Stats */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
