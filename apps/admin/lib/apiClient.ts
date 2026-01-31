@@ -1,8 +1,9 @@
+import { createBrowserClient } from "./supabase";
+
 export async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  const token = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("sb-access-token="))
-    ?.split("=")[1];
+  const supabase = createBrowserClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  const token = session?.access_token;
 
   const res = await fetch(path, {
     ...options,

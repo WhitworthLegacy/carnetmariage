@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { jsonError } from "@/lib/apiResponse";
 import { makeError } from "@carnetmariage/core";
+import { headers } from "next/headers";
 
 export async function requireAuth() {
   const supabase = await createClient();
@@ -30,13 +31,30 @@ export async function requireAuth() {
 }
 
 export async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+  const headersList = await headers();
+  const authHeader = headersList.get("authorization");
 
-  if (error || !user) {
+  let user = null;
+  let supabase = await createClient();
+
+  // Check for Bearer token (from admin app)
+  if (authHeader?.startsWith("Bearer ")) {
+    const token = authHeader.substring(7);
+    const { data, error } = await supabase.auth.getUser(token);
+    if (!error && data.user) {
+      user = data.user;
+    }
+  }
+
+  // Fallback to cookie-based auth
+  if (!user) {
+    const { data, error } = await supabase.auth.getUser();
+    if (!error && data.user) {
+      user = data.user;
+    }
+  }
+
+  if (!user) {
     return {
       user: null,
       supabase,
