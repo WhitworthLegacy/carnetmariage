@@ -14,7 +14,7 @@
     "@carnetmariage/ui": "workspace:*",
     "@react-email/components": "^1.0.6",
     "@supabase/ssr": "^0.6.1",
-    "@supabase/supabase-js": "^2.49.8",
+    "@supabase/supabase-js": "^2.93.3",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.562.0",
     "next": "^15.3.3",
