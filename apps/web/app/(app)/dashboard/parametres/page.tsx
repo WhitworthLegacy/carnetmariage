@@ -3,7 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import { useState, useEffect } from "react";
-import { Save, LogOut, Crown, Sparkles, Check, Heart, HelpCircle } from "lucide-react";
+import { Save, LogOut, Crown, Sparkles, Check, Heart, HelpCircle, Bell } from "lucide-react";
 import {
   Button,
   Card,
@@ -19,6 +19,7 @@ import { useWedding } from "@/contexts/WeddingContext";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTriggerTour } from "@/components/app/GuidedTour";
+import { NotificationSettings } from "@/components/app/NotificationSettings";
 
 const PLAN_FEATURES = {
   free: [
@@ -58,7 +59,7 @@ export default function ParametresPage() {
     total_budget: String(wedding.total_budget || 0),
   });
   const [saving, setSaving] = useState(false);
-  const [defaultTab, setDefaultTab] = useState<"profil" | "abonnement">("profil");
+  const [defaultTab, setDefaultTab] = useState<"profil" | "notifications" | "abonnement">("profil");
 
   useEffect(() => {
     if (showUpgrade) {
@@ -131,6 +132,7 @@ export default function ParametresPage() {
       <Tabs
         tabs={[
           { id: "profil", label: "Profil" },
+          { id: "notifications", label: "Notifications" },
           { id: "abonnement", label: "Abonnement" },
         ]}
         defaultTab={defaultTab}
@@ -223,6 +225,29 @@ export default function ParametresPage() {
                       <LogOut className="w-4 h-4 mr-2" />
                       Se déconnecter
                     </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
+          ) : activeTab === "notifications" ? (
+            /* Notifications Tab */
+            <div className="space-y-6">
+              <NotificationSettings />
+
+              {/* Info Card */}
+              <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100">
+                <div className="flex items-start gap-4">
+                  <div className="p-2 bg-blue-100 rounded-xl shrink-0">
+                    <Bell className="w-5 h-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-ink mb-1">Comment ça marche ?</h4>
+                    <ul className="text-sm text-muted space-y-1">
+                      <li>• <strong>Rappels de tâches</strong> : reçois un email 7j, 3j et 1j avant l'échéance</li>
+                      <li>• <strong>Réponses RSVP</strong> : sois notifié(e) quand un invité répond</li>
+                      <li>• <strong>Alertes budget</strong> : reçois une alerte si tu dépasses ton budget</li>
+                      <li>• <strong>Notifications navigateur</strong> : active les notifications desktop pour ne rien manquer</li>
+                    </ul>
                   </div>
                 </div>
               </Card>
