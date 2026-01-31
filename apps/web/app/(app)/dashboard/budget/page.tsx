@@ -37,22 +37,19 @@ const statusBadgeVariant: Record<string, "default" | "warning" | "success"> = {
   paid: "success",
 };
 
-// Premium gradient colors for 3D-style chart
+// Modern flat colors for chart - wedding palette
 const CHART_COLORS = [
-  { start: "#EC4899", end: "#DB2777" }, // Pink
-  { start: "#8B5CF6", end: "#7C3AED" }, // Purple
-  { start: "#F472B6", end: "#EC4899" }, // Rose
-  { start: "#A78BFA", end: "#8B5CF6" }, // Violet
-  { start: "#C084FC", end: "#A855F7" }, // Fuchsia
-  { start: "#E879F9", end: "#D946EF" }, // Magenta
-  { start: "#F0ABFC", end: "#E879F9" }, // Light purple
-  { start: "#D8A7B1", end: "#C08B95" }, // Dusty rose
-  { start: "#FDA4AF", end: "#FB7185" }, // Coral
-  { start: "#FBBF24", end: "#F59E0B" }, // Gold
+  "#EC4899", // Pink
+  "#8B5CF6", // Purple
+  "#F97316", // Orange
+  "#06B6D4", // Cyan
+  "#10B981", // Emerald
+  "#F59E0B", // Amber
+  "#EF4444", // Red
+  "#6366F1", // Indigo
+  "#84CC16", // Lime
+  "#A855F7", // Fuchsia
 ];
-
-// Legacy flat colors for badges/legends
-const FLAT_COLORS = CHART_COLORS.map(c => c.start);
 
 const emptyForm = {
   label: "",
@@ -79,7 +76,6 @@ export default function BudgetPage() {
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [showLegend, setShowLegend] = useState(false);
 
   const fetchLines = useCallback(async () => {
     try {
@@ -223,7 +219,7 @@ export default function BudgetPage() {
     }
   }
 
-  // SVG Donut chart helper - 3D Premium Style
+  // SVG Donut chart - Clean modern style
   function renderDonut() {
     if (categoryBreakdown.length === 0) {
       return (
@@ -233,264 +229,140 @@ export default function BudgetPage() {
       );
     }
 
-    const size = 280;
-    const baseStrokeWidth = 45;
-    const hoverStrokeWidth = 55;
-    const radius = (size - hoverStrokeWidth) / 2;
-    const innerRadius = radius - baseStrokeWidth / 2;
+    const size = 220;
+    const strokeWidth = 32;
+    const radius = (size - strokeWidth) / 2;
     const circumference = 2 * Math.PI * radius;
 
-    // Calculate tooltip position based on hovered segment
+    // Calculate hovered data
     const hoveredData = hoveredCategory
       ? categoryBreakdown.find((c) => c.name === hoveredCategory)
       : null;
     const hoveredPercent = hoveredData ? Math.round((hoveredData.amount / chartTotal) * 100) : 0;
 
-    // Build segments with offsets
+    // Build segments
     let offset = 0;
     const segments = categoryBreakdown.map((cat, i) => {
       const percent = chartTotal > 0 ? cat.amount / chartTotal : 0;
       const dashLength = percent * circumference;
+      const gap = 3; // Gap between segments
       const dashOffset = -offset;
-      offset += dashLength;
-      return { cat, i, percent, dashLength, dashOffset };
+      offset += dashLength + gap;
+      return { cat, i, percent, dashLength: dashLength - gap, dashOffset };
     });
 
     return (
-      <div className="flex flex-col items-center gap-6">
-        <div className="relative">
-          {/* Outer glow effect */}
-          <div
-            className="absolute inset-0 rounded-full blur-2xl opacity-30"
-            style={{
-              background: `radial-gradient(circle, ${CHART_COLORS[0].start}40 0%, transparent 70%)`,
-            }}
-          />
-
-          <svg
-            width={size}
-            height={size}
-            className="transform -rotate-90 drop-shadow-xl"
-            style={{ filter: 'drop-shadow(0 10px 25px rgba(236, 72, 153, 0.2))' }}
-          >
-            {/* Gradient definitions */}
-            <defs>
-              {CHART_COLORS.map((color, i) => (
-                <linearGradient key={`gradient-${i}`} id={`chartGradient${i}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor={color.start} />
-                  <stop offset="100%" stopColor={color.end} />
-                </linearGradient>
-              ))}
-              {/* Inner shadow for 3D effect */}
-              <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
-                <feOffset in="blur" dx="2" dy="2" result="offsetBlur" />
-                <feComposite in="SourceGraphic" in2="offsetBlur" operator="over" />
-              </filter>
-              {/* Glow filter for hover */}
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-            </defs>
-
-            {/* Background ring for depth */}
+      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 py-4">
+        {/* Chart */}
+        <div className="relative flex-shrink-0">
+          <svg width={size} height={size} className="transform -rotate-90">
+            {/* Background circle */}
             <circle
               cx={size / 2}
               cy={size / 2}
               r={radius}
               fill="none"
               stroke="#f3f4f6"
-              strokeWidth={baseStrokeWidth + 8}
-              opacity={0.5}
+              strokeWidth={strokeWidth}
             />
 
-            {/* Main chart segments */}
+            {/* Segments */}
             {segments.map(({ cat, i, dashLength, dashOffset }) => {
               const isHovered = hoveredCategory === cat.name;
               const isSelected = selectedCategory === cat.name;
-              const strokeWidth = isHovered || isSelected ? hoverStrokeWidth : baseStrokeWidth;
-              const colorIndex = i % CHART_COLORS.length;
+              const color = CHART_COLORS[i % CHART_COLORS.length];
 
               return (
-                <g key={cat.name}>
-                  {/* Shadow layer */}
-                  <circle
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    fill="none"
-                    stroke="rgba(0,0,0,0.1)"
-                    strokeWidth={strokeWidth + 4}
-                    strokeDasharray={`${dashLength} ${circumference - dashLength}`}
-                    strokeDashoffset={dashOffset}
-                    strokeLinecap="round"
-                    className="transition-all duration-500"
-                    style={{
-                      transform: 'translate(2px, 2px)',
-                      opacity: selectedCategory && !isSelected ? 0.2 : 0.3,
-                    }}
-                  />
-                  {/* Main segment with gradient */}
-                  <circle
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    fill="none"
-                    stroke={`url(#chartGradient${colorIndex})`}
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={`${dashLength} ${circumference - dashLength}`}
-                    strokeDashoffset={dashOffset}
-                    strokeLinecap="round"
-                    className="transition-all duration-500 cursor-pointer"
-                    style={{
-                      opacity: selectedCategory && !isSelected ? 0.35 : 1,
-                      filter: isHovered || isSelected ? 'url(#glow)' : 'none',
-                    }}
-                    onMouseEnter={() => setHoveredCategory(cat.name)}
-                    onMouseLeave={() => setHoveredCategory(null)}
-                    onClick={() =>
-                      setSelectedCategory(selectedCategory === cat.name ? null : cat.name)
-                    }
-                  />
-                </g>
+                <circle
+                  key={cat.name}
+                  cx={size / 2}
+                  cy={size / 2}
+                  r={radius}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth={isHovered || isSelected ? strokeWidth + 6 : strokeWidth}
+                  strokeDasharray={`${dashLength} ${circumference}`}
+                  strokeDashoffset={dashOffset}
+                  strokeLinecap="round"
+                  className="transition-all duration-300 cursor-pointer"
+                  style={{
+                    opacity: selectedCategory && !isSelected ? 0.3 : 1,
+                  }}
+                  onMouseEnter={() => setHoveredCategory(cat.name)}
+                  onMouseLeave={() => setHoveredCategory(null)}
+                  onClick={() =>
+                    setSelectedCategory(selectedCategory === cat.name ? null : cat.name)
+                  }
+                />
               );
             })}
-
-            {/* Inner decorative ring */}
-            <circle
-              cx={size / 2}
-              cy={size / 2}
-              r={innerRadius - 15}
-              fill="none"
-              stroke="url(#chartGradient0)"
-              strokeWidth={2}
-              opacity={0.2}
-            />
           </svg>
 
-          {/* Center display - Glass morphism style */}
+          {/* Center content */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="w-28 h-28 rounded-full flex items-center justify-center"
-              style={{
-                background: 'rgba(255,255,255,0.9)',
-                backdropFilter: 'blur(10px)',
-                boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.05), 0 4px 20px rgba(236, 72, 153, 0.1)',
-              }}
-            >
-              <div className="text-center">
-                {hoveredCategory ? (
-                  <>
-                    <p className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-                      {hoveredPercent}%
-                    </p>
-                    <p className="text-xs text-muted mt-0.5 max-w-[80px] truncate">{hoveredCategory}</p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-                      {formatPrice(chartTotal)}
-                    </p>
-                    <p className="text-xs text-muted mt-0.5">Budget total</p>
-                  </>
-                )}
-              </div>
+            <div className="text-center">
+              {hoveredCategory ? (
+                <>
+                  <p className="text-3xl font-bold text-ink">{hoveredPercent}%</p>
+                  <p className="text-sm text-muted mt-1 max-w-[100px] truncate">{hoveredCategory}</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-2xl font-bold text-ink">{formatPrice(chartTotal)}</p>
+                  <p className="text-sm text-muted mt-1">Budget total</p>
+                </>
+              )}
             </div>
           </div>
-
-          {/* Floating tooltip on hover */}
-          {hoveredData && (
-            <div
-              className="absolute -top-4 left-1/2 -translate-x-1/2 -translate-y-full px-4 py-3 rounded-2xl shadow-2xl text-sm z-10 whitespace-nowrap animate-in fade-in slide-in-from-bottom-2 duration-200"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(236, 72, 153, 0.2)',
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold text-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${CHART_COLORS[categoryBreakdown.findIndex(c => c.name === hoveredCategory) % CHART_COLORS.length].start}, ${CHART_COLORS[categoryBreakdown.findIndex(c => c.name === hoveredCategory) % CHART_COLORS.length].end})`,
-                  }}
-                >
-                  {hoveredPercent}%
-                </div>
-                <div>
-                  <p className="font-semibold text-ink">{hoveredData.name}</p>
-                  <p className="text-muted text-xs">{formatPrice(hoveredData.amount)}</p>
-                </div>
-              </div>
-              {/* Arrow */}
-              <div
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0"
-                style={{
-                  borderLeft: '8px solid transparent',
-                  borderRight: '8px solid transparent',
-                  borderTop: '8px solid rgba(255,255,255,0.95)',
-                }}
-              />
-            </div>
-          )}
         </div>
 
-        {/* Legend toggle */}
-        <button
-          onClick={() => setShowLegend(!showLegend)}
-          onMouseEnter={() => setShowLegend(true)}
-          className="text-xs text-muted hover:text-pink-dark transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-pink-50"
-        >
-          {showLegend ? "Masquer" : "Voir"} la légende
-          <span className={`transition-transform duration-300 ${showLegend ? "rotate-180" : ""}`}>▼</span>
-        </button>
+        {/* Legend */}
+        <div className="flex-1 w-full max-w-sm">
+          <div className="space-y-2">
+            {categoryBreakdown.map((cat, i) => {
+              const isSelected = selectedCategory === cat.name;
+              const isHovered = hoveredCategory === cat.name;
+              const color = CHART_COLORS[i % CHART_COLORS.length];
+              const percent = Math.round((cat.amount / chartTotal) * 100);
 
-        {/* Legend - Grid style */}
-        <div
-          className={`grid grid-cols-2 sm:grid-cols-3 gap-2 transition-all duration-500 overflow-hidden ${
-            showLegend ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
-          {categoryBreakdown.map((cat, i) => {
-            const isSelected = selectedCategory === cat.name;
-            const colorIndex = i % CHART_COLORS.length;
-            const percent = Math.round((cat.amount / chartTotal) * 100);
-            return (
-              <button
-                key={cat.name}
-                onClick={() => setSelectedCategory(isSelected ? null : cat.name)}
-                onMouseEnter={() => setHoveredCategory(cat.name)}
-                onMouseLeave={() => setHoveredCategory(null)}
-                className={`flex items-center gap-2.5 text-xs px-3 py-2 rounded-xl transition-all ${
-                  isSelected
-                    ? "ring-2 ring-pink-main shadow-md"
-                    : "hover:bg-gray-50 hover:shadow-sm"
-                } ${selectedCategory && !isSelected ? "opacity-40" : ""}`}
-                style={{
-                  background: isSelected
-                    ? `linear-gradient(135deg, ${CHART_COLORS[colorIndex].start}15, ${CHART_COLORS[colorIndex].end}10)`
-                    : undefined,
-                }}
-              >
-                <div
-                  className="w-3 h-3 rounded-full flex-shrink-0 shadow-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${CHART_COLORS[colorIndex].start}, ${CHART_COLORS[colorIndex].end})`,
-                  }}
-                />
-                <div className="flex-1 text-left min-w-0">
-                  <span className="text-muted truncate block">{cat.name}</span>
-                </div>
-                <div className="text-right">
-                  <span className="font-semibold text-ink">{percent}%</span>
-                </div>
-              </button>
-            );
-          })}
+              return (
+                <button
+                  key={cat.name}
+                  onClick={() => setSelectedCategory(isSelected ? null : cat.name)}
+                  onMouseEnter={() => setHoveredCategory(cat.name)}
+                  onMouseLeave={() => setHoveredCategory(null)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                    isSelected || isHovered
+                      ? "bg-gray-50 shadow-sm"
+                      : "hover:bg-gray-50/50"
+                  } ${selectedCategory && !isSelected ? "opacity-40" : ""}`}
+                >
+                  <div
+                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: color }}
+                  />
+                  <span className="flex-1 text-left text-sm text-ink truncate">
+                    {cat.name}
+                  </span>
+                  <span className="text-sm text-muted">
+                    {formatPrice(cat.amount)}
+                  </span>
+                  <span className="text-sm font-semibold text-ink w-12 text-right">
+                    {percent}%
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedCategory && (
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="mt-4 w-full text-center text-sm text-pink-dark hover:underline"
+            >
+              Réinitialiser le filtre
+            </button>
+          )}
         </div>
       </div>
     );
@@ -638,7 +510,7 @@ export default function BudgetPage() {
               {sortedLines.map((line) => {
                 const remaining = (line.estimated || 0) - (line.paid || 0);
                 const catIndex = categoryBreakdown.findIndex((c) => c.name === (line.category || "Autre"));
-                const catColor = FLAT_COLORS[catIndex >= 0 ? catIndex % FLAT_COLORS.length : 0];
+                const catColor = CHART_COLORS[catIndex >= 0 ? catIndex % CHART_COLORS.length : 0];
                 const progressPercent = line.estimated > 0 ? Math.min(100, ((line.paid || 0) / line.estimated) * 100) : 0;
 
                 return (
