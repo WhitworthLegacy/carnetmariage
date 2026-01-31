@@ -10,7 +10,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "lucide-react": "^0.562.0"
+    "lucide-react": "^0.563.0"
   },
   "devDependencies": {
     "typescript": "^5.7.0",
