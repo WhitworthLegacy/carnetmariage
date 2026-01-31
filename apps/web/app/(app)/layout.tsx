@@ -5,6 +5,7 @@ import { Topbar } from "@/components/app/Topbar";
 import { SeedDefaults } from "@/components/app/SeedDefaults";
 import { WeddingProvider } from "@/contexts/WeddingContext";
 import { ToastProvider } from "@carnetmariage/ui";
+import { GuidedTourWrapper } from "@/components/app/GuidedTourWrapper";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -29,6 +30,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <ToastProvider>
       <WeddingProvider wedding={wedding} user={user}>
         <SeedDefaults />
+        <GuidedTourWrapper />
         <div className="flex h-screen bg-ivory">
           <Sidebar />
           <div className="flex-1 flex flex-col overflow-hidden">

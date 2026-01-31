@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import {
   DEFAULT_TASKS,
   DEFAULT_BUDGET_LINES,
+  DEFAULT_VENDORS,
+  DEFAULT_VENUES,
   calculateDueDate,
   calculateEstimatedAmount,
 } from "@carnetmariage/core";
@@ -41,6 +43,8 @@ export async function POST(_request: NextRequest) {
 
     let tasksSeeded = 0;
     let budgetSeeded = 0;
+    let vendorsSeeded = 0;
+    let venuesSeeded = 0;
 
     // Check if tasks exist
     const { count: taskCount } = await supabase
@@ -95,13 +99,67 @@ export async function POST(_request: NextRequest) {
       }
     }
 
+    // Check if vendors exist
+    const { count: vendorCount } = await supabase
+      .from("vendors")
+      .select("*", { count: "exact", head: true })
+      .eq("wedding_id", weddingId);
+
+    if (vendorCount === 0 && DEFAULT_VENDORS.length > 0) {
+      // Seed suggested vendors
+      const vendorsToInsert = DEFAULT_VENDORS.map((vendor) => ({
+        wedding_id: weddingId,
+        name: vendor.name,
+        category: vendor.category,
+        website: vendor.website || null,
+        notes: vendor.notes || null,
+        status: "contact" as const,
+        price: 0,
+      }));
+
+      const { error: vendorsError } = await supabase.from("vendors").insert(vendorsToInsert);
+      if (vendorsError) {
+        console.error("[api/seed-defaults] vendors error:", vendorsError);
+      } else {
+        vendorsSeeded = vendorsToInsert.length;
+      }
+    }
+
+    // Check if venues exist
+    const { count: venueCount } = await supabase
+      .from("venues")
+      .select("*", { count: "exact", head: true })
+      .eq("wedding_id", weddingId);
+
+    if (venueCount === 0 && DEFAULT_VENUES.length > 0) {
+      // Seed suggested venues
+      const venuesToInsert = DEFAULT_VENUES.map((venue) => ({
+        wedding_id: weddingId,
+        name: venue.name,
+        location: venue.location,
+        notes: `Type: ${venue.type}${venue.website ? ` | Site: ${venue.website}` : ""}${venue.contact_phone ? ` | Tél: ${venue.contact_phone}` : ""}`,
+        status: "visit" as const,
+        price: 0,
+        capacity: 0,
+      }));
+
+      const { error: venuesError } = await supabase.from("venues").insert(venuesToInsert);
+      if (venuesError) {
+        console.error("[api/seed-defaults] venues error:", venuesError);
+      } else {
+        venuesSeeded = venuesToInsert.length;
+      }
+    }
+
     return NextResponse.json({
       success: true,
       tasksSeeded,
       budgetSeeded,
+      vendorsSeeded,
+      venuesSeeded,
       message:
-        tasksSeeded > 0 || budgetSeeded > 0
-          ? `Données ajoutées: ${tasksSeeded} tâches, ${budgetSeeded} lignes budget`
+        tasksSeeded > 0 || budgetSeeded > 0 || vendorsSeeded > 0 || venuesSeeded > 0
+          ? `Données ajoutées: ${tasksSeeded} tâches, ${budgetSeeded} lignes budget, ${vendorsSeeded} prestataires, ${venuesSeeded} lieux`
           : "Les données existent déjà",
     });
   } catch (error) {

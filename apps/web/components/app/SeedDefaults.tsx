@@ -21,7 +21,7 @@ export function SeedDefaults() {
     fetch("/api/seed-defaults", { method: "POST" })
       .then((res) => res.json())
       .then((data) => {
-        if (data.tasksSeeded > 0 || data.budgetSeeded > 0) {
+        if (data.tasksSeeded > 0 || data.budgetSeeded > 0 || data.vendorsSeeded > 0 || data.venuesSeeded > 0) {
           // Mark as seeded
           sessionStorage.setItem("carnet_seeded", "true");
           // Reload to show new data

@@ -216,6 +216,57 @@ export const DEFAULT_VENDOR_CATEGORIES = [
   "Officiant",
 ];
 
+export interface VendorTemplate {
+  name: string;
+  category: string;
+  website?: string;
+  notes?: string;
+  isSuggested?: boolean; // Suggested partner
+}
+
+// Suggested vendors / partners
+export const DEFAULT_VENDORS: VendorTemplate[] = [
+  {
+    name: "MirrorEffect",
+    category: "Animation",
+    website: "https://mirroreffect.be",
+    notes: "Miroir photobooth interactif pour animer votre mariage. Code promo CARNETMARIAGE pour -50€ sur votre réservation !",
+    isSuggested: true,
+  },
+];
+
+export interface VenueTemplate {
+  name: string;
+  location: string;
+  type: string;
+  website?: string;
+  contact_phone?: string;
+}
+
+// Suggested venues from Belgium/France
+export const DEFAULT_VENUES: VenueTemplate[] = [
+  { name: "The Villa", location: "Dilbeek, Belgium", type: "Salle", website: "https://www.villa-event.be/" },
+  { name: "Alta Ripa", location: "Avelgem, Belgium", type: "Salle", website: "https://www.alta-ripa.be/" },
+  { name: "La Ferme de Bertinchamps", location: "Braine-l'Alleud, Belgium", type: "Salle", website: "https://www.lafermebertinchamps.be/" },
+  { name: "La Rotonde", location: "Woluwe-Saint-Lambert, Belgium", type: "Restaurant", website: "https://www.la-rotonde-by-dl.be/" },
+  { name: "Les Salons du Forum", location: "Manage, Belgium", type: "Salle", website: "http://leforum-manage.be/" },
+  { name: "Château de la Hulpe", location: "La Hulpe, Belgium", type: "Château", website: "https://www.chateaudelahulpe.be/" },
+  { name: "Domaine du Château de Modave", location: "Modave, Belgium", type: "Château", website: "http://www.modave-castle.be/" },
+  { name: "Domaine de l'Abbaye", location: "Raismes, France", type: "Domaine", website: "http://www.domainedelabbaye.net/" },
+  { name: "Abbaye Notre-Dame de Bonne-Espérance", location: "Estinnes, Belgium", type: "Domaine", website: "http://www.abbaye-bonne-esperance.be/" },
+  { name: "Traiteur Maréchal", location: "Dalhem, Belgium", type: "Salle", contact_phone: "+32 43 74 29 81" },
+  { name: "L'Orangerie Villers-le-Bouillet", location: "Villers-le-Bouillet, Belgium", type: "Restaurant", website: "https://lorangerievillerslebouillet.be/" },
+  { name: "Le Château de Bac Saint-Maur", location: "Sailly-sur-la-Lys, France", type: "Château" },
+  { name: "Waerboom", location: "Dilbeek, Belgium", type: "Hôtel", website: "http://www.waerboom.com/" },
+  { name: "Hôtel Skindles", location: "Poperinge, Belgium", type: "Hôtel", website: "http://www.skindlespoperinge.com/" },
+  { name: "Elinoa", location: "Machelen, Belgium", type: "Hôtel", website: "https://hotel.center.be.ivof.com/elinoa/" },
+  { name: "Le Domaine de la Cendrée", location: "Harnes, France", type: "Domaine", website: "http://ledomaine.fr/" },
+  { name: "Le Pont Romain", location: "Erquelinnes, Belgium", type: "Salle", website: "https://lepontromain.be/" },
+  { name: "La Salle des Marronniers", location: "Eecke, France", type: "Salle", contact_phone: "+33 6 32 49 80 95" },
+  { name: "Domaine de Franc-Waret", location: "Fernelmont, Belgium", type: "Domaine", website: "http://www.franc-waret.com/" },
+  { name: "Palais d'Afrique", location: "Tervuren, Belgium", type: "Salle", website: "http://www.afrikapaleis.be/" },
+];
+
 /**
  * Calculate task due date based on wedding date and months_before
  */

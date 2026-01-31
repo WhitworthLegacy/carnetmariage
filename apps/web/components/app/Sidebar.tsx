@@ -22,19 +22,20 @@ interface NavItem {
   href: string;
   icon: React.ElementType;
   premiumOnly?: boolean;
+  tourId?: string;
 }
 
 const mainNav: NavItem[] = [
   { label: "Tableau de bord", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Tâches", href: "/dashboard/taches", icon: CheckSquare },
-  { label: "Budget", href: "/dashboard/budget", icon: Wallet },
+  { label: "Tâches", href: "/dashboard/taches", icon: CheckSquare, tourId: "nav-taches" },
+  { label: "Budget", href: "/dashboard/budget", icon: Wallet, tourId: "nav-budget" },
   { label: "Prestataires", href: "/dashboard/prestataires", icon: Star },
-  { label: "Lieux", href: "/dashboard/lieux", icon: MapPin },
-  { label: "Invités", href: "/dashboard/invites", icon: Users },
+  { label: "Lieux", href: "/dashboard/lieux", icon: MapPin, tourId: "nav-lieux" },
+  { label: "Invités", href: "/dashboard/invites", icon: Users, tourId: "nav-invites" },
 ];
 
 const premiumNav: NavItem[] = [
-  { label: "Timeline", href: "/dashboard/timeline", icon: Calendar, premiumOnly: true },
+  { label: "Timeline", href: "/dashboard/timeline", icon: Calendar, premiumOnly: true, tourId: "nav-timeline" },
   { label: "Plan de table", href: "/dashboard/tables", icon: Grid3X3, premiumOnly: true },
 ];
 
@@ -60,6 +61,7 @@ function NavLink({
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
         isActive ? "bg-pink-light text-pink-dark" : "text-muted hover:text-ink hover:bg-ivory"
       }`}
+      {...(item.tourId && { "data-tour": item.tourId })}
     >
       <Icon size={20} />
       <span className="flex-1">{item.label}</span>
@@ -82,7 +84,7 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="hidden lg:flex lg:flex-col w-64 bg-white border-r border-brand-border">
+    <aside className="hidden lg:flex lg:flex-col w-64 bg-white border-r border-brand-border" data-tour="sidebar">
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-brand-border">
         <Link href="/dashboard" className="flex items-center gap-2.5">

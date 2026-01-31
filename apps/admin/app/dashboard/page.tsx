@@ -13,11 +13,10 @@ interface AdminStats {
   planDistribution: {
     free: number;
     premium: number;
-    ultimate: number;
   };
 }
 
-const PLAN_COLORS = ["#6b7280", "#D8A7B1", "#A78BFA"];
+const PLAN_COLORS = ["#6b7280", "#D8A7B1"];
 
 function KpiCard({
   label,
@@ -79,9 +78,8 @@ export default function DashboardOverview() {
   if (!stats) return null;
 
   const pieData = [
-    { name: "Free", value: stats.planDistribution.free },
+    { name: "Gratuit", value: stats.planDistribution.free },
     { name: "Premium", value: stats.planDistribution.premium },
-    { name: "Ultimate", value: stats.planDistribution.ultimate },
   ];
 
   return (
@@ -108,14 +106,14 @@ export default function DashboardOverview() {
           color="#D8A7B1"
         />
         <KpiCard
-          label="Abonnes Premium"
+          label="Utilisateurs Premium"
           value={stats.premiumSubscribers.toLocaleString("fr-FR")}
           icon={Crown}
           color="#A78BFA"
         />
         <KpiCard
-          label="MRR estime"
-          value={`${stats.estimatedMrr.toLocaleString("fr-FR")} EUR`}
+          label="Revenu total"
+          value={`${stats.estimatedMrr.toLocaleString("fr-FR")} €`}
           icon={Euro}
           color="#5B21B6"
         />
@@ -125,7 +123,7 @@ export default function DashboardOverview() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Plan Distribution */}
         <div className="rounded-2xl border border-brand-border bg-white p-6 shadow-card">
-          <h3 className="mb-4 text-lg font-semibold text-ink">Repartition des plans</h3>
+          <h3 className="mb-4 text-lg font-semibold text-ink">Répartition des plans</h3>
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -168,7 +166,7 @@ export default function DashboardOverview() {
                 </svg>
               </div>
               <p className="text-sm font-medium text-muted">Graphique de croissance</p>
-              <p className="mt-1 text-xs text-muted-light">Bientot disponible</p>
+              <p className="mt-1 text-xs text-muted-light">Bientôt disponible</p>
             </div>
           </div>
         </div>

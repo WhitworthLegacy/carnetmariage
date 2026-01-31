@@ -155,7 +155,7 @@ export default async function DashboardPage() {
       <UpsellBanner plan={wedding.plan} />
 
       {/* Quick Stats */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" data-tour="stats">
         <StatCard
           icon={<CheckSquare size={20} className="text-emerald-600" />}
           label="Tâches"
@@ -189,7 +189,7 @@ export default async function DashboardPage() {
       {/* Two-column layout */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Upcoming deadlines */}
-        <Card>
+        <Card data-tour="upcoming">
           <CardHeader>
             <CardTitle>
               <span className="flex items-center gap-2">

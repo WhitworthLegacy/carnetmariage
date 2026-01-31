@@ -9,18 +9,27 @@ export async function GET() {
 
   const supabase = await createServiceClient();
 
-  const [users, weddings, premiumWeddings, ultimateWeddings] = await Promise.all([
+  const [users, weddings, freeWeddings, premiumWeddings, lifetimeWeddings] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("weddings").select("id", { count: "exact", head: true }),
+    supabase.from("weddings").select("id", { count: "exact", head: true }).eq("plan", "free"),
     supabase.from("weddings").select("id", { count: "exact", head: true }).eq("plan", "premium"),
-    supabase.from("weddings").select("id", { count: "exact", head: true }).eq("plan", "ultimate"),
+    supabase.from("weddings").select("id", { count: "exact", head: true }).eq("plan", "lifetime"),
   ]);
 
+  const totalPremium = (premiumWeddings.count || 0) + (lifetimeWeddings.count || 0);
+  // One-shot payment model: 27€ per premium user (not MRR)
+  const totalRevenue = totalPremium * 27;
+
   return jsonOk({
-    total_users: users.count || 0,
-    total_weddings: weddings.count || 0,
-    premium_count: premiumWeddings.count || 0,
-    ultimate_count: ultimateWeddings.count || 0,
-    mrr: (premiumWeddings.count || 0) * 9.99 + (ultimateWeddings.count || 0) * 19.99,
+    totalUsers: users.count || 0,
+    activeWeddings: weddings.count || 0,
+    premiumSubscribers: totalPremium,
+    estimatedMrr: totalRevenue, // Now represents total revenue, not MRR
+    planDistribution: {
+      free: freeWeddings.count || 0,
+      premium: totalPremium,
+      ultimate: 0, // Deprecated, kept for compatibility
+    },
   });
 }

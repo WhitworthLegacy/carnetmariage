@@ -3,7 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import { useState, useEffect } from "react";
-import { Save, LogOut, Crown, Sparkles, Check, Heart } from "lucide-react";
+import { Save, LogOut, Crown, Sparkles, Check, Heart, HelpCircle } from "lucide-react";
 import {
   Button,
   Card,
@@ -18,6 +18,7 @@ import { PLANS } from "@carnetmariage/core";
 import { useWedding } from "@/contexts/WeddingContext";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTriggerTour } from "@/components/app/GuidedTour";
 
 const PLAN_FEATURES = {
   free: [
@@ -48,6 +49,7 @@ export default function ParametresPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const showUpgrade = searchParams.get("upgrade") === "true";
+  const { triggerTour } = useTriggerTour();
 
   const [weddingForm, setWeddingForm] = useState({
     partner1_name: wedding.partner1_name || "",
@@ -212,7 +214,11 @@ export default function ParametresPage() {
                     <label className="text-sm font-medium text-ink">Email</label>
                     <p className="text-sm text-muted mt-1">{user.email}</p>
                   </div>
-                  <div className="pt-2">
+                  <div className="pt-2 flex flex-wrap gap-3">
+                    <Button variant="secondary" onClick={triggerTour}>
+                      <HelpCircle className="w-4 h-4 mr-2" />
+                      Revoir le tour
+                    </Button>
                     <Button variant="danger" onClick={handleLogout}>
                       <LogOut className="w-4 h-4 mr-2" />
                       Se déconnecter
