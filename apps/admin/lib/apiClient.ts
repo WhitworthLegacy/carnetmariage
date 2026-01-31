@@ -1,11 +1,16 @@
-import { createBrowserClient } from "./supabase";
+const WEB_API_URL = process.env.NEXT_PUBLIC_WEB_API_URL || "http://localhost:3002";
 
 export async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  const supabase = createBrowserClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  const token = session?.access_token;
+  // Read token from cookie (set by login page)
+  const token = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("sb-access-token="))
+    ?.split("=")[1];
 
-  const res = await fetch(path, {
+  // Call web API directly (not through rewrite) to ensure headers are passed
+  const url = path.startsWith("/api/admin") ? `${WEB_API_URL}${path}` : path;
+
+  const res = await fetch(url, {
     ...options,
     headers: {
       "Content-Type": "application/json",
