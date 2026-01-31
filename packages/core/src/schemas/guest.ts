@@ -14,6 +14,7 @@ export const GuestSchema = z.object({
   group_name: z.string().nullable(),
   dietary_notes: z.string().nullable(),
   table_number: z.number().int().nullable(),
+  table_id: z.string().uuid().nullable(),
   plus_one: z.boolean().default(false),
   notes: z.string().nullable(),
 });
@@ -28,6 +29,7 @@ export const CreateGuestSchema = z.object({
   group_name: z.string().nullable().optional(),
   dietary_notes: z.string().nullable().optional(),
   table_number: z.number().int().nullable().optional(),
+  table_id: z.string().uuid().nullable().optional(),
   plus_one: z.boolean().optional(),
   notes: z.string().nullable().optional(),
 });

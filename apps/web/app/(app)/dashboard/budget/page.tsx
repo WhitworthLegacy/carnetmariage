@@ -219,8 +219,8 @@ export default function BudgetPage() {
     }
   }
 
-  // SVG Donut chart - Clean modern style
-  function renderDonut() {
+  // Horizontal bar chart - Clean & interactive
+  function renderChart() {
     if (categoryBreakdown.length === 0) {
       return (
         <div className="flex items-center justify-center h-52 text-muted text-sm">
@@ -229,141 +229,84 @@ export default function BudgetPage() {
       );
     }
 
-    const size = 220;
-    const strokeWidth = 32;
-    const radius = (size - strokeWidth) / 2;
-    const circumference = 2 * Math.PI * radius;
-
-    // Calculate hovered data
-    const hoveredData = hoveredCategory
-      ? categoryBreakdown.find((c) => c.name === hoveredCategory)
-      : null;
-    const hoveredPercent = hoveredData ? Math.round((hoveredData.amount / chartTotal) * 100) : 0;
-
-    // Build segments
-    let offset = 0;
-    const segments = categoryBreakdown.map((cat, i) => {
-      const percent = chartTotal > 0 ? cat.amount / chartTotal : 0;
-      const dashLength = percent * circumference;
-      const gap = 3; // Gap between segments
-      const dashOffset = -offset;
-      offset += dashLength + gap;
-      return { cat, i, percent, dashLength: dashLength - gap, dashOffset };
-    });
+    const maxAmount = Math.max(...categoryBreakdown.map((c) => c.amount));
 
     return (
-      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 py-4">
-        {/* Chart */}
-        <div className="relative flex-shrink-0">
-          <svg width={size} height={size} className="transform -rotate-90">
-            {/* Background circle */}
-            <circle
-              cx={size / 2}
-              cy={size / 2}
-              r={radius}
-              fill="none"
-              stroke="#f3f4f6"
-              strokeWidth={strokeWidth}
-            />
-
-            {/* Segments */}
-            {segments.map(({ cat, i, dashLength, dashOffset }) => {
-              const isHovered = hoveredCategory === cat.name;
-              const isSelected = selectedCategory === cat.name;
-              const color = CHART_COLORS[i % CHART_COLORS.length];
-
-              return (
-                <circle
-                  key={cat.name}
-                  cx={size / 2}
-                  cy={size / 2}
-                  r={radius}
-                  fill="none"
-                  stroke={color}
-                  strokeWidth={isHovered || isSelected ? strokeWidth + 6 : strokeWidth}
-                  strokeDasharray={`${dashLength} ${circumference}`}
-                  strokeDashoffset={dashOffset}
-                  strokeLinecap="round"
-                  className="transition-all duration-300 cursor-pointer"
-                  style={{
-                    opacity: selectedCategory && !isSelected ? 0.3 : 1,
-                  }}
-                  onMouseEnter={() => setHoveredCategory(cat.name)}
-                  onMouseLeave={() => setHoveredCategory(null)}
-                  onClick={() =>
-                    setSelectedCategory(selectedCategory === cat.name ? null : cat.name)
-                  }
-                />
-              );
-            })}
-          </svg>
-
-          {/* Center content */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              {hoveredCategory ? (
-                <>
-                  <p className="text-3xl font-bold text-ink">{hoveredPercent}%</p>
-                  <p className="text-sm text-muted mt-1 max-w-[100px] truncate">{hoveredCategory}</p>
-                </>
-              ) : (
-                <>
-                  <p className="text-2xl font-bold text-ink">{formatPrice(chartTotal)}</p>
-                  <p className="text-sm text-muted mt-1">Budget total</p>
-                </>
-              )}
-            </div>
-          </div>
+      <div className="space-y-4 py-2">
+        {/* Header with total */}
+        <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+          <span className="text-sm text-muted">Budget total estimé</span>
+          <span className="text-xl font-bold text-ink">{formatPrice(chartTotal)}</span>
         </div>
 
-        {/* Legend */}
-        <div className="flex-1 w-full max-w-sm">
-          <div className="space-y-2">
-            {categoryBreakdown.map((cat, i) => {
-              const isSelected = selectedCategory === cat.name;
-              const isHovered = hoveredCategory === cat.name;
-              const color = CHART_COLORS[i % CHART_COLORS.length];
-              const percent = Math.round((cat.amount / chartTotal) * 100);
+        {/* Bars */}
+        <div className="space-y-3">
+          {categoryBreakdown.map((cat, i) => {
+            const isSelected = selectedCategory === cat.name;
+            const isHovered = hoveredCategory === cat.name;
+            const color = CHART_COLORS[i % CHART_COLORS.length];
+            const percent = Math.round((cat.amount / chartTotal) * 100);
+            const barWidth = maxAmount > 0 ? (cat.amount / maxAmount) * 100 : 0;
 
-              return (
-                <button
-                  key={cat.name}
-                  onClick={() => setSelectedCategory(isSelected ? null : cat.name)}
-                  onMouseEnter={() => setHoveredCategory(cat.name)}
-                  onMouseLeave={() => setHoveredCategory(null)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
-                    isSelected || isHovered
-                      ? "bg-gray-50 shadow-sm"
-                      : "hover:bg-gray-50/50"
-                  } ${selectedCategory && !isSelected ? "opacity-40" : ""}`}
-                >
+            return (
+              <button
+                key={cat.name}
+                onClick={() => setSelectedCategory(isSelected ? null : cat.name)}
+                onMouseEnter={() => setHoveredCategory(cat.name)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                className={`w-full text-left transition-all duration-200 rounded-xl p-3 ${
+                  isSelected ? "bg-gray-50 ring-2 ring-pink-main/30" : "hover:bg-gray-50/70"
+                } ${selectedCategory && !isSelected ? "opacity-40" : ""}`}
+              >
+                {/* Category label and amount */}
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-sm font-medium text-ink">{cat.name}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-muted">{formatPrice(cat.amount)}</span>
+                    <span
+                      className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                      style={{
+                        backgroundColor: `${color}15`,
+                        color: color,
+                      }}
+                    >
+                      {percent}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* Progress bar */}
+                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: color }}
+                    className="h-full rounded-full transition-all duration-500 ease-out"
+                    style={{
+                      width: `${barWidth}%`,
+                      backgroundColor: color,
+                      transform: isHovered || isSelected ? "scaleY(1.3)" : "scaleY(1)",
+                      transformOrigin: "bottom",
+                    }}
                   />
-                  <span className="flex-1 text-left text-sm text-ink truncate">
-                    {cat.name}
-                  </span>
-                  <span className="text-sm text-muted">
-                    {formatPrice(cat.amount)}
-                  </span>
-                  <span className="text-sm font-semibold text-ink w-12 text-right">
-                    {percent}%
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {selectedCategory && (
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className="mt-4 w-full text-center text-sm text-pink-dark hover:underline"
-            >
-              Réinitialiser le filtre
-            </button>
-          )}
+                </div>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Reset filter */}
+        {selectedCategory && (
+          <button
+            onClick={() => setSelectedCategory(null)}
+            className="w-full text-center text-sm text-pink-dark hover:underline pt-2"
+          >
+            Réinitialiser le filtre
+          </button>
+        )}
       </div>
     );
   }
@@ -444,7 +387,7 @@ export default function BudgetPage() {
         <CardHeader>
           <CardTitle>Répartition par catégorie</CardTitle>
         </CardHeader>
-        {renderDonut()}
+        {renderChart()}
       </Card>
 
       {/* Budget Lines Table */}

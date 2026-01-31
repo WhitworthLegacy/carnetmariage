@@ -1,11 +1,14 @@
 import { requireAdmin } from "@/lib/auth";
-import { jsonOk, jsonError as _jsonError } from "@/lib/apiResponse";
-import { makeError as _makeError } from "@carnetmariage/core";
 import { createServiceClient } from "@/lib/supabase/server";
+import { corsOptions, corsJson, corsError } from "@/lib/cors";
+
+export const OPTIONS = corsOptions;
 
 export async function GET() {
   const auth = await requireAdmin();
-  if (auth.error) return auth.error;
+  if (auth.error) {
+    return corsError("Non authentifié", 401);
+  }
 
   const supabase = await createServiceClient();
 
@@ -18,18 +21,17 @@ export async function GET() {
   ]);
 
   const totalPremium = (premiumWeddings.count || 0) + (lifetimeWeddings.count || 0);
-  // One-shot payment model: 27€ per premium user (not MRR)
   const totalRevenue = totalPremium * 27;
 
-  return jsonOk({
+  return corsJson({
     totalUsers: users.count || 0,
     activeWeddings: weddings.count || 0,
     premiumSubscribers: totalPremium,
-    estimatedMrr: totalRevenue, // Now represents total revenue, not MRR
+    estimatedMrr: totalRevenue,
     planDistribution: {
       free: freeWeddings.count || 0,
       premium: totalPremium,
-      ultimate: 0, // Deprecated, kept for compatibility
+      ultimate: 0,
     },
   });
 }

@@ -1,13 +1,14 @@
 import { NextRequest } from "next/server";
 import { requireAdmin } from "@/lib/auth";
-import { jsonOk, jsonError } from "@/lib/apiResponse";
-import { makeError } from "@carnetmariage/core";
 import { createServiceClient } from "@/lib/supabase/server";
+import { corsOptions, corsJson, corsError } from "@/lib/cors";
+
+export const OPTIONS = corsOptions;
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const auth = await requireAdmin();
-  if (auth.error) return auth.error;
+  if (auth.error) return corsError("Non authentifié", 401);
 
   const supabase = await createServiceClient();
   const { data, error } = await supabase
@@ -18,14 +19,14 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     .eq("id", id)
     .single();
 
-  if (error) return jsonError(makeError("NOT_FOUND", "Utilisateur introuvable"), 404);
-  return jsonOk(data);
+  if (error) return corsError("Utilisateur introuvable", 404);
+  return corsJson({ ok: true, data });
 }
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const auth = await requireAdmin();
-  if (auth.error) return auth.error;
+  if (auth.error) return corsError("Non authentifié", 401);
 
   const body = await request.json();
   const supabase = await createServiceClient();
@@ -46,5 +47,5 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     await supabase.from("weddings").update({ plan: body.plan }).eq("owner_id", id);
   }
 
-  return jsonOk({ updated: true });
+  return corsJson({ ok: true, data: { updated: true } });
 }
